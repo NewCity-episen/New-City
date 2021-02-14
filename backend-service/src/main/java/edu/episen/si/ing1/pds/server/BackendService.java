@@ -1,8 +1,5 @@
 package edu.episen.si.ing1.pds.server;
 
-import java.text.ParseException;
-
-
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -24,7 +21,7 @@ private final static Logger logger=LoggerFactory.getLogger(BackendService.class.
 	  final CommandLineParser parser=new DefaultParser();
 	  final CommandLine commandLine=parser.parse(options, args);
 	  boolean inTestMode=false;
-	  int maxConnectionValue=10;
+	  int maxConnectionValue=10;// default value
 	  if(commandLine.hasOption("testMode")) {
 		  inTestMode=true;
 	  }
@@ -33,13 +30,11 @@ private final static Logger logger=LoggerFactory.getLogger(BackendService.class.
 		  maxConnectionValue= Integer.parseInt(commandLine.getOptionValue("maxConnection"));
 		  
 	  }
-	  /*****To get the classpath.******/
-	/* String s= System.getProperty("java.class.path");
-	 System.out.println(s);*/ 
+	 
 		logger.info("Backend service is running. (testMode={}), maxConnection={}.",inTestMode,maxConnectionValue);
 	  }
 	  catch(Exception e) {
-		  e.printStackTrace();
+		  logger.info("Problems with parsing: Missing argument for option maxConnection");
 	  }
 		
 	}
