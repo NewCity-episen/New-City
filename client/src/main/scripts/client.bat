@@ -1,3 +1,3 @@
-set CLASSPATH=C:\Users\user16\new-city\client\target\classes;C:\Users\user16\.m2\repository\ch\qos\logback\logback-classic\1.1.7\logback-classic-1.1.7.jar;C:\Users\user16\.m2\repository\ch\qos\logback\logback-core\1.1.7\logback-core-1.1.7.jar;C:\Users\user16\.m2\repository\org\slf4j\slf4j-api\1.7.20\slf4j-api-1.7.20.jar;C:\Users\user16\.m2\repository\commons-cli\commons-cli\1.4\commons-cli-1.4.jar;
-
-java edu.episen.si.ing1.pds.client.Client %*
+set m2=%M2_REPO%
+set clsspth=%m2%/edu/episen/si/ing1/pds/client/0.0.1-SNAPSHOT/client-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+call java -cp %clsspth% edu.episen.si.ing1.pds.client.Client %*
