@@ -4,3 +4,4 @@
 *.metadata
 *.class
 target
+*.DS_Store
