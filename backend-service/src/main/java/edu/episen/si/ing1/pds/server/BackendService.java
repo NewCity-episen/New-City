@@ -20,13 +20,12 @@ private final static Logger logger=LoggerFactory.getLogger(BackendService.class.
 	  options.addOption(maxConnection);
 	  final CommandLineParser parser=new DefaultParser();
 	  final CommandLine commandLine=parser.parse(options, args);
-	  boolean inTestMode=false;
+	  boolean inTestMode=false; //default value
 	  int maxConnectionValue=10;// default value
 	  if(commandLine.hasOption("testMode")) {
 		  inTestMode=true;
 	  }
 	  if(commandLine.hasOption("maxConnection")) {
-		  inTestMode=true;
 		  maxConnectionValue= Integer.parseInt(commandLine.getOptionValue("maxConnection"));
 		  
 	  }
