@@ -3,5 +3,5 @@
 *.classpath
 *.metadata
 *.class
-target
+*.target
 *.DS_Store
