@@ -1,24 +1,34 @@
 package connectionPool;
 import java.sql.*;
 public class DataSource {
- static JDBCConnectionPool jdbcConnectionPool;
+	
+  static JDBCConnectionPool jdbcConnectionPool=new JDBCConnectionPool();
  
+ public static void loadPool(int numberOfConnections){
+	 synchronized(jdbcConnectionPool) {
+	 jdbcConnectionPool.createConnectionsPool(numberOfConnections);//Load the driverManager and initialize number of connections in the pool
+  }
+}
  
- DataSource(){ //Constructor
-	 jdbcConnectionPool=new JDBCConnectionPool();//Charge the driveManager
-	 jdbcConnectionPool.createConnectionsPool(5);//initialize number of connections in the pool
- }
- 
- static Connection getConnectionFromPool() {
-	 return jdbcConnectionPool.getConnectionPool();
+ public static Connection getConnectionFromPool() {
+	Connection cnx=null;
+	 synchronized(jdbcConnectionPool) { 
+		 cnx= jdbcConnectionPool.getConnectionPool(); 
+	   }
+	 return cnx;
   }
  
- static void returnConnection(Connection cnx) {
-	 jdbcConnectionPool.setConnectionPool(cnx);
+ public static void returnConnection(Connection cnx) {
+	
+	 synchronized(jdbcConnectionPool) { 
+		 jdbcConnectionPool.setConnectionPool(cnx);	 
+	   }	 
  }
  
- static void closePool() throws SQLException {
-	 jdbcConnectionPool.closeAllConnections();
+ public static void closePool() throws SQLException {
+	 synchronized(jdbcConnectionPool) {
+		 jdbcConnectionPool.closeAllConnections();
+	   }
 	 
   }
 
