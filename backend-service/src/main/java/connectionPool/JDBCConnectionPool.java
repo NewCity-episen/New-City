@@ -32,7 +32,7 @@ public class JDBCConnectionPool {
 	   }
 	 }
 	 catch(SQLException | IOException | ClassNotFoundException e) {
-		 
+		 logger.info("Failed to get a connection from database.");
 		 e.printStackTrace();
 	 }
  }
