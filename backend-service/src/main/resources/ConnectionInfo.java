@@ -3,6 +3,7 @@ import java.util.Properties;
 
 public class ConnectionInfo {
 	
+	//this attribute allow us to use properties from app.properties since they're not common java attribute
 	private Properties prop = PropertyLoader.load("app.properties");
 	private String driverClassName;
 	private String url;
@@ -10,6 +11,7 @@ public class ConnectionInfo {
 	private String password;
 	
 	public ConenctionInfo() { 
+		//prop.getProperty(key) return the attribute named key in the file loaded before
 		driverClassNamer = prop.getProperty(database.driverClassName);
 		url = prop.getProperty(database.url);
 		username = prop.getProperty(database.postgres);
