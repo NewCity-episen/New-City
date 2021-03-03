@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,15 +15,15 @@ public class JDBCConnectionPool {
 
  	public void createConnectionsPool(int numberOfConnections) {
  		try {
-	 		InfoConnection info = InfoConnection.getINFO();
+	 		InfoConnection info = InfoConnection.getInfo();
 	 		
 			for(int i=0;i<numberOfConnections;i++) {
 				Connection cnx =null;
-				cnx = DriverManager.getConnection(info.getUrl()), info.getUsername()), info.getPasswor());
+				cnx = DriverManager.getConnection(info.getUrl(), info.getUsername(), info.getPassword());
 				pool.add(cnx);
 			}
 		}
- 		catch(SQLException | IOException | ClassNotFoundException e) {
+ 		catch(Exception e) {
 			logger.info("Failed to get a connection from database.");
 			e.printStackTrace();
  		}
@@ -58,10 +57,6 @@ public class JDBCConnectionPool {
 		}	 
 	}
 
-  public static void main(String[] args) {
-	  System.out.print("+++");
-  }
-  
 }
  
 
