@@ -1,12 +1,10 @@
 package connectionPool;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class InfoConnection {
 	
@@ -19,17 +17,17 @@ public class InfoConnection {
 	private String password;
 	protected Properties props = new Properties();
 	private String propFileName = "app.properties";
-	
-	public Properties getProps() {
-		return props;
-	}
-	
+
 	
 	public InfoConnection() throws IOException { 
 
 		try {
-			inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("app.properties");
+			// send a request to get properties from file app.properties
+			inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(propFileName);
 			props.load(inStream);
+			
+			// the methode getProperty(String key) return the property associated to this key in the file app.properties
+			//props can call this method because of the props.load(inStream) at line 27
 			
 			driverClassName = props.getProperty("database.driverClassName");
 			url = props.getProperty("database.url");
@@ -42,7 +40,6 @@ public class InfoConnection {
 			e.printStackTrace();
 		}
 	}
-	
 
 	public String getDriverClassName() {
 		return driverClassName;
@@ -56,8 +53,14 @@ public class InfoConnection {
 		return username;
 	}
 	
-	
 	public String getPassword() {
 		return password;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		
+		InfoConnection test = new InfoConnection();
+		
+		System.out.print(test.getDriverClassName() + "          " + test.getPassword() + "          " + test.getUrl() + "          "+ "          "+ test.getUsername());
 	}
 }
