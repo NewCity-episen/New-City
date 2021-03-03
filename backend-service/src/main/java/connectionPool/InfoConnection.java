@@ -17,9 +17,11 @@ public class InfoConnection {
 	private String password;
 	protected Properties props = new Properties();
 	private String propFileName = "app.properties";
+	
+	public static InfoConnection INFO;
 
 
-	public InfoConnection() throws IOException { 
+	private InfoConnection() throws IOException { 
 
 		try {
 			// send a request to get properties from file app.properties
@@ -41,6 +43,14 @@ public class InfoConnection {
 		}
 	}
 
+	public static InfoConnection getInfo() throws IOException{
+		if(INFO == null) {
+            INFO= new InfoConnection();
+        }
+        
+        return INFO;
+	}
+
 	public String getDriverClassName() {
 		return driverClassName;
 	}
@@ -56,4 +66,6 @@ public class InfoConnection {
 	public String getPassword() {
 		return password;
 	}
+	
+	
 }
