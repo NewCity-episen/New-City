@@ -18,7 +18,7 @@ public class InfoConnection {
 	protected Properties props = new Properties();
 	private String propFileName = "app.properties";
 
-	
+
 	public InfoConnection() throws IOException { 
 
 		try {
@@ -27,7 +27,7 @@ public class InfoConnection {
 			props.load(inStream);
 			
 			// the methode getProperty(String key) return the property associated to this key in the file app.properties
-			//props can call this method because of the props.load(inStream) at line 27
+			//props can call this method because of the props.load(inStream)
 			
 			driverClassName = props.getProperty("database.driverClassName");
 			url = props.getProperty("database.url");
@@ -55,12 +55,5 @@ public class InfoConnection {
 	
 	public String getPassword() {
 		return password;
-	}
-	
-	public static void main(String[] args) throws IOException {
-		
-		InfoConnection test = new InfoConnection();
-		
-		System.out.print(test.getDriverClassName() + "          " + test.getPassword() + "          " + test.getUrl() + "          "+ "          "+ test.getUsername());
 	}
 }
