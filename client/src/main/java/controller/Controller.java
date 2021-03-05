@@ -20,24 +20,29 @@ public class Controller {
 		this.mdl=mdl;
 		this.vw=vw;
 	}
-	public void buildAndHandleSQLRequest(String query,String clientName) throws SQLException {
+	public void buildAndHandleSQLRequest(String query,int clientID) throws SQLException {
 		
 		Connection cnx=mdl.retrieveConnectionPool();
-		
+		    
 			if(cnx!=null) {
-					logger.info("Client {} connected to the database.",clientName);
+					mdl.addClient();
+					logger.info("Client {} is using a connectionpool(ref:{})",clientID,cnx.hashCode());	
+						
 			}
 			else {
-				logger.info("Failed to connect the database.");
-				mdl.sendConnectionBack(cnx);
-				mdl.closeAllConnections();
+				logger.info("Client {} failed to connect the database.No connections left.",clientID);
+
 				return;//Exit from the method due to the failure.
 			}
 			
 		Scanner sc = new Scanner(System.in);
 		String input;
 		String sqlRequest="";
-		if(query.toUpperCase().equals("INSERT")) { 
+		if(query.toUpperCase().equals("THREAD")){
+			sqlRequest="SELECT * from persons where id="+clientID;
+			query="SELECT";
+		}
+		else if(query.toUpperCase().equals("INSERT")) { 
 		  logger.info("Type name: ");
 		  input=sc.next();
 		  sqlRequest="INSERT INTO persons(name,lastname) VALUES('"+input+"','";
@@ -69,9 +74,9 @@ public class Controller {
 			sqlRequest+=input;
 		}
 		sc.close();
-		handleRequest(sqlRequest,query,cnx);
+		handleRequest(sqlRequest,query,cnx,clientID);
 	}
-	public void handleRequest(String sqlRequest,String query,Connection cnx) {
+	public void handleRequest(String sqlRequest,String query,Connection cnx,int clientId) {
 					
 				try {
 					String response="";//default value if not exists
@@ -91,6 +96,8 @@ public class Controller {
 					stmt.close();
 					mdl.sendConnectionBack(cnx);
 					vw.showResponseToClient(response);
+					mdl.removeClient();
+					logger.info("Client {} is done with using the connectionpool(ref:{})",clientId,cnx.hashCode());
 				} catch (SQLException e) {
 					logger.info("Error in handleRequest:");
 					e.printStackTrace();
@@ -102,5 +109,7 @@ public class Controller {
 	public void stopConnections() throws SQLException {
 		mdl.closeAllConnections();
 	}
+	
+	
 	
 }

@@ -18,12 +18,14 @@ import view.View;
 
 public class Client {
 	private final static Logger logger=LoggerFactory.getLogger(Client.class.getName());
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		  try{
 			    final Options options=new Options();
 				final Option clientName=Option.builder().longOpt("clientName").hasArg().argName("clientName").build();
 				final Option command=Option.builder().longOpt("command").hasArg().argName("command").build();
+				final Option numberClient=Option.builder().longOpt("numberClient").hasArg().argName("numberClient").build();
 				options.addOption(command);
+				options.addOption(numberClient);
 				options.addOption(clientName);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
@@ -36,9 +38,16 @@ public class Client {
 				Model mdl=new Model();
 				Controller cntrl=new Controller(mdl,vw);
 				if(commandLine.hasOption("command")) {
-					 cntrl.buildAndHandleSQLRequest(commandLine.getOptionValue("command"),clientNameDefault);
+					 cntrl.buildAndHandleSQLRequest(commandLine.getOptionValue("command"),0);
 				    }
-					
+				if(commandLine.hasOption("numberClient")) {
+				ThreadClient client = null;
+				for(int i=1;i<=Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
+					client=new ThreadClient(i,cntrl);
+					client.start();
+				}
+			      client.join();
+				}
 				cntrl.stopConnections();
 		  }
 		  catch(ParseException | SQLException e) {
