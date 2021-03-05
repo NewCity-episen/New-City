@@ -1,32 +1,37 @@
 package model;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import connectionPool.*;
+import controller.Controller;
 
 public class Model {
-private int maxConnection=5;// Default maximum value of connected clients.
-private int numberOfClients=0;//Number of connected clients in the server.
+
+private static int numberOfClients=0;//Number of connected clients in the server.
+private final static Logger logger=LoggerFactory.getLogger(Model.class.getName());
 	public Model() {
-		DataSource.loadPool(maxConnection);
+		DataSource.loadPool(8);
 	}
 	
-	public void addClient() {
+	
+	public synchronized void addClient() {
+	
 		numberOfClients++;
+		
 	}
-	public void removeClient() {
+	public synchronized void removeClient() {
 		numberOfClients--;
 	}
 	
-	public int getmaxConnection() {
-		return maxConnection;
-	}
-	
-	public void setmaxConnection(int n) {
-		this.maxConnection=n;
-	}
 	
 	public Connection retrieveConnectionPool() {
+		
 		return DataSource.getConnectionFromPool();
+		
+		
 	}
 	
 	public void sendConnectionBack(Connection cnx) {
@@ -39,4 +44,10 @@ private int numberOfClients=0;//Number of connected clients in the server.
 		DataSource.closePool();
 		}
 	}
+
+	public int getNumberClients() {
+		// TODO Auto-generated method stub
+		return numberOfClients;
+	}
+
 }
