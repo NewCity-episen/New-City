@@ -42,7 +42,7 @@ public class Client {
 				    }
 				if(commandLine.hasOption("numberClient")) {
 				ThreadClient client = null;
-				for(int i=1;i<Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
+				for(int i=1;i<=Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
 					client=new ThreadClient(i,cntrl);
 					client.start();
 				}
