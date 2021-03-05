@@ -12,12 +12,14 @@ public class JDBCConnectionPool {
 	
 	private final static Logger logger=LoggerFactory.getLogger(JDBCConnectionPool.class.getName());
 	private ArrayList<Connection> pool=new ArrayList<Connection>();
-
+	private int maxConnection;
+    
  	public void createConnectionsPool(int numberOfConnections) {
  		try {
+ 			maxConnection=numberOfConnections;
 	 		InfoConnection info = InfoConnection.getInfo();
 	 		
-			for(int i=0;i<numberOfConnections;i++) {
+			for(int i=0;i<maxConnection;i++) {
 				Connection cnx =null;
 				cnx = DriverManager.getConnection(info.getUrl(), info.getUsername(), info.getPassword());
 				pool.add(cnx);
@@ -34,6 +36,9 @@ public class JDBCConnectionPool {
 			Connection cnx= pool.get(0);
 			pool.remove(0);
 			return cnx;
+		}
+		else {
+			
 		}
 		return null;
 	}
