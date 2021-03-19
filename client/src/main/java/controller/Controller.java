@@ -1,6 +1,14 @@
 package controller;
 import view.*;
 import model.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -105,6 +113,38 @@ public class Controller {
 				
 		      
 			
+	}
+	public void connectToServer() {
+		try {
+			InetAddress ip=InetAddress.getByName("172.31.254.95");
+			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
+			mdl.setSocket(new Socket(ip,4666));//Connect to the server
+		} catch (UnknownHostException e) {
+			logger.info("Unknown host:");
+		} catch (IOException e) {
+			logger.info("No I/O");
+		}
+	}
+	public void sendRequestToServer() {
+		
+		Socket socketClient=mdl.getSocket();
+		if(socketClient==null) {
+			logger.info("Client not connected to server.");
+		}
+		else {
+			try {
+				PrintWriter out = new PrintWriter(socketClient.getOutputStream(), true);
+				BufferedReader in=new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+                out.println("Episen");
+				logger.info("Response from server:{}",in.readLine());
+				out.close();
+				in.close();
+				socketClient.close();
+				mdl.setSocket(null);
+			} catch (IOException e) {
+				logger.info("No I/O");
+			}
+		}
 	}
 	public void stopConnections() throws SQLException {
 		mdl.closeAllConnections();
