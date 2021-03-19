@@ -1,4 +1,5 @@
 package model;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -11,12 +12,18 @@ import controller.Controller;
 public class Model {
 
 private static int numberOfClients=0;//Number of connected clients in the server.
+private Socket socketClient=null;
 private final static Logger logger=LoggerFactory.getLogger(Model.class.getName());
 	public Model() {
-		DataSource.loadPool(8);
+		
 	}
 	
-	
+	public Socket getSocket() {
+		return socketClient;
+	}
+	public void setSocket(Socket socket) {
+		socketClient=socket;
+	}
 	public synchronized void addClient() {
 	
 		numberOfClients++;
