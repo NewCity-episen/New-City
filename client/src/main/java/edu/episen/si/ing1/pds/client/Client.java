@@ -24,12 +24,15 @@ public class Client {
 				final Option clientName=Option.builder().longOpt("clientName").hasArg().argName("clientName").build();
 				final Option command=Option.builder().longOpt("command").hasArg().argName("command").build();
 				final Option numberClient=Option.builder().longOpt("numberClient").hasArg().argName("numberClient").build();
+				final Option connect=Option.builder().longOpt("connect").build();
 				options.addOption(command);
 				options.addOption(numberClient);
 				options.addOption(clientName);
+				options.addOption(connect);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
 			    String clientNameDefault="admin";
+			    
 			    if(commandLine.hasOption("clientName")) {
 			    	clientNameDefault= commandLine.getOptionValue("clientName");
 				  }
@@ -48,7 +51,13 @@ public class Client {
 				}
 			      client.join();
 				}
-				cntrl.stopConnections();
+				if(commandLine.hasOption("connect")) {
+			    	cntrl.connectToServer();
+			    	cntrl.sendRequestToServer();
+			    	
+			    }	
+				
+				
 		  }
 		  catch(ParseException | SQLException e) {
 			  logger.info("Problems with parsing: Missing argument for option clientName");
