@@ -8,16 +8,23 @@ import org.apache.commons.cli.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import server.config.ServerConfig;
+
 
 
 public class BackendService {
 private final static Logger logger=LoggerFactory.getLogger(BackendService.class.getName());
+ public static ServerConfig serverConfig;
 	public static void main(String[] args) {
-	  try{final Options options=new Options();
+	  try{
+		  
+	  final Options options=new Options();
 	  final Option testMode = Option.builder().longOpt("testMode").build();
+	  final Option serverMode = Option.builder().longOpt("server").build();
 	  final Option maxConnection=Option.builder().longOpt("maxConnection").hasArg().argName("maxConnection").build();
 	  options.addOption(testMode);
 	  options.addOption(maxConnection);
+	  options.addOption(serverMode);
 	  final CommandLineParser parser=new DefaultParser();
 	  final CommandLine commandLine=parser.parse(options, args);
 	  boolean inTestMode=false; //default value
@@ -25,15 +32,19 @@ private final static Logger logger=LoggerFactory.getLogger(BackendService.class.
 	  if(commandLine.hasOption("testMode")) {
 		  inTestMode=true;
 	  }
+	  
 	  if(commandLine.hasOption("maxConnection")) {
 		  maxConnectionValue= Integer.parseInt(commandLine.getOptionValue("maxConnection"));
 		  
 	  }
-	 
-		logger.info("Backend service is running. (testMode={}), maxConnection={}.",inTestMode,maxConnectionValue);
+		  logger.info("Backend service is running. (testMode={}), maxConnection={}.",inTestMode,maxConnectionValue);
+		  serverConfig= new ServerConfig();
+		  logger.debug("Server mode running. ");
+		  new ServerCore(serverConfig).serve();
+	  
 	  }
 	  catch(Exception e) {
-		  logger.info("Problems with parsing: Missing argument for option maxConnection");
+		  e.printStackTrace();
 	  }
 		
 	}
