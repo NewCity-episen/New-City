@@ -19,13 +19,14 @@
   	<version>1.4</version>
   </dependency>
   <dependency>
-     <groupId>org.postgresql</groupId>
-     <artifactId>postgresql</artifactId>
-     <version>42.2.19</version>
-   </dependency>
+  	<groupId>com.fasterxml.jackson.dataformat</groupId>
+  	<artifactId>jackson-dataformat-yaml</artifactId>
+  	<version>2.12.2</version>
+  </dependency>
+  
   <dependency>
   	<groupId>edu.episen.si.ing1.pds</groupId>
-  	<artifactId>backend-service</artifactId>
+  	<artifactId>commons</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
   </dependency>
   </dependencies>

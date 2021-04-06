@@ -22,13 +22,14 @@ public class Client {
 		  try{
 			    final Options options=new Options();
 				final Option clientName=Option.builder().longOpt("clientName").hasArg().argName("clientName").build();
-				final Option command=Option.builder().longOpt("command").hasArg().argName("command").build();
 				final Option numberClient=Option.builder().longOpt("numberClient").hasArg().argName("numberClient").build();
-				final Option connect=Option.builder().longOpt("connect").build();
-				options.addOption(command);
+				final Option insert=Option.builder().longOpt("insert").build();
+				final Option select=Option.builder().longOpt("select").build();
+				String query=null;
 				options.addOption(numberClient);
 				options.addOption(clientName);
-				options.addOption(connect);
+				options.addOption(insert);
+				options.addOption(select);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
 			    String clientNameDefault="admin";
@@ -36,30 +37,35 @@ public class Client {
 			    if(commandLine.hasOption("clientName")) {
 			    	clientNameDefault= commandLine.getOptionValue("clientName");
 				  }
+			    if(commandLine.hasOption("insert")) {
+			    	query="insert";
+			    }
+			    if(commandLine.hasOption("select")) {
+			    	query="select";
+			    }
+			    if(commandLine.hasOption("delete")) {
+			    	query="delete";
+			    }
+			    if(commandLine.hasOption("update")) {
+			    	query="update";
+			    }
 			    logger.info("Client {} is running.",clientNameDefault);
 			    View vw=new View();
 				Model mdl=new Model();
 				Controller cntrl=new Controller(mdl,vw);
-				if(commandLine.hasOption("command")) {
-					 cntrl.buildAndHandleSQLRequest(commandLine.getOptionValue("command"),0);
-				    }
-				if(commandLine.hasOption("numberClient")) {
-				ThreadClient client = null;
-				for(int i=1;i<=Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
-					client=new ThreadClient(i,cntrl);
-					client.start();
-				}
-			      client.join();
-				}
-				if(commandLine.hasOption("connect")) {
-			    	cntrl.connectToServer();
-			    	cntrl.sendRequestToServer();
-			    	
-			    }	
+				
+				 if(commandLine.hasOption("numberClient")) {
+					 ThreadClient client = null;
+						for(int i=1;i<=Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
+							client=new ThreadClient(i,cntrl,query);
+							client.start();
+						}
+				 }
+
 				
 				
 		  }
-		  catch(ParseException | SQLException e) {
+		  catch(ParseException e) {
 			  logger.info("Problems with parsing: Missing argument for option clientName");
 		  }
 			
