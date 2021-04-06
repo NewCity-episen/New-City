@@ -14,5 +14,6 @@
   <modules>
   	<module>backend-service</module>
   	<module>client</module>
+  	<module>commons</module>
   </modules>
 </project>
