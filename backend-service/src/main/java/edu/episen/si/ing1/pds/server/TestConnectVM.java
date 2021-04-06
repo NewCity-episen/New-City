@@ -9,6 +9,7 @@ public class TestConnectVM {
 			Connection cnx=DataSource.getConnectionFromPool();
 			if(cnx!=null) {
 				System.out.println("Connected to the database");
+				DataSource.returnConnection(cnx);
 			}
 			DataSource.closePool();
 		} catch (Exception e) {

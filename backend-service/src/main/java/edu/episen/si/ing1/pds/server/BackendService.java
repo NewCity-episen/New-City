@@ -8,6 +8,7 @@ import org.apache.commons.cli.Option;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import connectionPool.DataSource;
 import server.config.ServerConfig;
 
 
@@ -39,9 +40,8 @@ private final static Logger logger=LoggerFactory.getLogger(BackendService.class.
 	  }
 		  logger.info("Backend service is running. (testMode={}), maxConnection={}.",inTestMode,maxConnectionValue);
 		  serverConfig= new ServerConfig();
-		  logger.debug("Server mode running. ");
-		  new ServerCore(serverConfig).serve();
-	  
+		  new ServerCore(serverConfig, maxConnectionValue).serve();
+	      
 	  }
 	  catch(Exception e) {
 		  e.printStackTrace();

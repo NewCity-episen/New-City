@@ -37,9 +37,6 @@ public class JDBCConnectionPool {
 			pool.remove(0);
 			return cnx;
 		}
-		else {
-			
-		}
 		return null;
 	}
  
