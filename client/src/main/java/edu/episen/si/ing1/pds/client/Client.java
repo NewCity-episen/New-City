@@ -34,6 +34,7 @@ public class Client {
 				options.addOption(insert);
 			    options.addOption(select);
 			    options.addOption(delete);
+			    options.addOption(update);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
 			    String clientNameDefault="admin";
@@ -66,10 +67,7 @@ public class Client {
 							client=new ThreadClient(i,cntrl,query);
 							client.start();
 						}
-				 }
-
-				
-				
+				 }	
 		  }
 		  catch(Exception e) {
 			  e.printStackTrace();
