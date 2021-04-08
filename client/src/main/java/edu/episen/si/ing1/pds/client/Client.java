@@ -25,11 +25,14 @@ public class Client {
 				final Option numberClient=Option.builder().longOpt("numberClient").hasArg().argName("numberClient").build();
 				final Option insert=Option.builder().longOpt("insert").build();
 				final Option select=Option.builder().longOpt("select").build();
+				final Option delete =Option.builder().longOpt("delete").build();
+				//final Option delete=Option.builder().longOpt("delete").build();
 				String query=null;
 				options.addOption(numberClient);
 				options.addOption(clientName);
 				options.addOption(insert);
-				options.addOption(select);
+			    options.addOption(select);
+			    options.addOption(delete);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
 			    String clientNameDefault="admin";

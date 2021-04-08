@@ -25,12 +25,15 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 
 public class Controller {
+	private static final String ConfigEnVar="REQUESTS_LOCATION";
+	private final String RequestsFileLocation;
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
 	private Model mdl;
 	private View vw;
 	public Controller(Model mdl,View vw) {
 		this.mdl=mdl;
 		this.vw=vw;
+		 RequestsFileLocation= System.getenv(ConfigEnVar);
 	}
 	public Socket connectToServer() {
 		try {
@@ -41,6 +44,7 @@ public class Controller {
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
 		} catch (IOException e) {
+			e.printStackTrace();
 			logger.info("No I/O");
 		}
 		return null;
@@ -66,16 +70,20 @@ public class Controller {
 							, Request.class);
                 }
                 else if(query.equals("insert")) {
-                	rq=jsonMapper.readValue(new File("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\insert-request.json")
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/insert-request.json")
 							, Request.class);
                 	logger.info(query);
-                	StudentConfig students=yamlMapper.readValue(new File("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\students-to-be-inserted.yaml")
+                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-inserted.yaml")
                 											,StudentConfig.class);
                 	logger.info(query);
                 	rq.setRequestContent(jsonMapper.writeValueAsString(students));
                 }
                 else if(query.equals("delete")) {
-                	
+                	rq=jsonMapper.readValue(new File("/Users/hejerfessi/Desktop/new-city/client/src/main/resources/delete-request.json"), Request.class);
+                	logger.info(query);
+                	StudentConfig students=yamlMapper.readValue(new File("/Users/hejerfessi/Desktop/new-city/client/src/main/resources/students-to-be-inserted.yaml")
+							,StudentConfig.class);
+                	rq.setRequestContent(jsonMapper.writeValueAsString(" "));
                 }
                 else if(query.equals("update")) {
                 	
