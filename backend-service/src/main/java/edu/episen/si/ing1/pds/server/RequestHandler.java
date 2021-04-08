@@ -51,7 +51,7 @@ public class RequestHandler {
 			student=new Student(name,lastname,id);
 			studentsList.add(student);
 			}
-			responseBody=mapper.writeValueAsString(studentsList);
+			responseBody="{"+mapper.writeValueAsString(studentsList)+"}";
 			rs.close();
 		}
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
@@ -59,7 +59,7 @@ public class RequestHandler {
 				sqlRequest="INSERT INTO "+ request.getRequestTable()+" (name,lastname) VALUES ('"+studentsList.get(i).getName()+"','"+
 			    studentsList.get(i).getLastname()+"')";
 				stmt.executeUpdate(sqlRequest);	
-				responseBody="\"message\": \"Successfully inserted!\" "; 
+				responseBody="{\"message\": \"Successfully inserted!\"} "; 
 			}
 		
 		}
@@ -69,16 +69,12 @@ public class RequestHandler {
 			    sqlRequest="DELETE FROM "+ request.getRequestTable();
 			    sqlRequest+=" WHERE "+ "name = '"+  studentsList.get(i).getName()+ "' and lastname = '"+studentsList.get(i).getLastname()+"'";
 			    stmt.executeUpdate(sqlRequest);	
-				responseBody="\"message\": \"Successfully deleted!\" "; 
+				responseBody="{\"message\": \"Successfully deleted!\"} "; 
 				
 			
 				}
 				
-			  }
-			
-		
-	
-			
+			  }	
 		else if(requestOrder.toUpperCase().equals("UPDATE")) {
 			
 		}

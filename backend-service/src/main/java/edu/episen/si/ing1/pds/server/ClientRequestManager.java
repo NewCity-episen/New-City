@@ -42,7 +42,7 @@ public class ClientRequestManager implements Runnable {
 			Response response=null;
 			final ObjectMapper mapper= new ObjectMapper();
 			if(cnx==null) {
-				response=new Response("-1","\"message\": \"No connections left: Please try again later!\" ");
+				response=new Response("-1","{\"message\": \"No connections left: Please try again later!\"}");
 				out.write(mapper.writeValueAsBytes(response),0,mapper.writeValueAsBytes(response).length);
 			   }
 			else {
