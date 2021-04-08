@@ -73,27 +73,25 @@ public class Controller {
                 Request rq = null;
         
                 if(query.equals("select")) {
-                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/select-request.json")
-							, Request.class);
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/select-request.json"), Request.class);
                 }
                 else if(query.equals("insert")) {
-                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/insert-request.json")
-							, Request.class);
-                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-inserted.yaml")
-                											,StudentConfig.class);
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/insert-request.json"), Request.class);
+                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-inserted.yaml"), StudentConfig.class);
                 	rq.setRequestContent(jsonMapper.writeValueAsString(students));
                 	
                 }
                 else if(query.equals("delete")) {
                 	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/delete-request.json"), Request.class);
-                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-deleted.yaml")
-							,StudentConfig.class);
+                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-deleted.yaml"), StudentConfig.class);
                     rq.setRequestContent(jsonMapper.writeValueAsString(students));
 
              
                 }
                 else if(query.equals("update")) {
-                	
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/update-request.json"), Request.class);
+                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-updated.yaml"), StudentConfig.class);
+                	rq.setRequestContent(jsonMapper.writeValueAsString(students));
                 }
                 
                 logger.info("Request from client : {}",jsonMapper.writeValueAsString(rq));
