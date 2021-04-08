@@ -14,8 +14,14 @@ import java.net.UnknownHostException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import ClientConfig.ClientConfig;
+
+
 
 
 
@@ -25,17 +31,26 @@ public class Controller {
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
 	private Model mdl;
 	private View vw;
-	public Controller(Model mdl,View vw) {
+	public static ClientConfig clientconfig;
+	
+	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		this.mdl=mdl;
 		this.vw=vw;
-		 RequestsFileLocation= System.getenv(ConfigEnVar);
+		RequestsFileLocation= System.getenv(ConfigEnVar);
+		
 	}
-	public Socket connectToServer() {
+	
+	
+	public Socket connectToServer()  {
+		
+		
 		try {
+			
+			clientconfig= new ClientConfig();
 			/*InetAddress ip=InetAddress.getByName("172.31.254.95");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());*/
 			InetAddress ip=InetAddress.getByName("localhost");
-			return new Socket(ip,4666);//Connect to the server
+			return new Socket(ip , 4666);//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
 		} catch (IOException e) {
@@ -45,7 +60,7 @@ public class Controller {
 		return null;
 		
 	}
-	public void sendRequestToServer(String query) throws InterruptedException {
+	public void sendRequestToServer(String query) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
 		
 		Socket socketClient=connectToServer();
 		if(socketClient==null) {
@@ -93,6 +108,7 @@ public class Controller {
                 inputStream.read(inputData);
                 Response response= jsonMapper.readValue(new String(inputData), Response.class);
                 logger.debug("Data received {} bytes from server, content={}",inputData.length,jsonMapper.writeValueAsString(response));
+                
 				out.close();
 				inputStream.close();
 				socketClient.close();

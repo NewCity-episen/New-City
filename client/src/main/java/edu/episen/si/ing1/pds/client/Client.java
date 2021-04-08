@@ -9,7 +9,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import ClientConfig.ClientConfig;
 import controller.Controller;
 import model.Model;
 import view.View;
@@ -18,6 +18,7 @@ import view.View;
 
 public class Client {
 	private final static Logger logger=LoggerFactory.getLogger(Client.class.getName());
+	 public static ClientConfig clientConfig;
 	public static void main(String[] args) throws InterruptedException {
 		  try{
 			    final Options options=new Options();
@@ -26,7 +27,7 @@ public class Client {
 				final Option insert=Option.builder().longOpt("insert").build();
 				final Option select=Option.builder().longOpt("select").build();
 				final Option delete =Option.builder().longOpt("delete").build();
-				//final Option delete=Option.builder().longOpt("delete").build();
+				final Option update=Option.builder().longOpt("update").build();
 				String query=null;
 				options.addOption(numberClient);
 				options.addOption(clientName);
@@ -53,6 +54,8 @@ public class Client {
 			    	query="update";
 			    }
 			    logger.info("Client {} is running.",clientNameDefault);
+			  
+      		  
 			    View vw=new View();
 				Model mdl=new Model();
 				Controller cntrl=new Controller(mdl,vw);
