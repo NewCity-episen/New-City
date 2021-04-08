@@ -66,7 +66,7 @@ public class Controller {
                 Request rq = null;
         
                 if(query.equals("select")) {
-                	rq=jsonMapper.readValue(new File("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\select-request.json")
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/select-request.json")
 							, Request.class);
                 }
                 else if(query.equals("insert")) {
@@ -77,13 +77,17 @@ public class Controller {
                 											,StudentConfig.class);
                 	logger.info(query);
                 	rq.setRequestContent(jsonMapper.writeValueAsString(students));
+                	
                 }
                 else if(query.equals("delete")) {
-                	rq=jsonMapper.readValue(new File("/Users/hejerfessi/Desktop/new-city/client/src/main/resources/delete-request.json"), Request.class);
+                	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/delete-request.json"), Request.class);
                 	logger.info(query);
-                	StudentConfig students=yamlMapper.readValue(new File("/Users/hejerfessi/Desktop/new-city/client/src/main/resources/students-to-be-inserted.yaml")
+                	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-deleted.yaml")
 							,StudentConfig.class);
-                	rq.setRequestContent(jsonMapper.writeValueAsString(" "));
+                    logger.info(query);
+                    rq.setRequestContent(jsonMapper.writeValueAsString(students));
+
+             
                 }
                 else if(query.equals("update")) {
                 	

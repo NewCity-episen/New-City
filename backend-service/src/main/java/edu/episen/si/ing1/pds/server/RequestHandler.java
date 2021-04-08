@@ -65,7 +65,20 @@ public class RequestHandler {
 		}
 		else if(requestOrder.toUpperCase().equals("DELETE")) {
 			
-		}	
+				for(int i=0;i<studentsList.size();i++) {
+			    sqlRequest="DELETE FROM "+ request.getRequestTable();
+			    sqlRequest+=" WHERE "+ "name = '"+  studentsList.get(i).getName()+ "' and lastname = '"+studentsList.get(i).getLastname()+"'";
+			    stmt.executeUpdate(sqlRequest);	
+				responseBody="\"message\": \"Successfully deleted!\" "; 
+				
+			
+				}
+				
+			  }
+			
+		
+	
+			
 		else if(requestOrder.toUpperCase().equals("UPDATE")) {
 			
 		}
