@@ -50,7 +50,7 @@ public class Controller {
 			InetAddress ip=InetAddress.getByName("172.31.254.95");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			//InetAddress ip=InetAddress.getByName("localhost");
-			return new Socket(ip , 4666);//Connect to the server
+			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
 		} catch (IOException e) {
