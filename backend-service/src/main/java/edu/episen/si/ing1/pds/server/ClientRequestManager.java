@@ -4,7 +4,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -40,8 +39,11 @@ public class ClientRequestManager implements Runnable {
 		// TODO Auto-generated method stub
 		try {	
 			DataOutputStream out= new DataOutputStream(outputStream);
+			Response response=null;
+			final ObjectMapper mapper= new ObjectMapper();
 			if(cnx==null) {
-				//out.println("No connections left in the pool: Please try again later!");
+				response=new Response("-1","\"message\": \"No connections left: Please try again later!\" ");
+				out.write(mapper.writeValueAsBytes(response),0,mapper.writeValueAsBytes(response).length);
 			   }
 			else {
 				while(inputStream.available()==0) {
@@ -52,16 +54,15 @@ public class ClientRequestManager implements Runnable {
 			inputStream.read(inputData);
 			String rq=new String(inputData);
 			logger.debug("Data received {} bytes from client{}, content={}",inputData.length,self.getName(),rq);
-			final ObjectMapper mapper= new ObjectMapper();
 			Request clientRequest= mapper.readValue(rq, Request.class);
-			Response response=RequestHandler.handle(clientRequest,cnx);
+			response=RequestHandler.handle(clientRequest,cnx);
 			DataSource.returnConnection(cnx);
 			out.write(mapper.writeValueAsBytes(response),0,mapper.writeValueAsBytes(response).length);
 			logger.debug("Connection terminated with client{}",name);
+		 }
 			out.close();
 			inputStream.close();
 			outputStream.close();
-		 }
 		}catch(IOException | InterruptedException | SQLException e) {
 			e.printStackTrace();
 		}

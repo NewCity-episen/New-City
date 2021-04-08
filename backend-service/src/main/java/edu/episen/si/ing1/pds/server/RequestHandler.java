@@ -83,9 +83,7 @@ public class RequestHandler {
 			
 		}
 		stmt.close();
-		return new Response(request.getRequestId(),responseBody);
-		
-	  
+		return new Response(request.getRequestId(),responseBody); 
 	}
 	public static ArrayList<Student> extractValuesFromRequestBody(String requestBody) throws JsonMappingException, JsonProcessingException {
 		final ObjectMapper mapper=new ObjectMapper();

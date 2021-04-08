@@ -2,20 +2,15 @@ package controller;
 import view.*;
 import model.*;
 import shared.code.Request;
+import shared.code.Response;
 import shared.code.StudentConfig;
-
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,10 +53,7 @@ public class Controller {
 		}
 		else {
 			try {
-			
-				BufferedReader in=new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
                 final ObjectMapper jsonMapper= new ObjectMapper();
-
                 final ObjectMapper yamlMapper= new ObjectMapper(new YAMLFactory());
                 Request rq = null;
         
@@ -72,19 +64,15 @@ public class Controller {
                 else if(query.equals("insert")) {
                 	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/insert-request.json")
 							, Request.class);
-                	logger.info(query);
                 	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-inserted.yaml")
                 											,StudentConfig.class);
-                	logger.info(query);
                 	rq.setRequestContent(jsonMapper.writeValueAsString(students));
                 	
                 }
                 else if(query.equals("delete")) {
                 	rq=jsonMapper.readValue(new File(RequestsFileLocation+"/delete-request.json"), Request.class);
-                	logger.info(query);
                 	StudentConfig students=yamlMapper.readValue(new File(RequestsFileLocation+"/students-to-be-deleted.yaml")
 							,StudentConfig.class);
-                    logger.info(query);
                     rq.setRequestContent(jsonMapper.writeValueAsString(students));
 
              
@@ -95,18 +83,18 @@ public class Controller {
                 
                 logger.info("Request from client : {}",jsonMapper.writeValueAsString(rq));
                 DataOutputStream out= new DataOutputStream(socketClient.getOutputStream());
-                out.write(jsonMapper.writeValueAsBytes(rq),0,jsonMapper.writeValueAsBytes(rq).length);//Sending the json file converted as a String to the server
+                out.write(jsonMapper.writeValueAsBytes(rq),0,jsonMapper.writeValueAsBytes(rq).length);//Sending the json file converted as bytes to the server
                 InputStream inputStream=socketClient.getInputStream();
                 while(inputStream.available()==0) {
 					Thread.sleep(0); /* The thread sleeps until there is data in the inputStream
-											sent by the client*/						
+											sent by the server*/						
 				}
                 byte [] inputData=new byte[inputStream.available()];
                 inputStream.read(inputData);
-                String response=new String(inputData);
-                logger.debug("Data received {} bytes from server, content={}",inputData.length,response);
+                Response response= jsonMapper.readValue(new String(inputData), Response.class);
+                logger.debug("Data received {} bytes from server, content={}",inputData.length,jsonMapper.writeValueAsString(response));
 				out.close();
-				in.close();
+				inputStream.close();
 				socketClient.close();
 			} catch (IOException e) {
 				logger.info("No I/O");

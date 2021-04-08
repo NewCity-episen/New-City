@@ -68,8 +68,8 @@ public class Client {
 				
 				
 		  }
-		  catch(ParseException e) {
-			  logger.info("Problems with parsing: Missing argument for option clientName");
+		  catch(Exception e) {
+			  e.printStackTrace();
 		  }
 			
 		}
