@@ -47,7 +47,7 @@ public class Controller {
 		try {
 			
 			clientconfig= new ClientConfig();
-			InetAddress ip=InetAddress.getByName("172.31.254.95");
+			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			//InetAddress ip=InetAddress.getByName("localhost");
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
