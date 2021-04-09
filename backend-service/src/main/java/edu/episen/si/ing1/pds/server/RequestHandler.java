@@ -82,10 +82,10 @@ public class RequestHandler {
 
 		else if(requestOrder.toUpperCase().equals("UPDATE")) {
 			
-			for(int i=1;i<studentsList.size();i++) {
+			for(int i=0;i<studentsList.size();i++) {
 			    sqlRequest="UPDATE "+ request.getRequestTable()+
 			    " SET "+ "name = '"+  studentsList.get(i).getName()+ "', lastname = '"+studentsList.get(i).getLastname()+"'"+
-			    " WHERE "+ "id = '"+ i +"'";
+			    " WHERE "+ "id ="+studentsList.get(i).getId();
 			    stmt.executeUpdate(sqlRequest);	
 			    responseBody="{\"message\": \"Successfully updated!\"} ";
 			}
