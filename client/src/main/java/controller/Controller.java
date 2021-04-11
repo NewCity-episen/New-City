@@ -4,6 +4,9 @@ import model.*;
 import shared.code.Request;
 import shared.code.Response;
 import shared.code.StudentConfig;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +14,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,14 +40,84 @@ public class Controller {
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		this.mdl=mdl;
 		this.vw=vw;
+		loadButtons();
 		RequestsFileLocation= System.getenv(ConfigEnVar);
 		
 	}
+
+	public void loadButtons() {
+		quitButtonLoad();
+		loanButtonLoad();
+		mappingButtonLoad();
+		configurateWindowsButtonLoad();
+		okButtonLoad();
+	}
+	public void quitButtonLoad() {
+		ActionListener quitButtonListener=new ActionListener() {
+       
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Pane1");
+			}
+			
+		};
+		FunctionalitiesBarAndPanel.getQuitButton().addActionListener(quitButtonListener);
+	}
 	
+	public void loanButtonLoad() {
+		ActionListener loanButtonListener=new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+			}
+			
+		};
+		FunctionalitiesBarAndPanel.getLoanButton().addActionListener(loanButtonListener);
+	}
+	public void mappingButtonLoad() {
+		ActionListener mappingButtonListener=new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Mapping");	
+			}
+			
+		};
+		FunctionalitiesBarAndPanel.getMappingButton().addActionListener(mappingButtonListener);
+	}
+	public void configurateWindowsButtonLoad() {
+		ActionListener mappingButtonListener=new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurer fenêtres");	
+			}
+			
+		};
+		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().addActionListener(mappingButtonListener);
+	}
+
+	public void okButtonLoad() {
+		ActionListener okButtonListener=new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				FunctionalitiesBarAndPanel.setInformationLabel(mdl.getCompanyName(), mdl.getContact());
+				vw.getMyCardPanels().show(vw.getLayeredPanel(), "functions");
+
+			}
+			
+		};
+		Panel1.getOkButton().addActionListener(okButtonListener);
+	}
 	
+/******************Server Part: won't be used for now*********************************************************/
 	public Socket connectToServer()  {
-		
-		
 		try {
 			
 			clientconfig= new ClientConfig();
