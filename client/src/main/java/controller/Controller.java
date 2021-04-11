@@ -5,8 +5,13 @@ import shared.code.Request;
 import shared.code.Response;
 import shared.code.StudentConfig;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +19,8 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import javax.swing.JButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +68,8 @@ public class Controller {
 			}
 			
 		};
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getQuitButton());
+		FunctionalitiesBarAndPanel.getQuitButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getQuitButton().addActionListener(quitButtonListener);
 	}
 	
@@ -74,6 +83,9 @@ public class Controller {
 			}
 			
 		};
+		focusButtons(FunctionalitiesBarAndPanel.getLoanButton());
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getLoanButton());
+		FunctionalitiesBarAndPanel.getLoanButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getLoanButton().addActionListener(loanButtonListener);
 	}
 	public void mappingButtonLoad() {
@@ -86,18 +98,22 @@ public class Controller {
 			}
 			
 		};
+		focusButtons(FunctionalitiesBarAndPanel.getMappingButton());
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getMappingButton());
+		FunctionalitiesBarAndPanel.getMappingButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getMappingButton().addActionListener(mappingButtonListener);
 	}
 	public void configurateWindowsButtonLoad() {
 		ActionListener mappingButtonListener=new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurer fenêtres");	
-			}
-			
+			}		
 		};
+		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().setFocusPainted(false);
+		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
 		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().addActionListener(mappingButtonListener);
 	}
 
@@ -109,11 +125,68 @@ public class Controller {
 				// TODO Auto-generated method stub
 				FunctionalitiesBarAndPanel.setInformationLabel(mdl.getCompanyName(), mdl.getContact());
 				vw.getMyCardPanels().show(vw.getLayeredPanel(), "functions");
-
 			}
 			
 		};
+		
 		Panel1.getOkButton().addActionListener(okButtonListener);
+	}
+	public void focusButtons(JButton button) {
+		FocusListener focusListener=new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				button.setBackground(new Color(176, 196, 222));
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				button.setBackground(new Color(100, 149, 237));
+			}
+			
+		};
+		button.addFocusListener(focusListener);
+	}
+	public void mouseCursorOnButton(JButton button) {
+		MouseListener mouseListener=new MouseListener() {
+
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				button.setBackground(new Color(176, 196, 222));
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(!button.isFocusOwner()) {
+				button.setBackground(new Color(100, 149, 237));
+				}
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		
+		button.addMouseListener(mouseListener);
 	}
 	
 /******************Server Part: won't be used for now*********************************************************/
