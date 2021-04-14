@@ -33,8 +33,8 @@ public class View{
 		appFrame.getContentPane().add(layeredPane);
 		layeredPane.setLayout(myCardPanels);
 		layeredPane.add("functions",funcBarAndPanelFrame.getFunctionsAndBarPanel());
-		layeredPane.add("Pane1",panel1.getPanel());//Just an example: will be modified later
-		myCardPanels.show(layeredPane, "Pane1");
+		layeredPane.add("Home",Home.getJPanel());//Just an example: will be modified later
+		myCardPanels.show(layeredPane, "Home");
 		
 	}
 	public FunctionalitiesBarAndPanel getFuncBarAndPanelFrame() {
@@ -50,6 +50,7 @@ public class View{
 	public static int getHEIGHT() {
 		return HEIGHT;
 	}
+	//a modifier :
 	public Panel1 getPanel1() {
 		return panel1;
 	}

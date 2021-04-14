@@ -54,6 +54,7 @@ public class Controller {
 
 	public void loadButtons() {
 		quitButtonLoad();
+		homeButtonLoad();
 		loanButtonLoad();
 		mappingButtonLoad();
 		configurateWindowsButtonLoad();
@@ -64,13 +65,27 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Pane1");
+				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Home");
 			}
 			
 		};
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getQuitButton());
 		FunctionalitiesBarAndPanel.getQuitButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getQuitButton().addActionListener(quitButtonListener);
+	}
+	
+	public void homeButtonLoad() {
+		ActionListener homeButtonListener=new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Accueil");	
+			}		
+		};
+		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().setFocusPainted(false);
+		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
+		FunctionalitiesBarAndPanel.getHomeButton().addActionListener(homeButtonListener);
 	}
 	
 	public void loanButtonLoad() {
@@ -88,6 +103,7 @@ public class Controller {
 		FunctionalitiesBarAndPanel.getLoanButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getLoanButton().addActionListener(loanButtonListener);
 	}
+	
 	public void mappingButtonLoad() {
 		ActionListener mappingButtonListener=new ActionListener() {
 
@@ -103,6 +119,7 @@ public class Controller {
 		FunctionalitiesBarAndPanel.getMappingButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getMappingButton().addActionListener(mappingButtonListener);
 	}
+
 	public void configurateWindowsButtonLoad() {
 		ActionListener mappingButtonListener=new ActionListener() {
 			@Override
@@ -129,7 +146,7 @@ public class Controller {
 			
 		};
 		
-		Panel1.getOkButton().addActionListener(okButtonListener);
+		Home.getOkButton().addActionListener(okButtonListener);
 	}
 	public void focusButtons(JButton button) {
 		FocusListener focusListener=new FocusListener() {

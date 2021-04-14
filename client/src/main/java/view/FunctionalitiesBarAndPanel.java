@@ -19,6 +19,7 @@ public class FunctionalitiesBarAndPanel{
 	    private JPanel functionsAndBarPanel=new JPanel();
 		private static CardLayout myFunctionalities=new CardLayout();
 		static JPanel functionalitiesPanel=new JPanel(); // The content of this Panel is going to change depending on the functionality that you clicked on.
+		private static JButton homeButton=new JButton("Home");
 		private static JButton loanButton=new JButton("Réservation");
 	    private static JButton mappingButton=new JButton("Mapping");
 	    private static JButton configurateWindowsButton=new JButton("Configurer fenêtres");
@@ -36,6 +37,9 @@ public class FunctionalitiesBarAndPanel{
 		functionalitiesBar.setFloatable(false);
 		information=new JLabel();
 		functionalitiesBar.add(information);
+		homeButton.setBackground(new Color(100, 149, 237));
+		homeButton.setBorderPainted(false);
+		homeButton.setForeground(new Color(255, 255, 255));
 		loanButton.setBackground(new Color(100, 149, 237));
 		loanButton.setBorderPainted(false);
 		loanButton.setForeground(new Color(255, 255, 255));
@@ -73,6 +77,9 @@ public class FunctionalitiesBarAndPanel{
 	    myFunctionalities.show(functionalitiesPanel, "hey");//will delete later
    /**********************End of JPanel Part**************************************/
     }
+	  public static JButton getHomeButton() {
+			return homeButton;
+	}
 	public static JButton getLoanButton() {
 		return loanButton;
 	}
@@ -95,6 +102,7 @@ public class FunctionalitiesBarAndPanel{
 		return information;
 	}
 	public static void setInformationLabel(String companyName, String contact) {
+		//TO DO : use the variable selectedCompany instead of contact
 		information.setText(companyName+"| Contact:"+contact);
 		information.setFont(new Font("Dialog", Font.BOLD, 15));
 		information.setForeground(new Color(255, 255, 255));
