@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class View{
+
 	private final static Logger logger=LoggerFactory.getLogger(View.class.getName());
 	private static int WIDTH=1000;
 	private static int HEIGHT=650;
@@ -37,22 +38,18 @@ public class View{
 		myCardPanels.show(layeredPane, "Home");
 		
 	}
+
 	public FunctionalitiesBarAndPanel getFuncBarAndPanelFrame() {
 		return funcBarAndPanelFrame;
 	}
 	public void setFuncBarAndPanelFrame(FunctionalitiesBarAndPanel funcBarAndPanelFrame) {
 		this.funcBarAndPanelFrame = funcBarAndPanelFrame;
 	}
-
 	public static int getWIDTH() {
 		return WIDTH;
 	}
 	public static int getHEIGHT() {
 		return HEIGHT;
-	}
-	//a modifier :
-	public Panel1 getPanel1() {
-		return panel1;
 	}
 	public JLayeredPane getLayeredPanel() {
 		return layeredPane;
@@ -60,5 +57,4 @@ public class View{
 	public CardLayout getMyCardPanels() {
 		return myCardPanels;
 	}
-
 }
