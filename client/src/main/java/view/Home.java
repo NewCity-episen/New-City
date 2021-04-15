@@ -10,13 +10,9 @@ public class Home{
 	static String[] companyNames = new String[] {"Wayne industries", "LexCorp", "Stark industries"};
 	static JComboBox<String> companyNameList= new JComboBox<String>(companyNames);
 
-
-	static String selectedCompany = (String)companyNameList.getSelectedItem();
-	
 	private static JPanel homePanel=new JPanel();
 	
 	public static JPanel getJPanel() {
-		// TODO Auto-generated method stub
 		homePanel.add(companyNameList);
 		homePanel.add(okButton);
 		return homePanel;
@@ -25,9 +21,6 @@ public class Home{
 	public static JButton getOkButton() {
 		return okButton;
 	}
-	
-	/*public Home() {
-		home.add(companyNames);
-		home.add(okButton);
-	}*/
+
+	static String selectedCompany = (String)companyNameList.getSelectedItem();
 }
