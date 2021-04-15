@@ -104,7 +104,7 @@ public class FunctionalitiesBarAndPanel{
 	public static void setInformationLabel(String companyName, String contact) {
 		String selectedCompanyName = (String) Home.companyNameList.getSelectedItem();
 
-		information.setText(companyName+"| Contact:"+ selectedCompanyName);
+		information.setText(selectedCompanyName +"| Contact:"+ contact);
 		information.setFont(new Font("Dialog", Font.BOLD, 15));
 		information.setForeground(new Color(255, 255, 255));
 	}
