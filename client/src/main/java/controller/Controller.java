@@ -56,10 +56,6 @@ public class Controller {
 		firstPageButtonLoad();
 		refreshButtonLoad();
 		quitButtonLoad();
-		/*homeButtonLoad();
-		loanButtonLoad();
-		mappingButtonLoad();
-		configurateWindowsButtonLoad();*/
 		okButtonLoad();
 	}
 	public void firstPageButtonLoad() {
@@ -67,11 +63,12 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Accueil");
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Accueil");	
 			}
 			
 		};
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getFirstPageButton());
+		focusButtons(FunctionalitiesBarAndPanel.getFirstPageButton());
 		FunctionalitiesBarAndPanel.getFirstPageButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getFirstPageButton().addActionListener(firstPageButtonListener);
 	}
@@ -80,11 +77,12 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Raffraichir");
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
 			}
 			
 		};
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getRefreshButton());
+		focusButtons(FunctionalitiesBarAndPanel.getRefreshButton());
 		FunctionalitiesBarAndPanel.getRefreshButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getRefreshButton().addActionListener(refreshButtonListener);
 	}
@@ -101,66 +99,6 @@ public class Controller {
 		FunctionalitiesBarAndPanel.getQuitButton().setFocusPainted(false);
 		FunctionalitiesBarAndPanel.getQuitButton().addActionListener(quitButtonListener);
 	}
-	
-	/*public void homeButtonLoad() {
-		ActionListener homeButtonListener=new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Accueil");	
-			}		
-		};
-		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().setFocusPainted(false);
-		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
-		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
-		FunctionalitiesBarAndPanel.getHomeButton().addActionListener(homeButtonListener);
-	}*/
-	
-	/*public void loanButtonLoad() {
-		ActionListener loanButtonListener=new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
-			}
-			
-		};
-		focusButtons(FunctionalitiesBarAndPanel.getLoanButton());
-		mouseCursorOnButton(FunctionalitiesBarAndPanel.getLoanButton());
-		FunctionalitiesBarAndPanel.getLoanButton().setFocusPainted(false);
-		FunctionalitiesBarAndPanel.getLoanButton().addActionListener(loanButtonListener);
-	}
-	
-	public void mappingButtonLoad() {
-		ActionListener mappingButtonListener=new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Mapping");	
-			}
-			
-		};
-		focusButtons(FunctionalitiesBarAndPanel.getMappingButton());
-		mouseCursorOnButton(FunctionalitiesBarAndPanel.getMappingButton());
-		FunctionalitiesBarAndPanel.getMappingButton().setFocusPainted(false);
-		FunctionalitiesBarAndPanel.getMappingButton().addActionListener(mappingButtonListener);
-	}
-
-	public void configurateWindowsButtonLoad() {
-		ActionListener mappingButtonListener=new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurer fenêtres");	
-			}		
-		};
-		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().setFocusPainted(false);
-		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
-		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
-		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().addActionListener(mappingButtonListener);
-	}*/
 
 	public void okButtonLoad() {
 		ActionListener okButtonListener=new ActionListener() {

@@ -17,7 +17,6 @@ public class View{
 	private static int WIDTH=1000;
 	private static int HEIGHT=650;
 	private FunctionalitiesBarAndPanel funcBarAndPanelFrame=new FunctionalitiesBarAndPanel();
-	private Panel1 panel1=new Panel1();
 	private JFrame appFrame=new JFrame("Interface");
 	final JLayeredPane layeredPane=new JLayeredPane();
 	final CardLayout myCardPanels=new CardLayout(0,0);
@@ -35,8 +34,6 @@ public class View{
 		layeredPane.setLayout(myCardPanels);
 		layeredPane.add("functions",funcBarAndPanelFrame.getFunctionsAndBarPanel());
 		layeredPane.add("Home",Home.getJPanel());//Just an example: will be modified later
-		layeredPane.add("Accueil",LoanPanel.getJPanel());
-		//layeredPane.add("Raffraichir",Home.getJPanel()); // the current pannel
 		myCardPanels.show(layeredPane, "Home");
 		
 	}
