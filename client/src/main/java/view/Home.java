@@ -7,13 +7,13 @@ public class Home{
 	
 	static JButton okButton=new JButton("OK");
 	private static JPanel panel=new JPanel();
-	//we should an arrayList or a vector to list the company names
+	//we should use an arrayList or a vector to list the company names
 	// it should be updated everytime an insert, update or delete is made on the associated table
 	static String[] companyNames = new String[] {"Wayne entrepries", "LexCorp", "Stark industries", 
 												 "The Daily Panet", "Daily bugle", "Pyramid Transnational",
 												 "Planet express", "Big Kahuna Burger", "Red apple"};
 	static JComboBox<String> companyNameList= new JComboBox<String>(companyNames);
-
+	static String selectedCompany = (String)companyNameList.getSelectedItem();
 	private static JPanel homePanel=new JPanel();
 	
 	public static JPanel getJPanel() {
@@ -27,5 +27,5 @@ public class Home{
 		return okButton;
 	}
 
-	static String selectedCompany = (String)companyNameList.getSelectedItem();
+	
 }

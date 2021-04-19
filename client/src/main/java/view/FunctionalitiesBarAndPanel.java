@@ -19,10 +19,12 @@ public class FunctionalitiesBarAndPanel{
 	    private JPanel functionsAndBarPanel=new JPanel();
 		private static CardLayout myFunctionalities=new CardLayout();
 		static JPanel functionalitiesPanel=new JPanel(); // The content of this Panel is going to change depending on the functionality that you clicked on.
-		private static JButton homeButton=new JButton("Home");
-		private static JButton loanButton=new JButton("Réservation");
+		//private static JButton homeButton=new JButton("Home");
+		/*private static JButton loanButton=new JButton("Réservation");
 	    private static JButton mappingButton=new JButton("Mapping");
-	    private static JButton configurateWindowsButton=new JButton("Configurer fenêtres");
+	    private static JButton configurateWindowsButton=new JButton("Configurer fenêtres");*/
+	    private static JButton firstPageButton=new JButton("Accueil");	
+	    private static JButton refreshButton=new JButton("Raffraichir");	
 	    private static JButton quitButton=new JButton("Quitter");	
 	    private LoanPanel loanPanel=new LoanPanel();
 	    private MappingPanel mappingPanel=new MappingPanel();
@@ -37,10 +39,10 @@ public class FunctionalitiesBarAndPanel{
 		functionalitiesBar.setFloatable(false);
 		information=new JLabel();
 		functionalitiesBar.add(information);
-		homeButton.setBackground(new Color(100, 149, 237));
+		/*homeButton.setBackground(new Color(100, 149, 237));
 		homeButton.setBorderPainted(false);
-		homeButton.setForeground(new Color(255, 255, 255));
-		loanButton.setBackground(new Color(100, 149, 237));
+		homeButton.setForeground(new Color(255, 255, 255));*/
+		/*loanButton.setBackground(new Color(100, 149, 237));
 		loanButton.setBorderPainted(false);
 		loanButton.setForeground(new Color(255, 255, 255));
 		mappingButton.setBackground(new Color(100, 149, 237));
@@ -48,15 +50,23 @@ public class FunctionalitiesBarAndPanel{
 		mappingButton.setForeground(new Color(255, 255, 255));
 		configurateWindowsButton.setBackground(new Color(100, 149, 237));
 		configurateWindowsButton.setBorderPainted(false);
-		configurateWindowsButton.setForeground(new Color(255, 255, 255));
+		configurateWindowsButton.setForeground(new Color(255, 255, 255));*/
+		firstPageButton.setBackground(new Color(100, 149, 237));
+		firstPageButton.setBorderPainted(false);
+		firstPageButton.setForeground(new Color(255, 255, 255));
+		refreshButton.setBackground(new Color(100, 149, 237));
+		refreshButton.setBorderPainted(false);
+		refreshButton.setForeground(new Color(255, 255, 255));
 		quitButton.setBackground(new Color(100, 149, 237));
 		quitButton.setBorderPainted(false);
 		quitButton.setForeground(new Color(255, 255, 255));
 		functionalitiesBar.addSeparator(new Dimension(25,0));
-		functionalitiesBar.add(loanButton);
+		/*functionalitiesBar.add(loanButton);
 		functionalitiesBar.add(mappingButton);
-		functionalitiesBar.add(configurateWindowsButton);
+		functionalitiesBar.add(configurateWindowsButton);*/
 		functionalitiesBar.addSeparator(new Dimension(400,0));
+		functionalitiesBar.add(firstPageButton);
+		functionalitiesBar.add(refreshButton);
 		functionalitiesBar.add(quitButton);
 		functionsAndBarPanel.setLayout(new BorderLayout());
 		functionsAndBarPanel.add(functionalitiesBar,BorderLayout.NORTH);
@@ -71,16 +81,19 @@ public class FunctionalitiesBarAndPanel{
 		JLabel hey=new JLabel("Heeey! Choose your functionality :) ");
 		heyPanel.add(hey);
 		functionalitiesPanel.add("hey",heyPanel);
-	    functionalitiesPanel.add("Réservation",loanPanel.getJPanel());
+	    /*functionalitiesPanel.add("Réservation",loanPanel.getJPanel());
 	    functionalitiesPanel.add("Mapping",mappingPanel.getJPanel());
-	    functionalitiesPanel.add("Configurer fenêtres",configurateWindowPanel.getJPanel());
+	    functionalitiesPanel.add("Configurer fenêtres",configurateWindowPanel.getJPanel());*/
+	    
+	    functionalitiesPanel.add("Accueil",loanPanel.getJPanel());
+	    // functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); will take to the current page
 	    myFunctionalities.show(functionalitiesPanel, "hey");//will delete later
    /**********************End of JPanel Part**************************************/
     }
-	  public static JButton getHomeButton() {
+	 /* public static JButton getHomeButton() {
 			return homeButton;
-	}
-	public static JButton getLoanButton() {
+	}*/
+	/*public static JButton getLoanButton() {
 		return loanButton;
 	}
 	public static JButton getMappingButton() {
@@ -88,6 +101,12 @@ public class FunctionalitiesBarAndPanel{
 	}
 	public static JButton getConfigurateWindowsButton() {
 		return configurateWindowsButton;
+	}*/
+	public static JButton getFirstPageButton() {
+		return firstPageButton;
+	}
+	public static JButton getRefreshButton() {
+		return refreshButton;
 	}
 	public static JButton getQuitButton() {
 		return quitButton;

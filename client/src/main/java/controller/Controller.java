@@ -53,12 +53,40 @@ public class Controller {
 	}
 
 	public void loadButtons() {
+		firstPageButtonLoad();
+		refreshButtonLoad();
 		quitButtonLoad();
-		homeButtonLoad();
+		/*homeButtonLoad();
 		loanButtonLoad();
 		mappingButtonLoad();
-		configurateWindowsButtonLoad();
+		configurateWindowsButtonLoad();*/
 		okButtonLoad();
+	}
+	public void firstPageButtonLoad() {
+		ActionListener firstPageButtonListener=new ActionListener() {
+       
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Accueil");
+			}
+			
+		};
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getFirstPageButton());
+		FunctionalitiesBarAndPanel.getFirstPageButton().setFocusPainted(false);
+		FunctionalitiesBarAndPanel.getFirstPageButton().addActionListener(firstPageButtonListener);
+	}
+	public void refreshButtonLoad() {
+		ActionListener refreshButtonListener=new ActionListener() {
+       
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				vw.getMyCardPanels().show(vw.getLayeredPanel(), "Raffraichir");
+			}
+			
+		};
+		mouseCursorOnButton(FunctionalitiesBarAndPanel.getRefreshButton());
+		FunctionalitiesBarAndPanel.getRefreshButton().setFocusPainted(false);
+		FunctionalitiesBarAndPanel.getRefreshButton().addActionListener(refreshButtonListener);
 	}
 	public void quitButtonLoad() {
 		ActionListener quitButtonListener=new ActionListener() {
@@ -74,7 +102,7 @@ public class Controller {
 		FunctionalitiesBarAndPanel.getQuitButton().addActionListener(quitButtonListener);
 	}
 	
-	public void homeButtonLoad() {
+	/*public void homeButtonLoad() {
 		ActionListener homeButtonListener=new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -86,9 +114,9 @@ public class Controller {
 		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
 		FunctionalitiesBarAndPanel.getHomeButton().addActionListener(homeButtonListener);
-	}
+	}*/
 	
-	public void loanButtonLoad() {
+	/*public void loanButtonLoad() {
 		ActionListener loanButtonListener=new ActionListener() {
 
 			@Override
@@ -132,7 +160,7 @@ public class Controller {
 		focusButtons(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getConfigurateWindowsButton());
 		FunctionalitiesBarAndPanel.getConfigurateWindowsButton().addActionListener(mappingButtonListener);
-	}
+	}*/
 
 	public void okButtonLoad() {
 		ActionListener okButtonListener=new ActionListener() {

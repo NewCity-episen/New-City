@@ -35,6 +35,8 @@ public class View{
 		layeredPane.setLayout(myCardPanels);
 		layeredPane.add("functions",funcBarAndPanelFrame.getFunctionsAndBarPanel());
 		layeredPane.add("Home",Home.getJPanel());//Just an example: will be modified later
+		layeredPane.add("Accueil",LoanPanel.getJPanel());
+		//layeredPane.add("Raffraichir",Home.getJPanel()); // the current pannel
 		myCardPanels.show(layeredPane, "Home");
 		
 	}
