@@ -59,7 +59,7 @@ public class FunctionalitiesBarAndPanel{
 
 		functionalitiesPanel.setLayout(myFunctionalities); 
 	    functionalitiesPanel.add("Accueil",loanPanel.getJPanel());
-	    // functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); will take to the current page
+	    //functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); //will take to the current page
 	    myFunctionalities.show(functionalitiesPanel, "Accueil");
    /**********************End of JPanel Part**************************************/
     }
@@ -82,7 +82,7 @@ public class FunctionalitiesBarAndPanel{
 		return information;
 	}
 	public static void setInformationLabel(String companyName, String contact) {
-		String selectedCompanyName = (String) Home.companyNameList.getSelectedItem();
+		String selectedCompanyName = (String) Home.getCompanyNameList().getSelectedItem();
 
 		information.setText(selectedCompanyName +" | Contact:"+ contact);
 		information.setFont(new Font("Dialog", Font.BOLD, 15));
