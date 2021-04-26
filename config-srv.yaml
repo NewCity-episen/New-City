@@ -1,2 +1,2 @@
 listenPort: 4666
-soTimeOut: 10000
+soTimeOut: 100000000
