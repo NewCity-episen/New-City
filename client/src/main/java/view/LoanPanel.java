@@ -23,7 +23,6 @@ public class LoanPanel {
 	private static String selectedFloor = (String)floorNumberList.getSelectedItem();
 	private static JSlider budget = new JSlider(0, 20000);
 	private static JSlider area = new JSlider(0, 200);
-	//static GridLayout floorMap = new GridLayout(4, 3);
 	private static JButton filterButton=new JButton("Filtrer");
 	private static JLabel buildingMessage=new JLabel("Selectionnez un batiment");
 	private static JLabel floorMessage=new JLabel("Selectionnez un etage");
@@ -31,6 +30,8 @@ public class LoanPanel {
 	private static JLabel areaMessage=new JLabel("Surface");
 	private static JComboBox<Building> buildingBox =new JComboBox<Building>();
 	private static JComboBox floorBox=new JComboBox();
+	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
+	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
@@ -98,12 +99,12 @@ public class LoanPanel {
 		
 	}
 	public static JPanel getJPanel() {
-
+		// find a way to show two times the same JComboBox
 		loanPanel.add(buildingMessage);
-		loanPanel.add(buildingNameList);
-
+		loanPanel.add(buildingBoxFilter);
+		
 		loanPanel.add(floorMessage);
-		loanPanel.add(floorNumberList);
+		loanPanel.add(floorBoxFilter);
 
 		loanPanel.add(priceMessage);
 		loanPanel.add(budget);
@@ -135,12 +136,28 @@ public class LoanPanel {
 	public static void setBuildingBox(JComboBox<Building> buildingBox) {
 		LoanPanel.buildingBox = buildingBox;
 	}
+	
+	public static JComboBox<Building> getBuildingBoxFilter() {
+		return buildingBoxFilter;
+	}
+	public static void setBuildingBoxFilter(JComboBox<Building> buildingBoxFilter) {
+		LoanPanel.buildingBoxFilter = buildingBoxFilter;
+	}
+	
 	public static JComboBox getFloorBox() {
 		return floorBox;
 	}
 	public static void setFloorBox(JComboBox floorBox) {
 		LoanPanel.floorBox = floorBox;
 	}
+	
+	public static JComboBox getFloorBoxFilter() {
+		return floorBoxFilter;
+	}
+	public static void setFloorBoxFilter(JComboBox floorBoxFilter) {
+		LoanPanel.floorBoxFilter = floorBoxFilter;
+	}
+	
 	public static JButton getBtnOkFloorBuilding() {
 		return btnOkFloorBuilding;
 	}

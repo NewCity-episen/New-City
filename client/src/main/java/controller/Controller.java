@@ -71,6 +71,7 @@ public class Controller {
 	public void loadData() {
 		loadCompaniesBox();
 		buildingAndFloorBoxLoad();
+
 		
 	}
 	public void buildingAndFloorBoxLoad() {
@@ -86,8 +87,14 @@ public class Controller {
 			 for(Building building: allBuildings) {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
+			 for(Building building: allBuildings) {
+				  LoanPanel.getBuildingBoxFilter().addItem(building);
+			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
 				 LoanPanel.getFloorBox().addItem("Étage "+i); 
+			 }
+			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
+				 LoanPanel.getFloorBoxFilter().addItem("Étage "+i); 
 			 }
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
 
@@ -144,6 +151,7 @@ public class Controller {
 		}
  
 	}
+
 	public void loadBuildingMap() {
 		int row=0;int column=0;
 		for(Building building: mdl.getAllBuildings()) {
