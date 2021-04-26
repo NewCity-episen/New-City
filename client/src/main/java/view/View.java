@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,9 +17,10 @@ public class View{
 	private final static Logger logger=LoggerFactory.getLogger(View.class.getName());
 	private static int WIDTH=1000;
 	private static int HEIGHT=650;
-	private FunctionalitiesBarAndPanel funcBarAndPanelFrame=new FunctionalitiesBarAndPanel();
-	private JFrame appFrame=new JFrame("Interface");
+	private Home home=new Home();
+	private static JFrame appFrame=new JFrame("Interface");
 	final JLayeredPane layeredPane=new JLayeredPane();
+	FunctionalitiesBarAndPanel funcBarAndPanelFrame=new FunctionalitiesBarAndPanel();
 	final CardLayout myCardPanels=new CardLayout(0,0);
 
 	public View() {
@@ -37,12 +39,8 @@ public class View{
 		myCardPanels.show(layeredPane, "Home");
 		
 	}
-
-	public FunctionalitiesBarAndPanel getFuncBarAndPanelFrame() {
-		return funcBarAndPanelFrame;
-	}
-	public void setFuncBarAndPanelFrame(FunctionalitiesBarAndPanel funcBarAndPanelFrame) {
-		this.funcBarAndPanelFrame = funcBarAndPanelFrame;
+	public static JFrame getappFrame() {
+		return appFrame;
 	}
 	public static int getWIDTH() {
 		return WIDTH;

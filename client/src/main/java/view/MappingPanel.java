@@ -1,17 +1,159 @@
 package view;
+import model.Equipment;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 
-import java.awt.Component;
-
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.WorkSpace;
+
 public class MappingPanel{
-	private JPanel mappingPanel=new JPanel();
-	public JPanel getJPanel() {
+	private static JPanel mappingPanel=new JPanel();
+	private static CardLayout mappingCard=new CardLayout();
+	private static JPanel choiceOfMappingPanel=new JPanel();
+	private static JPanel mappingSpotsPanel=new JPanel();
+	private static JPanel spotsMap=new JPanel();
+	private static JComboBox<Equipment> equipmentsToInstallBox=new JComboBox<Equipment>();
+	private static WorkSpace workSpace=null;
+	private static JLabel position=new JLabel();
+	private static JLabel position2=new JLabel();
+	private static JButton mapSensorsBtn = new JButton("Mapper capteurs");
+	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
+	private static JButton okEquipmentButton=new JButton("OK");
+	private static JButton returnButton=new JButton("Retour");
+	
+	public MappingPanel() {
+		mappingPanel.setLayout(mappingCard);
+		mappingPanel.add("Choix",choiceOfMappingPanel);
+		mappingPanel.add("Emplacement",mappingSpotsPanel);
+		choiceOfMappingPanel.setLayout(null);
+		choiceOfMappingPanel.add(position);
+		choiceOfMappingPanel.setBackground(Color.white);
+		position.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
+		position.setBounds(12, 25, 480, 36);
+		mapSensorsBtn.setFocusPainted(false);
+		mapSensorsBtn.setBorderPainted(true);
+		mapSensorsBtn.setBackground(Color.gray);
+		mapSensorsBtn.setForeground(Color.white);
+		mapSensorsBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
+		mapSensorsBtn.setBounds(249, 255, 215, 42);
+		mapEquipmentsBtn.setBounds(502, 255, 215, 42);
+		mapEquipmentsBtn.setFocusPainted(false);
+		mapEquipmentsBtn.setBorderPainted(true);
+		mapEquipmentsBtn.setBackground(Color.gray);
+		mapEquipmentsBtn.setForeground(Color.white);
+		mapEquipmentsBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
+		choiceOfMappingPanel.add(mapEquipmentsBtn);
+		choiceOfMappingPanel.add(mapSensorsBtn);
+		mappingSpotsPanel.setLayout(null);
+		position2.setBounds(0, 0, 380, 32);
+		mappingSpotsPanel.add(position2);
+		equipmentsToInstallBox.setBounds(392, 5, 256, 22);
+		mappingSpotsPanel.add(equipmentsToInstallBox);
+		okEquipmentButton.setBounds(660, 5, 97, 21);
+		mappingSpotsPanel.add(okEquipmentButton);
+		spotsMap.setBounds(55, 76, 680, 448);
+		mappingSpotsPanel.add(spotsMap);
+		returnButton.setBounds(24, 540, 97, 25);
+		mappingSpotsPanel.add(returnButton);
+		
+	}
+	public static void showChoiceOfMappingPanel() {
+		mappingCard.show(mappingPanel, "Choix");	
+		position.setText("WorkSpace "+workSpace.getId_work_space()+", \u00C9tage "+ workSpace.getSpace_floor()+" - B\u00E2timent "+ workSpace.getId_building());
+		choiceOfMappingPanel.validate();
+	}
+	public static void showMappingPanel(int choice) {
+		mappingCard.show(mappingPanel, "Emplacement");
+		if(choice==1) {// if user clicked on "mapper équipements"
+			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
+		}
+		else {
+			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");
+		}
+	}
+	public static JPanel getJPanel() {
 		// TODO Auto-generated method stub
-		JLabel message=new JLabel("Partie mapping!");
-		mappingPanel.add(message);
 		return mappingPanel;
 	}
-
+	public CardLayout getMappingCard() {
+		return mappingCard;
+	}
+	public void setMappingCard(CardLayout mappingCard) {
+		this.mappingCard = mappingCard;
+	}
+	public JPanel getChoiceOfMappingPanel() {
+		return choiceOfMappingPanel;
+	}
+	public void setChoiceOfMappingPanel(JPanel choiceOfMappingPanel) {
+		this.choiceOfMappingPanel = choiceOfMappingPanel;
+	}
+	public static WorkSpace getWorkSpace() {
+		return workSpace;
+	}
+	public static void setWorkSpace(WorkSpace workSpace1) {
+		workSpace = workSpace1;
+	}
+	public static JPanel getMappingPanel() {
+		return mappingPanel;
+	}
+	public static void setMappingPanel(JPanel mappingPanel) {
+		MappingPanel.mappingPanel = mappingPanel;
+	}
+	public static JPanel getMappingSpotsPanel() {
+		return mappingSpotsPanel;
+	}
+	public static void setMappingSpotsPanel(JPanel mappingSpotsPanel) {
+		MappingPanel.mappingSpotsPanel = mappingSpotsPanel;
+	}
+	public static JPanel getSpotsMap() {
+		return spotsMap;
+	}
+	public static void setSpotsMap(JPanel spotsMap) {
+		MappingPanel.spotsMap = spotsMap;
+	}
+	public static JComboBox<Equipment> getEquipmentsToInstallBox() {
+		return equipmentsToInstallBox;
+	}
+	public static void setEquipmentsToInstallBox(JComboBox<Equipment> equipmentsToInstallBox) {
+		MappingPanel.equipmentsToInstallBox = equipmentsToInstallBox;
+	}
+	public static JLabel getPosition() {
+		return position;
+	}
+	public static void setPosition(JLabel position) {
+		MappingPanel.position = position;
+	}
+	public static JLabel getPosition2() {
+		return position2;
+	}
+	public static void setPosition2(JLabel position2) {
+		MappingPanel.position2 = position2;
+	}
+	public static JButton getMapSensorsBtn() {
+		return mapSensorsBtn;
+	}
+	public static void setMapSensorsBtn(JButton mapSensors) {
+		MappingPanel.mapSensorsBtn = mapSensors;
+	}
+	public static JButton getMapEquipmentsBtn() {
+		return mapEquipmentsBtn;
+	}
+	public static void setMapEquipmentsBtn(JButton mapEquipments) {
+		MappingPanel.mapEquipmentsBtn = mapEquipments;
+	}
+	public static JButton getOkEquipmentButton() {
+		return okEquipmentButton;
+	}
+	public static void setOkEquipmentButton(JButton okEquipmentButton) {
+		MappingPanel.okEquipmentButton = okEquipmentButton;
+	}
+	public static JButton getReturnButton() {
+		return returnButton;
+	}
+	
 }
