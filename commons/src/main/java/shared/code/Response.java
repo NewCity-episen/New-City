@@ -2,6 +2,8 @@ package shared.code;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Response {
 
@@ -23,13 +25,12 @@ public class Response {
 	public void setRequestId(String requestId) {
 		this.requestId = requestId;
 	}
-	@JsonProperty("response_body")
+	@JsonSetter("response_body")
+	public void setResponseBody(JsonNode responseBody) {this.responseBody=responseBody.toString();}
+	public void setResponseContent(final String responseBody) {this.responseBody=responseBody;}
 	@JsonRawValue
 	public String getResponseBody() {
 		return responseBody;
-	}
-	public void setResponseBody(String responseBody) {
-		this.responseBody = responseBody;
 	}
 	
 }
