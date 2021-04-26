@@ -10,6 +10,7 @@ public class Building {
 	private String building_name;
 	private int nb_of_floor;
 	private String id_address;
+	private String floor_area;
 	@JsonIgnore
 	private HashMap<Integer,WorkSpace [][]> mapBuilding= new HashMap<Integer,WorkSpace [][]>();//HashMap<key: Number of the floor, value: The array of workspace associated to the given floor(key)>
 	public int getId_building() {
@@ -51,6 +52,12 @@ public class Building {
 		this.id_address=bd.getId_address();
 		this.nb_of_floor=bd.getNb_of_floor();
 		this.id_building=bd.getId_building();
+	}
+	public String getFloor_area() {
+		return floor_area;
+	}
+	public void setFloor_area(String floor_area) {
+		this.floor_area = floor_area;
 	}
 	
 
