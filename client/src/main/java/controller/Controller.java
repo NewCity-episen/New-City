@@ -91,11 +91,12 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("Étage "+i); 
-			 }
-			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
 				 LoanPanel.getFloorBoxFilter().addItem("Étage "+i); 
 			 }
+			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
+				 LoanPanel.getFloorBox().addItem("Étage "+i); 
+			 }
+			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
 
 				@Override
@@ -111,6 +112,23 @@ public class Controller {
 	                }
 				} 
 			 });
+			 
+			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+		                for(int i=0;i<LoanPanel.getBuildingBoxFilter().getItemCount();i++) {
+		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
+		                		LoanPanel.getFloorBoxFilter().removeAllItems();
+		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
+		                			LoanPanel.getFloorBoxFilter().addItem("Étage "+j);
+		                		}
+		                	}
+		                }
+					} 
+				 });
+			 
 			 LoanPanel.getBtnOkFloorBuilding().addActionListener(new ActionListener() {
 
 					@Override
