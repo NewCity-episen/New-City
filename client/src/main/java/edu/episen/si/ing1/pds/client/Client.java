@@ -23,13 +23,11 @@ public class Client {
 		  try{
 			    final Options options=new Options();
 				final Option clientName=Option.builder().longOpt("clientName").hasArg().argName("clientName").build();
-				final Option numberClient=Option.builder().longOpt("numberClient").hasArg().argName("numberClient").build();
 				final Option insert=Option.builder().longOpt("insert").build();
 				final Option select=Option.builder().longOpt("select").build();
 				final Option delete =Option.builder().longOpt("delete").build();
 				final Option update=Option.builder().longOpt("update").build();
 				String query=null;
-				options.addOption(numberClient);
 				options.addOption(clientName);
 				options.addOption(insert);
 			    options.addOption(select);
@@ -61,13 +59,6 @@ public class Client {
 				Model mdl=new Model();
 				Controller cntrl=new Controller(mdl,vw);
 				
-				 if(commandLine.hasOption("numberClient")) {
-					 ThreadClient client = null;
-						for(int i=1;i<=Integer.valueOf(commandLine.getOptionValue("numberClient"));i++) {
-							client=new ThreadClient(i,cntrl,query);
-							client.start();
-						}
-				 }	
 		  }
 		  catch(Exception e) {
 			  e.printStackTrace();
