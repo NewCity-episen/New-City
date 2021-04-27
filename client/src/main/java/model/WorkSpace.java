@@ -20,6 +20,7 @@ public class WorkSpace {
 	private boolean taken;
 	private boolean configurable;
 	private int id_entreprise;
+	private int space_area;
 	@JsonIgnore
 	private JButton workSpaceButton=new JButton();
 	@JsonIgnore
@@ -28,7 +29,6 @@ public class WorkSpace {
 	private int position_Y;
 	@JsonIgnore
 	private ArrayList<Equipment> equipmentsToInstall=new ArrayList<Equipment>();
-	
 	
 	
 	/*****GETTERS AND SETTERS******/
@@ -148,6 +148,12 @@ public class WorkSpace {
 		this.space_type=wk.getSpace_type();
 		this.temperature=wk.getTemperature();
 		this.taken=wk.isTaken();
+	}
+	public int getSpace_area() {
+		return space_area;
+	}
+	public void setSpace_area(int space_area) {
+		this.space_area = space_area;
 	}
 		
 

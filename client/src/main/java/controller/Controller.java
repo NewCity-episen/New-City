@@ -183,14 +183,14 @@ public class Controller {
 					} 
 				 });
 			 //
-			 LoanPanel.getFilterButton().addActionListener(new ActionListener() {
+			/* LoanPanel.getFilterButton().addActionListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// write here the location search algorithm
 		               
 					} 
-				 });
+				 });*/
 
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
