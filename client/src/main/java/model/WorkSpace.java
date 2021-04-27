@@ -134,6 +134,12 @@ public class WorkSpace {
 	public void setEquipmentsToInstall(ArrayList<Equipment> equipmentsToInstall) {
 		this.equipmentsToInstall=equipmentsToInstall;
 	}
+	public int getSpace_area() {
+		return space_area;
+	}
+	public void setSpace_area(int space_area) {
+		this.space_area = space_area;
+	}
 	public void update(WorkSpace wk) {
 		this.id_work_space=wk.getId_work_space();
 		this.id_building=wk.getId_building();
@@ -148,12 +154,7 @@ public class WorkSpace {
 		this.space_type=wk.getSpace_type();
 		this.temperature=wk.getTemperature();
 		this.taken=wk.isTaken();
-	}
-	public int getSpace_area() {
-		return space_area;
-	}
-	public void setSpace_area(int space_area) {
-		this.space_area = space_area;
+		this.space_area=wk.getSpace_area();
 	}
 		
 

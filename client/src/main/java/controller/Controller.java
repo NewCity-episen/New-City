@@ -331,7 +331,7 @@ public class Controller {
 				
 				MappingPanel.getEquipmentsToInstallBox().removeAllItems();
 				for(Equipment equipment: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
-					if(!(equipment.getEquipment_type().equals("Capteur")||(equipment.getEquipment_type().equals("Capteur de configuration")))) {
+					if(equipment.getEquipment_type().equals("connected object")) {
 						MappingPanel.getEquipmentsToInstallBox().addItem(equipment);
 					}
 				}
@@ -346,7 +346,7 @@ public class Controller {
 				MappingPanel.getEquipmentsToInstallBox().removeAllItems();
 				MappingPanel.getMappingSpotsPanel().validate();
 				for(Equipment equipment: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
-					if(equipment.getEquipment_type().equals("Capteur")||(equipment.getEquipment_type().equals("Capteur de configuration"))) {
+					if(equipment.getEquipment_type().equals("sensor")||(equipment.getEquipment_type().equals("sensorWindows"))) {
 						MappingPanel.getEquipmentsToInstallBox().addItem(equipment);
 					}
 				}
