@@ -66,6 +66,7 @@ public class Controller {
 		quitButtonLoad();
 		okButtonLoad();
 		loadMappingButtons();
+		filterLoad();
 		
 	}
 	public void loadData() {
@@ -87,12 +88,6 @@ public class Controller {
 			 for(Building building: allBuildings) {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
-			 for(Building building: allBuildings) {
-				  LoanPanel.getBuildingBoxFilter().addItem(building);
-			  }
-			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("Étage "+i); 
-			 }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
 				 LoanPanel.getFloorBox().addItem("Étage "+i); 
 			 }
@@ -112,23 +107,7 @@ public class Controller {
 	                }
 				} 
 			 });
-			 
-			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-		                for(int i=0;i<LoanPanel.getBuildingBoxFilter().getItemCount();i++) {
-		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
-		                		LoanPanel.getFloorBoxFilter().removeAllItems();
-		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("Étage "+j);
-		                		}
-		                	}
-		                }
-					} 
-				 });
-			 
 			 LoanPanel.getBtnOkFloorBuilding().addActionListener(new ActionListener() {
 
 					@Override
@@ -163,6 +142,56 @@ public class Controller {
 						}	
 					}
 				});
+			 } catch (InterruptedException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+	}
+	
+	public void filterLoad() {
+		Response response;
+		try {
+			response = sendRequestToServer("select-Buildings.json",null);
+			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
+					                                                        response.getResponseBody().indexOf("]")+1);
+			ObjectMapper mapper=new ObjectMapper();
+			ArrayList<Building> allBuildings=mdl.getAllBuildings();
+			 allBuildings = mapper.readValue(responseBody,
+                    new TypeReference<ArrayList<Building>>(){});
+
+			 for(Building building: allBuildings) {
+				  LoanPanel.getBuildingBoxFilter().addItem(building);
+			  }
+			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
+				 LoanPanel.getFloorBoxFilter().addItem("Étage "+i); 
+			 }
+
+			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+		                for(int i=0;i<LoanPanel.getBuildingBoxFilter().getItemCount();i++) {
+		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
+		                		LoanPanel.getFloorBoxFilter().removeAllItems();
+		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
+		                			LoanPanel.getFloorBoxFilter().addItem("Étage "+j);
+		                		}
+		                	}
+		                }
+					} 
+				 });
+			 //
+			 LoanPanel.getFilterButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// write here the location search algorithm
+		               
+					} 
+				 });
+
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

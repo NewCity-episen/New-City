@@ -89,6 +89,7 @@ public class FunctionalitiesBarAndPanel{
 	public static JLabel getInformationLabel() {
 		return information;
 	}
+
 	public static void setInformationLabel(Company selectedCompany) {
 
 		information.setText(selectedCompany.getEntreprise_name() +" | Contact:"+ selectedCompany.getEntreprise_phone_number());
