@@ -81,6 +81,22 @@ public class RequestHandler {
 			
 
 		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_SPOT")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="id_equipment="+valuesMap.get("id_equipment")+", taken="+valuesMap.get("taken")+" WHERE id_spot="+valuesMap.get("id_spot");
+			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_MATERIALNEEDS")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="installed="+valuesMap.get("installed")+", state="+valuesMap.get("state")+" WHERE id_equipment="+valuesMap.get("id_equipment");
+			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
 			stmt.close();
 			return new Response(request.getRequestId(),responseBody); 
 		}
