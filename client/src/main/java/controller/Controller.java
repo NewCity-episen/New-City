@@ -67,6 +67,7 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
+		//filterButtonLoad();
 		
 	}
 	public void loadData() {
@@ -182,21 +183,19 @@ public class Controller {
 		                }
 					} 
 				 });
-			 //
-			/* LoanPanel.getFilterButton().addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// write here the location search algorithm
-		               
-					} 
-				 });*/
+			 
+			LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
 
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
  
+	}
+	
+	private void filterButtonLoad() {
+		new LocationOfferPanel();
+		//LoanPanel.getJPanel().dispose();
 	}
 
 	public void loadBuildingMap() {
