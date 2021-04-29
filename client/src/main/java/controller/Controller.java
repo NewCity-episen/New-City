@@ -27,16 +27,17 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import javax.sql.rowset.WebRowSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-<<<<<<< HEAD
+
 
 import javax.swing.UIManager;
 
-=======
-import javax.swing.UIManager;
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
+
+
+
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
@@ -78,7 +79,7 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
-<<<<<<< HEAD
+
 
 		loadAdvancedFiltre();
 		loadReturnButton();
@@ -87,13 +88,13 @@ public class Controller {
 		//filterButtonLoad();
 		loadConfigurate();
 
-=======
+
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
 		//filterButtonLoad();
 		
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
+
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -115,7 +116,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("étage "+i); 
+				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -127,7 +128,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("étage "+j);
+	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
 	                		}
 	                	}
 	                }
@@ -190,7 +191,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("étage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -202,7 +203,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("étage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
 		                		}
 		                	}
 		                }
@@ -832,9 +833,48 @@ ActionListener returnButtonActionListener =new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 			if(AdvancedFiltrePanel.getBtnFilterWindow().isSelected()) {
-			FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurate");	
-
-			}}};
+				
+				try {
+					
+				
+					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
+					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
+					
+					//***@Hejer.FESSI 
+				    //***load all mapped and taken workspaces of  the floor numbre floorNumber of the Building building 
+					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+false+"\"}");
+					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
+							workspaceResponse.getResponseBody().indexOf("]")+1);
+					ObjectMapper takenmapper=new ObjectMapper();
+					ArrayList<WorkSpace> takenWorkSpaces=takenmapper.readValue(workspaceResponseBody,
+							 new TypeReference<ArrayList<WorkSpace>>(){});					
+					takenWorkSpaces.removeIf(w -> w.getNumber_of_windows()==0);
+					
+					//***@Hejer.FESSI 
+				    //***load all smartwindows of the Building building and the floor numbre floorNumber
+					Response winResponse= sendRequestToServer("select-wind-to-config.json",null);					
+					String winResponseBody=winResponse.getResponseBody().substring(winResponse.getResponseBody().indexOf("["),
+							winResponse.getResponseBody().indexOf("]")+1);
+					ObjectMapper allWinMapper=new ObjectMapper();
+					ArrayList<SmartWindow> allSmartWin=allWinMapper.readValue(winResponseBody,
+							 new TypeReference<ArrayList<SmartWindow>>(){});
+					
+					ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
+					for (SmartWindow sw:allSmartWin) {
+						if (takenWorkSpaces.stream().anyMatch(ws -> ws.getId_work_space()==sw.getId_work_space() )) {
+							winToCfgArrayList.add(sw);
+						}
+					}
+					ConfigurateWindowsPanel.setWinToCnfgmodel(null);
+					
+					
+					
+					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurate");	
+				}catch (InterruptedException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				   }
+			}}}; 
 			AdvancedFiltrePanel.getBtnOk().addActionListener(configurerActionListener);
 	}
 	public void loadReturn ()

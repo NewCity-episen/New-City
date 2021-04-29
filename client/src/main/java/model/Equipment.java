@@ -13,10 +13,7 @@ public class Equipment {
 	private int id_window;
 
 	private int ref;
-<<<<<<< HEAD
 
-=======
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 	@JsonIgnore
 	private boolean installed;
 	@JsonIgnore
@@ -66,10 +63,7 @@ public class Equipment {
 	public void setId_window(int id_window) {
 		this.id_window = id_window;
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 	public boolean isInstalled() {
 		return installed;
 	}
@@ -99,13 +93,13 @@ public class Equipment {
 		this.equipment_type=eq.getEquipment_type();
 		this.id_window=eq.getId_window();
 		this.unit_cost=eq.getUnit_cost();
-<<<<<<< HEAD
+
 
 		this.ref=eq.getRef();
 
-=======
+
 		this.ref=eq.getRef();
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
+
 	}
 	
 }

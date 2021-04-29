@@ -7,6 +7,10 @@ import javax.swing.JPanel;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+
+import model.SmartWindow;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 
 
@@ -17,7 +21,18 @@ private static CardLayout configurateWindowsCard=new CardLayout();
 private static JPanel configuratePanel =new JPanel();	
 private static JButton retourBtn=new JButton("retour");	
 private static JButton configureBtn=new JButton ("configurer");	
-	public static JButton getRetourBtn() {
+private static DefaultListModel<SmartWindow> winToCnfgmodel= new DefaultListModel<SmartWindow>();
+
+
+public static DefaultListModel<SmartWindow> getWinToCnfgmodel() {
+	return winToCnfgmodel;
+}
+
+public static void setWinToCnfgmodel(DefaultListModel<SmartWindow> winToCnfgmodel) {
+	ConfigurateWindowsPanel.winToCnfgmodel = winToCnfgmodel;
+}
+
+public static JButton getRetourBtn() {
 	return retourBtn;
 }
 
@@ -33,6 +48,8 @@ public static void setRetourBtn(JButton retourBtn) {
 		configurateWindowJPanel.setLayout(configurateWindowsCard);
 		configuratePanel.setLayout(null);	
 		configurateWindowJPanel.add("Configure",configuratePanel);
+		
+		
 		
 		JScrollPane configuredWinJScrollPane = new JScrollPane();
 		configuredWinJScrollPane.setBounds(350, 50, 300, 191);
@@ -57,12 +74,14 @@ public static void setRetourBtn(JButton retourBtn) {
 		statusBtn.setBounds(445, 253, 117, 29);
 		configuratePanel.add(statusBtn);
 		
-		JScrollPane winToCnfgJScrollPane = new JScrollPane();
-		winToCnfgJScrollPane.setBounds(90, 310, 300, 190);
-		configuratePanel.add(winToCnfgJScrollPane);
 		
-		JList winToCnfgList = new JList();
+		JList<SmartWindow> winToCnfgList = new JList<SmartWindow>(winToCnfgmodel);
+		JScrollPane winToCnfgJScrollPane = new JScrollPane(winToCnfgList);
+		winToCnfgJScrollPane.setBounds(90, 310, 300, 190);
+		configuratePanel.add(winToCnfgJScrollPane);		
 		winToCnfgJScrollPane.setViewportView(winToCnfgList);
+		
+		
 		
 		JScrollPane winToCnfgSelJScrollPane = new JScrollPane();
 		winToCnfgSelJScrollPane.setBounds(610, 310, 300, 190);

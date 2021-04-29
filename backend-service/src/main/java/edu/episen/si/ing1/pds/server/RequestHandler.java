@@ -23,7 +23,8 @@ import java.util.HashMap;
 
 public class RequestHandler {
 	
-	private final static Logger logger=LoggerFactory.getLogger(RequestHandler.class.getName());
+	//private final static Logger logger=LoggerFactory.getLogger(RequestHandler.class.getName());
+	
 	
 	public static Response handle(Request request, Connection cnx) throws JsonMappingException, JsonProcessingException, SQLException {
 		// TODO Auto-generated method stub
@@ -31,7 +32,9 @@ public class RequestHandler {
 		String sqlRequest="";
 		String responseBody=null;
 		String valuesJson="[";
+		
 		Statement stmt = cnx.createStatement();
+		
 		final ObjectMapper mapper=new ObjectMapper();
 	
 		
@@ -73,17 +76,17 @@ public class RequestHandler {
 		}
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
-<<<<<<< HEAD
+
 			String sql = "SELECT * FROM work_space WHERE taken = false";
 			ResultSet rs= stmt.executeQuery(sqlRequest);
 			//ArrayList<Offer> offerList = new ArrayList<>();
 			while (rs.next()) {
 				//offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
 						//rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),));
-=======
-			String sql = "SELECT id_work_space FROM work_space WHERE taken = false";
+
+			//String sql = "SELECT id_work_space FROM work_space WHERE taken = false";
 			System.out.println("Requete sql");
-			ResultSet rs= stmt.executeQuery(sql);
+			//ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
 			ArrayList<Object> resultList = new ArrayList<>();
 			while(rs.next()) {
@@ -91,13 +94,13 @@ public class RequestHandler {
 				row.put("space_id", rs.getInt("id_work_space"));
 				resultList.add(row);
 				System.out.println("Line : " + row);
->>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
+
 			}
 
 			System.out.println("Data to sent: " + resultList);
 			return new Response(request.getRequestId(), resultList);
+		     }
 		}
-
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
 
 		}
@@ -126,7 +129,7 @@ public class RequestHandler {
 		}
 			stmt.close();
 			return new Response(request.getRequestId(),responseBody); 
-		}
 		
-
-}
+		
+	
+}}
