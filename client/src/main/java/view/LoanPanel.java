@@ -29,12 +29,15 @@ public class LoanPanel {
 	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
 	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
-	private static JButton btnAdvancedFilter=new JButton("Filtres avancÃ©s"); //HF
+	private static JButton btnAdvancedFilter=new JButton("Filtres avancés"); //HF
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 	public LoanPanel(){
 
 		panelAbsolute.setLayout(null);
@@ -63,15 +66,15 @@ public class LoanPanel {
 		redButton.setBounds(12, 248, 82, 32);
 		redButton.setEnabled(false);
 		panelButtonsMeaning.add(redButton);
-		JLabel reserveLabel = new JLabel("Espace rÃ©servable");
+		JLabel reserveLabel = new JLabel("Espace réservable");
 		reserveLabel.setBounds(106, 130, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		
-		reserveLabel = new JLabel("Espace rÃ©servÃ©");
+		reserveLabel = new JLabel("Espace réservé");
 		reserveLabel.setBounds(106, 190, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		
-		reserveLabel = new JLabel("Espace rÃ©servÃ©");
+		reserveLabel = new JLabel("Espace réservé");
 		reserveLabel.setBounds(102, 248, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		

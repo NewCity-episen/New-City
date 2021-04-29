@@ -10,9 +10,13 @@ import javax.swing.JComboBox;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+<<<<<<< HEAD
 
 
 
+=======
+import javax.swing.UIManager;
+>>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 import model.WorkSpace;
 public class MappingPanel{
 	private static JPanel mappingPanel=new JPanel();
@@ -25,7 +29,7 @@ public class MappingPanel{
 	private static JLabel position=new JLabel();
 	private static JLabel position2=new JLabel();
 	private static JButton mapSensorsBtn = new JButton("Mapper capteurs");
-	private static JButton mapEquipmentsBtn = new JButton("Mapper Ã©quipements");
+	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
 	private static JButton cancelButton=new JButton("Annuler");
@@ -81,12 +85,18 @@ public class MappingPanel{
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
 
+<<<<<<< HEAD
 		if(choice==1) {// if user clicked on "mapper Ã©quipements"
 			position2.setText("Plan des emplacements des Ã©quipements du workspace "+workSpace.getId_work_space()+" a mapper");
 
 		if(choice==1) {// if user clicked on "mapper ï¿½quipements"
 			setCurrentp(2);
 			position2.setText("Plan des emplacements des ï¿½quipements du workspace "+workSpace.getId_work_space()+" a mapper");
+=======
+		if(choice==1) {// if user clicked on "mapper équipements"
+			setCurrentp(2);
+			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
+>>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 
 		}
 		else {
@@ -95,7 +105,6 @@ public class MappingPanel{
 		}}
 	}
 	public static JPanel getJPanel() {
-		// TODO Auto-generated method stub
 		return mappingPanel;
 	}
 	public CardLayout getMappingCard() {

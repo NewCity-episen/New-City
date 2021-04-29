@@ -9,6 +9,7 @@ public class Response {
 
 	public String requestId;
 	public String responseBody;
+	private Object responseData;
 	
 	public Response() {
 		
@@ -17,6 +18,12 @@ public class Response {
 		this.requestId=requestId;
 		this.responseBody=responseBody;
 	}
+	
+	public Response(String requestId, Object rD) {
+		this.requestId = requestId;
+		this.responseData = rD;
+	}
+	
 	@JsonProperty("request_id")
 	public String getRequestId() {
 		return requestId;
@@ -33,4 +40,7 @@ public class Response {
 		return responseBody;
 	}
 	
+	public Object getResponseData() {
+		return responseData;
+	}
 }

@@ -30,9 +30,13 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+<<<<<<< HEAD
 
 import javax.swing.UIManager;
 
+=======
+import javax.swing.UIManager;
+>>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 
@@ -60,15 +64,11 @@ public class Controller {
 	public static ClientConfig clientconfig;
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
-		
-		
 		this.mdl=mdl;
 		this.vw=vw;
 		RequestsFileLocation= System.getenv(ConfigEnVar);
 		loadData();
 		loadButtons();
-		
-		
 	}
 
 	public void loadButtons() {
@@ -78,6 +78,7 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
+<<<<<<< HEAD
 
 		loadAdvancedFiltre();
 		loadReturnButton();
@@ -86,6 +87,13 @@ public class Controller {
 		//filterButtonLoad();
 		loadConfigurate();
 
+=======
+		loadAdvancedFiltre();
+		loadReturnButton();
+		loadConfigurateWindows(); 
+		//filterButtonLoad();
+		
+>>>>>>> fa99d5b129ab5a08fc05184c8d415977c48610c1
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -107,7 +115,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBox().addItem("étage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -119,7 +127,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
+	                			LoanPanel.getFloorBox().addItem("étage "+j);
 	                		}
 	                	}
 	                }
@@ -182,7 +190,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("étage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -194,7 +202,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("étage "+j);
 		                		}
 		                	}
 		                }
@@ -214,18 +222,14 @@ public class Controller {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
-	        response.getResponseBody().indexOf("]")+1);
-			ObjectMapper mapper=new ObjectMapper();
-			ArrayList<WorkSpace> allWorkSpaces=mapper.readValue(responseBody,
-			new TypeReference<ArrayList<WorkSpace>>(){});
-			mdl.setAllWorkSpaces(allWorkSpaces);
-
+			System.out.println("result : " + response.getResponseData());
+			ArrayList<Map> offerList = (ArrayList<Map>)response.getResponseData();
+			System.out.println("First id :" + offerList.get(0).get("space_id"));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		
 		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}
