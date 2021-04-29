@@ -52,8 +52,7 @@ public class LoanPanel {
 		JButton grayButton = new JButton("");
 		grayButton.setBackground(new Color(169, 169, 169));
 		grayButton.setBounds(12, 119, 82, 32);
-		grayButton.setOpaque(true);
-		grayButton.setBorderPainted(true);
+		
 		panelButtonsMeaning.add(grayButton);
 		grayButton.setEnabled(false);
 		JButton greenButton = new JButton("");
