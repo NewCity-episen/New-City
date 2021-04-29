@@ -23,7 +23,7 @@ public class MappingPanel{
 	private static JLabel position=new JLabel();
 	private static JLabel position2=new JLabel();
 	private static JButton mapSensorsBtn = new JButton("Mapper capteurs");
-	private static JButton mapEquipmentsBtn = new JButton("Mapper Ã©quipements");
+	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
 	private static JButton cancelButton=new JButton("Annuler");
@@ -79,9 +79,6 @@ public class MappingPanel{
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
 
-		if(choice==1) {// if user clicked on "mapper Ã©quipements"
-			position2.setText("Plan des emplacements des Ã©quipements du workspace "+workSpace.getId_work_space()+" a mapper");
-		}
 		if(choice==1) {// if user clicked on "mapper équipements"
 			setCurrentp(2);
 			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
