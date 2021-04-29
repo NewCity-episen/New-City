@@ -4,13 +4,13 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import model.WorkSpace;
-
 public class MappingPanel{
 	private static JPanel mappingPanel=new JPanel();
 	private static CardLayout mappingCard=new CardLayout();
@@ -25,7 +25,9 @@ public class MappingPanel{
 	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
-	
+	private static JButton cancelButton=new JButton("Annuler");
+	private static int currentp=1;
+	private static boolean initialized=false;
 	public MappingPanel() {
 		mappingPanel.setLayout(mappingCard);
 		mappingPanel.add("Choix",choiceOfMappingPanel);
@@ -56,10 +58,14 @@ public class MappingPanel{
 		mappingSpotsPanel.add(equipmentsToInstallBox);
 		okEquipmentButton.setBounds(660, 5, 97, 21);
 		mappingSpotsPanel.add(okEquipmentButton);
-		spotsMap.setBounds(55, 76, 680, 448);
+		spotsMap.setBounds(10, 30, 888, 508);
 		mappingSpotsPanel.add(spotsMap);
-		returnButton.setBounds(24, 540, 97, 25);
+		cancelButton.setBounds(777,5,100,21);
+		cancelButton.setEnabled(false);
+		mappingSpotsPanel.add(cancelButton);
+		returnButton.setBounds(24, 548, 97, 25);
 		mappingSpotsPanel.add(returnButton);
+		spotsMap.setLayout(null);
 		
 	}
 	public static void showChoiceOfMappingPanel() {
@@ -70,9 +76,11 @@ public class MappingPanel{
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
 		if(choice==1) {// if user clicked on "mapper équipements"
+			setCurrentp(2);
 			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
 		}
 		else {
+			setCurrentp(3);
 			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");
 		}
 	}
@@ -155,5 +163,22 @@ public class MappingPanel{
 	public static JButton getReturnButton() {
 		return returnButton;
 	}
+	public static int getCurrentp() {
+		return currentp;
+	}
+	public static void setCurrentp(int currentp) {
+		MappingPanel.currentp = currentp;
+	}
+	public static JButton getCancelButton() {
+		return cancelButton;
+	}
+	public static boolean isInitialized() {
+		return initialized;
+	}
+	public static void setInitialized(boolean initialized) {
+		MappingPanel.initialized = initialized;
+	}
+
+
 	
 }

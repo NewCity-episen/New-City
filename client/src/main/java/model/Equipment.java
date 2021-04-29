@@ -16,6 +16,9 @@ public class Equipment {
 	private boolean installed;
 	@JsonIgnore
 	private boolean state;
+	public Equipment() {
+		equipment_name="Choisir équipement/capteur à installer..";
+	}
 	public int getId_equipment() {
 		return id_equipment;
 	}
@@ -71,7 +74,7 @@ public class Equipment {
 		this.state = state;
 	}
 	public String toString() {
-		return equipment_name+"{"+id_equipment+"}";
+		return equipment_name;
 	}
 	public int getRef() {
 		return ref;
