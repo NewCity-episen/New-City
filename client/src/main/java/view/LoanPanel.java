@@ -10,10 +10,6 @@ import java.awt.*;
 public class LoanPanel {
     private static JPanel panelAbsolute=new JPanel();
 	private static JPanel loanPanel=new JPanel();
-	/*static JButton buildingButton=new JButton("Batiment : n");
-	static JButton floorButton=new JButton("Etage : n");
-	static JButton budgetButton=new JButton("Budget max");
-	static JButton areaButton=new JButton("Surface minimale");*/
 	
 	private static String[] buildingNames = new String[] {"Stark Tower", "Watchtower", "Batcave"};
 	private static JComboBox<String> buildingNameList= new JComboBox<String>(buildingNames);
@@ -37,8 +33,12 @@ public class LoanPanel {
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
+<<<<<<< HEAD
 	LoanPanel(){
 		
+=======
+	public LoanPanel(){
+>>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 		panelAbsolute.setLayout(null);
 		panelAbsolute.setBackground(new Color(245, 245, 220));
 		loanPanel.setBounds(0,0,1000,105);
@@ -123,6 +123,10 @@ public class LoanPanel {
 		//floorMap map = new floorMap(4,3);
 		//loanPanel.add(map);
 		return panelAbsolute;
+	}
+	
+	public static JButton getFilterButton() {
+		return filterButton;
 	}
 	public static JPanel getPanelAbsolute() {
 		return panelAbsolute;

@@ -29,6 +29,8 @@ public class WorkSpace {
 	private int position_Y;
 	@JsonIgnore
 	private ArrayList<Equipment> equipmentsToInstall=new ArrayList<Equipment>();
+	@JsonIgnore
+	private ArrayList<Spot> spots=new ArrayList<Spot>();
 	
 	
 	/*****GETTERS AND SETTERS******/
@@ -134,6 +136,34 @@ public class WorkSpace {
 	public void setEquipmentsToInstall(ArrayList<Equipment> equipmentsToInstall) {
 		this.equipmentsToInstall=equipmentsToInstall;
 	}
+	public int getSpace_area() {
+		return space_area;
+	}
+	public void setSpace_area(int space_area) {
+		this.space_area = space_area;
+	}
+	
+	public ArrayList<Spot> getSpots() {
+		return spots;
+	}
+	public void setSpots(ArrayList<Spot> spots) {
+		int i=0;
+		
+		if(this.spots.isEmpty()) {
+			this.spots.addAll(spots);
+		}
+		else {
+		for(Spot spot: spots) {
+			if(i<this.spots.size()) {
+			this.spots.get(i).update(spot);
+			}
+			else {
+				this.spots.add(spot);
+			}
+			i++;
+		}
+	}
+	}
 	public void update(WorkSpace wk) {
 		this.id_work_space=wk.getId_work_space();
 		this.id_building=wk.getId_building();
@@ -148,12 +178,7 @@ public class WorkSpace {
 		this.space_type=wk.getSpace_type();
 		this.temperature=wk.getTemperature();
 		this.taken=wk.isTaken();
-	}
-	public int getSpace_area() {
-		return space_area;
-	}
-	public void setSpace_area(int space_area) {
-		this.space_area = space_area;
+		this.space_area=wk.getSpace_area();
 	}
 		
 

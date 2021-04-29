@@ -11,11 +11,18 @@ public class Equipment {
 	private String equipment_type;
 	private String Equipment_spot_type;
 	private int id_window;
+<<<<<<< HEAD
 	
+=======
+	private int ref;
+>>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	@JsonIgnore
 	private boolean installed;
 	@JsonIgnore
 	private boolean state;
+	public Equipment() {
+		equipment_name="Choisir équipement/capteur à installer..";
+	}
 	public int getId_equipment() {
 		return id_equipment;
 	}
@@ -58,8 +65,11 @@ public class Equipment {
 	public void setId_window(int id_window) {
 		this.id_window = id_window;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+>>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	public boolean isInstalled() {
 		return installed;
 	}
@@ -73,7 +83,13 @@ public class Equipment {
 		this.state = state;
 	}
 	public String toString() {
-		return equipment_name+"{"+id_equipment+"}";
+		return equipment_name;
+	}
+	public int getRef() {
+		return ref;
+	}
+	public void setRef(int ref) {
+		this.ref = ref;
 	}
 	public void update(Equipment eq) {
 		this.id_equipment=eq.getId_equipment();
@@ -83,6 +99,11 @@ public class Equipment {
 		this.equipment_type=eq.getEquipment_type();
 		this.id_window=eq.getId_window();
 		this.unit_cost=eq.getUnit_cost();
+<<<<<<< HEAD
 		
+=======
+		this.ref=eq.getRef();
+>>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	}
+	
 }
