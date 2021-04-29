@@ -74,7 +74,7 @@ public class Equipment {
 		this.state = state;
 	}
 	public String toString() {
-		return equipment_name+"{"+id_equipment+"}";
+		return equipment_name;
 	}
 	public int getRef() {
 		return ref;

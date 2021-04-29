@@ -28,11 +28,21 @@ public class Spot {
 	private JMenuItem removeBtnItem=new JMenuItem("Retirer");
 	@JsonIgnore
 	private String color;
+	@JsonIgnore
+	private Equipment equipmentInstalled;
 	
 	public int getId_spot() {
 		return id_spot;
 	}
 	
+	public Equipment getEquipmentInstalled() {
+		return equipmentInstalled;
+	}
+
+	public void setEquipmentInstalled(Equipment equipmentInstalled) {
+		this.equipmentInstalled = equipmentInstalled;
+	}
+
 	public JPopupMenu getPopUpMenu() {
 		return popUpMenu;
 	}

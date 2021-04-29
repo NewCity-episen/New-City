@@ -7,6 +7,7 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import model.WorkSpace;
@@ -24,7 +25,9 @@ public class MappingPanel{
 	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
+	private static JButton cancelButton=new JButton("Annuler");
 	private static int currentp=1;
+	private static boolean initialized=false;
 	public MappingPanel() {
 		mappingPanel.setLayout(mappingCard);
 		mappingPanel.add("Choix",choiceOfMappingPanel);
@@ -57,6 +60,9 @@ public class MappingPanel{
 		mappingSpotsPanel.add(okEquipmentButton);
 		spotsMap.setBounds(10, 30, 888, 508);
 		mappingSpotsPanel.add(spotsMap);
+		cancelButton.setBounds(777,5,100,21);
+		cancelButton.setEnabled(false);
+		mappingSpotsPanel.add(cancelButton);
 		returnButton.setBounds(24, 548, 97, 25);
 		mappingSpotsPanel.add(returnButton);
 		spotsMap.setLayout(null);
@@ -163,5 +169,16 @@ public class MappingPanel{
 	public static void setCurrentp(int currentp) {
 		MappingPanel.currentp = currentp;
 	}
+	public static JButton getCancelButton() {
+		return cancelButton;
+	}
+	public static boolean isInitialized() {
+		return initialized;
+	}
+	public static void setInitialized(boolean initialized) {
+		MappingPanel.initialized = initialized;
+	}
+
+
 	
 }
