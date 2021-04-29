@@ -30,12 +30,11 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-<<<<<<< HEAD
+
 import javax.swing.UIManager;
-=======
+
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,14 +78,14 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
-<<<<<<< HEAD
+
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
-=======
+		loadReturn ();
 		//filterButtonLoad();
-		
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
+		loadConfigurate();
+
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -384,7 +383,7 @@ public class Controller {
 					spot.setState(equipment.isState());
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -520,7 +519,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-white.png"));
@@ -549,10 +548,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();
@@ -795,7 +794,13 @@ public class Controller {
 					// TODO Auto-generated method stub
 					
 					
+                    AdvancedFiltrePanel advancedFiltrePanel =new AdvancedFiltrePanel();
+					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
+					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();
+					AdvancedFiltrePanel.setFloorNum(floorNumber);
+					AdvancedFiltrePanel.setBuilding(building);
 					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");
+					AdvancedFiltrePanel.show();
 					
 					
 					
@@ -823,13 +828,35 @@ ActionListener returnButtonActionListener =new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 			if(AdvancedFiltrePanel.getBtnFilterWindow().isSelected()) {
-			FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurer");	
+			FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurate");	
 
 			}}};
 			AdvancedFiltrePanel.getBtnOk().addActionListener(configurerActionListener);
 	}
+	public void loadReturn ()
+	{
+		ActionListener returnActionListener  =new ActionListener() {	
 	
-
+		
+		public void actionPerformed(ActionEvent e) {
+		
+		FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");	
+	}
+		};
+		
+	    ConfigurateWindowsPanel.getRetourBtn().addActionListener(returnActionListener);
+	
+	}
+	public void loadConfigurate() {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {	
+				 new FrameToConfigurate();
+		
+		}
+	};
+	ConfigurateWindowsPanel.getConfigureBtn().addActionListener(confActionListener);
+	}
 	
 /******************Server Part*********************************************************/
 	public Socket connectToServer()  {

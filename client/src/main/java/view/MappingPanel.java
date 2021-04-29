@@ -4,17 +4,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-import javax.swing.UIManager;
 
-=======
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
+
+
 import model.WorkSpace;
 public class MappingPanel{
 	private static JPanel mappingPanel=new JPanel();
@@ -82,19 +80,19 @@ public class MappingPanel{
 	}
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
-<<<<<<< HEAD
+
 		if(choice==1) {// if user clicked on "mapper Ã©quipements"
 			position2.setText("Plan des emplacements des Ã©quipements du workspace "+workSpace.getId_work_space()+" a mapper");
-=======
-		if(choice==1) {// if user clicked on "mapper équipements"
+
+		if(choice==1) {// if user clicked on "mapper ï¿½quipements"
 			setCurrentp(2);
-			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
+			position2.setText("Plan des emplacements des ï¿½quipements du workspace "+workSpace.getId_work_space()+" a mapper");
+
 		}
 		else {
 			setCurrentp(3);
 			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");
-		}
+		}}
 	}
 	public static JPanel getJPanel() {
 		// TODO Auto-generated method stub

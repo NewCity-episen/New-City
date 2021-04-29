@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-
+import model.Building;
 
 
 import javax.swing.JButton;
@@ -20,21 +20,26 @@ public class AdvancedFiltrePanel {
 	private static JPanel advancedFiltrePanel=new JPanel();
 	private static CardLayout advancedFiltrePanelCard=new CardLayout();
 	private static JPanel choiceAdvancedPanel =new JPanel();
+	private static JLabel titleLabel =new JLabel();
 	private static JLabel msgLabel=new JLabel();
 	private static JButton btnReturn = new JButton("retour");
 	private static JRadioButton btnFilterWindow = new JRadioButton ("Éspaces résérvés, mappés et possédent des fenetres",false);
 	private static JButton btnOk =new JButton ("Filtrer");
-	
-	AdvancedFiltrePanel() {
+	private static int floorNum=1;
+	private static Building building=null;
+	public AdvancedFiltrePanel() {
 		
 		advancedFiltrePanel.setLayout(advancedFiltrePanelCard);
-		advancedFiltrePanel.add("Choix",choiceAdvancedPanel);
-		msgLabel.setText("Veuillez choisir un filtre");
+		advancedFiltrePanel.add("Filter",choiceAdvancedPanel);
 		
-		choiceAdvancedPanel.setLayout(null);		
+		msgLabel.setText("Veuillez choisir un filtre");
+		choiceAdvancedPanel.setLayout(null);	
+		choiceAdvancedPanel.add(titleLabel);
 		choiceAdvancedPanel.add(msgLabel);
 		choiceAdvancedPanel.add(btnFilterWindow);
 		choiceAdvancedPanel.setBackground(Color.white);
+		titleLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
+		titleLabel.setBounds(12, 5, 480, 36);
 		msgLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
 		msgLabel.setBounds(12, 25, 480, 36);
 		btnFilterWindow.setBounds(25, 101, 377, 23);
@@ -48,6 +53,18 @@ public class AdvancedFiltrePanel {
 		
 			
 		
+	}
+		public static int getFloorNum() {
+		return floorNum;
+	}
+	public static void setFloorNum(int floorNum) {
+		AdvancedFiltrePanel.floorNum = floorNum;
+	}
+	public static Building getBuilding() {
+		return building;
+	}
+	public static void setBuilding(Building building) {
+		AdvancedFiltrePanel.building = building;
 	}
 		public static JRadioButton getBtnFilterWindow() {
 		return btnFilterWindow;
@@ -69,6 +86,7 @@ public class AdvancedFiltrePanel {
 	}
 		public static void show() {
 			advancedFiltrePanelCard.show(advancedFiltrePanel, "Filter");
+			titleLabel.setText("Bâtiment  "+ building.getBuilding_name() +", étage "+ floorNum);
 			
 		}
 	public static JPanel getJPanel() {

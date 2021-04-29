@@ -1,14 +1,10 @@
 package view;
 
 import java.awt.CardLayout;
-import java.awt.Component;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
-import model.Building;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -19,8 +15,16 @@ public class ConfigurateWindowsPanel{
 private static JPanel configurateWindowJPanel =new JPanel();
 private static CardLayout configurateWindowsCard=new CardLayout();	
 private static JPanel configuratePanel =new JPanel();	
-	
-	
+private static JButton retourBtn=new JButton("retour");	
+private static JButton configureBtn=new JButton ("configurer");	
+	public static JButton getRetourBtn() {
+	return retourBtn;
+}
+
+public static void setRetourBtn(JButton retourBtn) {
+	ConfigurateWindowsPanel.retourBtn = retourBtn;
+}
+
 	public ConfigurateWindowsPanel() {
 		// TODO Auto-generated constructor stub
 		
@@ -41,11 +45,11 @@ private static JPanel configuratePanel =new JPanel();
 		lblNewLabel.setBounds(417, 16, 164, 16);
 		configuratePanel.add(lblNewLabel);
 		
-		JButton retourBtn = new JButton("retour");
+		
 		retourBtn.setBounds(375, 525, 115, 29);
 		configuratePanel.add(retourBtn);
 		
-		JButton configureBtn = new JButton("configurer");
+		
 		configureBtn.setBounds(510, 525, 115, 29);
 		configuratePanel.add(configureBtn);
 		
@@ -85,8 +89,16 @@ private static JPanel configuratePanel =new JPanel();
 		
 	}
 		
+	public static JButton getConfigureBtn() {
+		return configureBtn;
+	}
+
+	public static void setConfigureBtn(JButton configureBtn) {
+		ConfigurateWindowsPanel.configureBtn = configureBtn;
+	}
+
 	public static void show() {
-		configurateWindowsCard.show(configurateWindowJPanel, "ConfigurateWindows");
+		configurateWindowsCard.show(configurateWindowJPanel, "Configurate");
 		
 	}	
 	public static JPanel getJPanel() {

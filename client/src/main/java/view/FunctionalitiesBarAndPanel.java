@@ -72,7 +72,7 @@ public class FunctionalitiesBarAndPanel{
 	    functionalitiesPanel.add("Accueil",loanPanel.getJPanel());
 	    functionalitiesPanel.add("Mapping",MappingPanel.getJPanel());
 	    functionalitiesPanel.add("Filter",AdvancedFiltrePanel.getJPanel());
-	    functionalitiesPanel.add("Configurer",ConfigurateWindowsPanel.getJPanel());
+	    functionalitiesPanel.add("Configurate",ConfigurateWindowsPanel.getJPanel());
 	    // functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); will take to the current page
 	    myFunctionalities.show(functionalitiesPanel, "Accueil");
    /**********************End of JPanel Part**************************************/

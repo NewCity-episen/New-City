@@ -74,10 +74,10 @@ public class RequestHandler {
 			System.out.println("Workspace recu");
 			String sql = "SELECT * FROM work_space WHERE taken = false";
 			ResultSet rs= stmt.executeQuery(sqlRequest);
-			ArrayList<Offer> offerList = new ArrayList<>();
+			//ArrayList<Offer> offerList = new ArrayList<>();
 			while (rs.next()) {
-				offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
-						rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),));
+				//offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
+						//rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),));
 			}
 		}
 
