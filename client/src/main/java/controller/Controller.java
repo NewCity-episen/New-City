@@ -30,12 +30,9 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-<<<<<<< HEAD
 import javax.swing.UIManager;
-=======
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +58,11 @@ public class Controller {
 	public static ClientConfig clientconfig;
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
-		
-		
 		this.mdl=mdl;
 		this.vw=vw;
 		RequestsFileLocation= System.getenv(ConfigEnVar);
 		loadData();
 		loadButtons();
-		
-		
 	}
 
 	public void loadButtons() {
@@ -79,14 +72,11 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
-<<<<<<< HEAD
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
-=======
 		//filterButtonLoad();
 		
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -215,18 +205,14 @@ public class Controller {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
-	        response.getResponseBody().indexOf("]")+1);
-			ObjectMapper mapper=new ObjectMapper();
-			ArrayList<WorkSpace> allWorkSpaces=mapper.readValue(responseBody,
-			new TypeReference<ArrayList<WorkSpace>>(){});
-			mdl.setAllWorkSpaces(allWorkSpaces);
-
+			System.out.println("result : " + response.getResponseData());
+			ArrayList<Map> offerList = (ArrayList<Map>)response.getResponseData();
+			System.out.println("First id :" + offerList.get(0).get("space_id"));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		
 		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}

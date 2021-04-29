@@ -9,7 +9,7 @@ public class Offer {
 	private int offer_building;
 	private int offer_price;
 	private int offer_area;
-
+	
 	public Offer(int off_id, String off_ty, String off_na, int off_fl, int off_bui, int off_pr,  int off_ar) {
 		this.offer_id = off_id;
 		this.offer_type = off_ty;
@@ -19,6 +19,11 @@ public class Offer {
 		this.offer_price = off_pr;
 		this.offer_area = off_ar;
 	}
+	
+	public Offer(int off_id) {
+		this.offer_id = off_id;
+	}
+	
 	
 	public int getOffer_id() {
 		return offer_id;

@@ -11,11 +11,8 @@ public class Equipment {
 	private String equipment_type;
 	private String Equipment_spot_type;
 	private int id_window;
-<<<<<<< HEAD
-	
-=======
+
 	private int ref;
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	@JsonIgnore
 	private boolean installed;
 	@JsonIgnore
@@ -65,11 +62,6 @@ public class Equipment {
 	public void setId_window(int id_window) {
 		this.id_window = id_window;
 	}
-<<<<<<< HEAD
-	
-	
-=======
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	public boolean isInstalled() {
 		return installed;
 	}
@@ -99,11 +91,7 @@ public class Equipment {
 		this.equipment_type=eq.getEquipment_type();
 		this.id_window=eq.getId_window();
 		this.unit_cost=eq.getUnit_cost();
-<<<<<<< HEAD
-		
-=======
 		this.ref=eq.getRef();
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
 	}
 	
 }

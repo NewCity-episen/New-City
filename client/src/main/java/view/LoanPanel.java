@@ -33,12 +33,9 @@ public class LoanPanel {
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
-<<<<<<< HEAD
-	LoanPanel(){
-		
-=======
+
 	public LoanPanel(){
->>>>>>> bc08019b18bec6dc8ebcd8e1db221d1f6f3d93ca
+
 		panelAbsolute.setLayout(null);
 		panelAbsolute.setBackground(new Color(245, 245, 220));
 		loanPanel.setBounds(0,0,1000,105);
