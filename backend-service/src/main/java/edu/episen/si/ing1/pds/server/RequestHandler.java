@@ -32,6 +32,7 @@ public class RequestHandler {
 		String valuesJson="[";
 		Statement stmt = cnx.createStatement();
 		final ObjectMapper mapper=new ObjectMapper();
+	
 		
 		if(requestOrder.toUpperCase().equals("SELECT")) { //this only works for requests that are like this : 
 															//SELECT * FROM TABLE_NAME WHERE column_name='column_value' AND column_name1='column_value1' AND .......;
@@ -68,6 +69,16 @@ public class RequestHandler {
 			
 			responseBody="{ \"message\": "+valuesJson+"}";
 			rs.close();
+		}
+		else if (requestOrder.equals("available_workspace")) {
+			System.out.println("Workspace recu");
+			String sql = "SELECT * FROM work_space WHERE taken = false";
+			ResultSet rs= stmt.executeQuery(sqlRequest);
+			ArrayList<Offer> offerList = new ArrayList<>();
+			while (rs.next()) {
+				offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
+						rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),));
+			}
 		}
 
 		else if(requestOrder.toUpperCase().equals("INSERT")) {

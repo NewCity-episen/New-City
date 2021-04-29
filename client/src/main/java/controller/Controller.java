@@ -194,6 +194,21 @@ public class Controller {
 	}
 	
 	private void filterButtonLoad() {
+		
+		try {
+			Response response= sendRequestToServer("select-offers.json",null);
+			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
+	        response.getResponseBody().indexOf("]")+1);
+			ObjectMapper mapper=new ObjectMapper();
+			ArrayList<WorkSpace> allWorkSpaces=mapper.readValue(responseBody,
+			new TypeReference<ArrayList<WorkSpace>>(){});
+			mdl.setAllWorkSpaces(allWorkSpaces);
+
+		} catch (InterruptedException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}
