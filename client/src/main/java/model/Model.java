@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ public class Model {
 	private ArrayList<Building> allBuildings=new ArrayList<Building>();
 	private ArrayList<Equipment> allEquipments=new ArrayList<Equipment>();
 	public Model() {
+	
 		
 	}
 	

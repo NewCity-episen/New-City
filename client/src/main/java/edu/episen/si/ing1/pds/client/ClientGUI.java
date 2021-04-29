@@ -2,6 +2,8 @@ package edu.episen.si.ing1.pds.client;
 
 
 
+import javax.swing.UIManager;
+
 import controller.Controller;
 import model.Model;
 import view.View;
@@ -9,6 +11,7 @@ import view.View;
 public class ClientGUI {
     
 	public static void main(String[] args) {
+		
 		View view=new View();
 		Model mdl=new Model();
 		

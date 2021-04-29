@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
 
 import model.Company;
 
@@ -24,11 +25,14 @@ public class FunctionalitiesBarAndPanel{
 	    private static JButton firstPageButton=new JButton("Accueil");	
 	    private static JButton refreshButton=new JButton("Raffraichir");	
 	    private static JButton quitButton=new JButton("Quitter");	
-	    private MappingPanel mappingPanel=new MappingPanel();
-	    private ConfigurateWindowsPanel configurateWindowPanel=new ConfigurateWindowsPanel();
+	    private MappingPanel mappingPanel=new MappingPanel(); 
+	    private AdvancedFiltrePanel advancedFilrePanel =new AdvancedFiltrePanel (); 
 	    private static JLabel information;
+	    private static ConfigurateWindowsPanel configureWindowsPanel=new ConfigurateWindowsPanel ();
     
 	  public FunctionalitiesBarAndPanel() {
+		  
+		 
 
      /******************JToolBar Part*************************************************/
 		JToolBar functionalitiesBar=new JToolBar();
@@ -64,8 +68,11 @@ public class FunctionalitiesBarAndPanel{
 
 		functionalitiesPanel.setLayout(myFunctionalities); 
 		LoanPanel loanPanel=new LoanPanel();
+
 	    functionalitiesPanel.add("Accueil",loanPanel.getJPanel());
 	    functionalitiesPanel.add("Mapping",MappingPanel.getJPanel());
+	    functionalitiesPanel.add("Filter",AdvancedFiltrePanel.getJPanel());
+	    functionalitiesPanel.add("Configurer",ConfigurateWindowsPanel.getJPanel());
 	    // functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); will take to the current page
 	    myFunctionalities.show(functionalitiesPanel, "Accueil");
    /**********************End of JPanel Part**************************************/

@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import model.WorkSpace;
 
@@ -22,11 +23,13 @@ public class MappingPanel{
 	private static JLabel position=new JLabel();
 	private static JLabel position2=new JLabel();
 	private static JButton mapSensorsBtn = new JButton("Mapper capteurs");
-	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
+	private static JButton mapEquipmentsBtn = new JButton("Mapper Ã©quipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
 	
 	public MappingPanel() {
+		
+		
 		mappingPanel.setLayout(mappingCard);
 		mappingPanel.add("Choix",choiceOfMappingPanel);
 		mappingPanel.add("Emplacement",mappingSpotsPanel);
@@ -69,8 +72,8 @@ public class MappingPanel{
 	}
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
-		if(choice==1) {// if user clicked on "mapper équipements"
-			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
+		if(choice==1) {// if user clicked on "mapper Ã©quipements"
+			position2.setText("Plan des emplacements des Ã©quipements du workspace "+workSpace.getId_work_space()+" a mapper");
 		}
 		else {
 			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");

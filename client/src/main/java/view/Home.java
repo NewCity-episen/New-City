@@ -15,6 +15,9 @@ public class Home{
 	private static JPanel homePanel=new JPanel();
 	
 	Home(){
+		
+		
+		
 		homePanel.add(companyNameList);
 		companyNameList.setMaximumRowCount(5);
 		homePanel.add(okButton);

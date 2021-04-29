@@ -8,22 +8,27 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class View{
 
+
 	private final static Logger logger=LoggerFactory.getLogger(View.class.getName());
 	private static int WIDTH=1000;
 	private static int HEIGHT=650;
 	private Home home=new Home();
+	//private AdvancedFiltrePanel advancedFiltrePanel=new AdvancedFiltrePanel();
 	private static JFrame appFrame=new JFrame("Interface");
 	final JLayeredPane layeredPane=new JLayeredPane();
 	FunctionalitiesBarAndPanel funcBarAndPanelFrame=new FunctionalitiesBarAndPanel();
 	final CardLayout myCardPanels=new CardLayout(0,0);
 
 	public View() {
+	
+		
 		appFrame.setResizable(false);
 		appFrame.setVisible(true);
 		appFrame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -35,7 +40,7 @@ public class View{
 		appFrame.getContentPane().add(layeredPane);
 		layeredPane.setLayout(myCardPanels);
 		layeredPane.add("functions",funcBarAndPanelFrame.getFunctionsAndBarPanel());
-		layeredPane.add("Home",Home.getJPanel());//Just an example: will be modified later
+		layeredPane.add("Home",home.getJPanel());//Just an example: will be modified later
 		myCardPanels.show(layeredPane, "Home");
 		
 	}

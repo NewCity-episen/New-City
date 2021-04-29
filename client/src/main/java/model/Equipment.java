@@ -11,7 +11,7 @@ public class Equipment {
 	private String equipment_type;
 	private String Equipment_spot_type;
 	private int id_window;
-	private float mesure;
+	
 	@JsonIgnore
 	private boolean installed;
 	@JsonIgnore
@@ -58,12 +58,8 @@ public class Equipment {
 	public void setId_window(int id_window) {
 		this.id_window = id_window;
 	}
-	public float getMesure() {
-		return mesure;
-	}
-	public void setMesure(float mesure) {
-		this.mesure = mesure;
-	}
+	
+	
 	public boolean isInstalled() {
 		return installed;
 	}
@@ -87,6 +83,6 @@ public class Equipment {
 		this.equipment_type=eq.getEquipment_type();
 		this.id_window=eq.getId_window();
 		this.unit_cost=eq.getUnit_cost();
-		this.mesure=eq.getMesure();
+		
 	}
 }

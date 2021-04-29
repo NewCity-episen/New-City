@@ -33,10 +33,12 @@ public class LoanPanel {
 	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
 	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
+	private static JButton btnAdvancedFilter=new JButton("Filtres avanc√©s"); //HF
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
 	LoanPanel(){
+		
 		panelAbsolute.setLayout(null);
 		panelAbsolute.setBackground(new Color(245, 245, 220));
 		loanPanel.setBounds(0,0,1000,105);
@@ -50,6 +52,8 @@ public class LoanPanel {
 		JButton grayButton = new JButton("");
 		grayButton.setBackground(new Color(169, 169, 169));
 		grayButton.setBounds(12, 119, 82, 32);
+		grayButton.setOpaque(true);
+		grayButton.setBorderPainted(true);
 		panelButtonsMeaning.add(grayButton);
 		grayButton.setEnabled(false);
 		JButton greenButton = new JButton("");
@@ -62,15 +66,15 @@ public class LoanPanel {
 		redButton.setBounds(12, 248, 82, 32);
 		redButton.setEnabled(false);
 		panelButtonsMeaning.add(redButton);
-		JLabel reserveLabel = new JLabel("Espace rÈservable");
+		JLabel reserveLabel = new JLabel("Espace r√©servable");
 		reserveLabel.setBounds(106, 130, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		
-		reserveLabel = new JLabel("Espace rÈservÈ");
+		reserveLabel = new JLabel("Espace r√©serv√©");
 		reserveLabel.setBounds(106, 190, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		
-		reserveLabel = new JLabel("Espace rÈservÈ");
+		reserveLabel = new JLabel("Espace r√©serv√©");
 		reserveLabel.setBounds(102, 248, 109, 16);
 		panelButtonsMeaning.add(reserveLabel);
 		
@@ -86,14 +90,17 @@ public class LoanPanel {
 		panelMap.setBounds(37, 120, 680, 400);
 		panelMap.setLayout(new FlowLayout(FlowLayout.CENTER,15,15));
 		panelAbsolute.add(panelMap);
-		buildingBox.setBounds(410, 540, 108, 22);
+		buildingBox.setBounds(210, 540, 108, 22);//-200 en X
 		buildingBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(buildingBox);
-		floorBox.setBounds(530, 540, 108, 22);
+		floorBox.setBounds(330, 540, 108, 22);//-200 en X
 		floorBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(floorBox);
-		btnOkFloorBuilding.setBounds(650,540,108,22);
+		btnOkFloorBuilding.setBounds(450,540,130,22);//-200 en X
 		panelAbsolute.add(btnOkFloorBuilding);
+		btnAdvancedFilter.setBounds(590,540,130,22);//HF, -200 en X
+		panelAbsolute.add(btnAdvancedFilter);//HF
+
 	}
 	public void showFloorMap() {
 		
@@ -163,6 +170,14 @@ public class LoanPanel {
 	}
 	public static void setBtnOkFloorBuilding(JButton btnOkFloorBuilding) {
 		LoanPanel.btnOkFloorBuilding = btnOkFloorBuilding;
+	}
+	
+	
+	public static JButton getBtnAdvancedFilter() {
+		return btnAdvancedFilter;
+	}
+	public static void setBtnAdvancedFiltre(JButton btnAdvancedFilter) {
+		LoanPanel.btnAdvancedFilter = btnAdvancedFilter;
 	}
 	public static JPanel getPanelMap() {
 		return panelMap;

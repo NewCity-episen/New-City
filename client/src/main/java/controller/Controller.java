@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import ClientConfig.ClientConfig;
 
@@ -51,6 +53,8 @@ public class Controller {
 	public static ClientConfig clientconfig;
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
+		
+		
 		this.mdl=mdl;
 		this.vw=vw;
 		RequestsFileLocation= System.getenv(ConfigEnVar);
@@ -67,7 +71,9 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
-		
+		loadAdvancedFiltre();
+		loadReturnButton();
+		loadConfigurateWindows(); 
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -89,7 +95,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("Étage "+i); 
+				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -101,7 +107,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("Étage "+j);
+	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
 	                		}
 	                	}
 	                }
@@ -164,7 +170,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("Étage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -176,7 +182,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("Étage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
 		                		}
 		                	}
 		                }
@@ -414,7 +420,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
 			}
 			
 		};
@@ -451,7 +457,10 @@ public class Controller {
 		};
 		
 		Home.getOkButton().addActionListener(okButtonListener);
+		
+		
 	}
+
 	public void focusButtons(JButton button) {
 		FocusListener focusListener=new FocusListener() {
 
@@ -509,6 +518,48 @@ public class Controller {
 		
 		button.addMouseListener(mouseListener);
 	}
+	public void loadAdvancedFiltre() {
+		
+		ActionListener advancedFiltreListenner=new ActionListener () { 		
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					
+					
+					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");
+					
+					
+					
+				}			
+		};
+		LoanPanel.getBtnAdvancedFilter().addActionListener(advancedFiltreListenner);
+		}
+		
+	public void loadReturnButton() {
+		
+ActionListener returnButtonActionListener =new ActionListener() {
+            
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Accueil");	
+			}
+			
+		};
+		
+		AdvancedFiltrePanel.getBtnReturn().addActionListener(returnButtonActionListener);
+	}
+		
+	public void loadConfigurateWindows() {
+		ActionListener configurerActionListener =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+
+			if(AdvancedFiltrePanel.getBtnFilterWindow().isSelected()) {
+			FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurer");	
+
+			}}};
+			AdvancedFiltrePanel.getBtnOk().addActionListener(configurerActionListener);
+	}
+	
+
 	
 /******************Server Part*********************************************************/
 	public Socket connectToServer()  {
