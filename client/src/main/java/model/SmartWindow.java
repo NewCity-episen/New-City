@@ -1,6 +1,8 @@
 package model;
 
-import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 public class SmartWindow {
 	private int level_of_blind;
@@ -9,6 +11,7 @@ public class SmartWindow {
 	private int id_window;
 	private int window_orientation;
 	private int id_work_space;
+	@JsonIgnore
 	
 	
 	
@@ -29,8 +32,8 @@ public class SmartWindow {
 	public boolean isConfigured() {
 		return configured_window;
 	}
-	public void setConfigured(boolean configured) {
-		this.configured_window = configured;
+	public void setConfigured_window(boolean configured_window) {
+		this.configured_window = configured_window;
 	}
 	public int getId_window() {
 		return id_window;

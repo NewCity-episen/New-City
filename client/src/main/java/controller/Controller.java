@@ -116,7 +116,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBox().addItem("étage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -128,7 +128,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
+	                			LoanPanel.getFloorBox().addItem("étage "+j);
 	                		}
 	                	}
 	                }
@@ -191,7 +191,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("étage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("étage "+j);
 		                		}
 		                	}
 		                }
@@ -387,7 +387,7 @@ public class Controller {
 					spot.setState(equipment.isState());
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -552,10 +552,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();
@@ -693,7 +693,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
 			}
 			
 		};
@@ -839,8 +839,8 @@ ActionListener returnButtonActionListener =new ActionListener() {
 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
 					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
 					
-					//***@Hejer.FESSI 
-				    //***load all mapped and taken workspaces of  the floor numbre floorNumber of the Building building 
+					 
+				    //***load all mapped and taken workspaces of  the floor number floorNumber of the Building building 
 					//Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+false+"\"}");
 					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json",null);
 					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
@@ -850,7 +850,7 @@ ActionListener returnButtonActionListener =new ActionListener() {
 							 new TypeReference<ArrayList<WorkSpace>>(){});					
 					takenWorkSpaces.removeIf(w -> w.getNumber_of_windows()==0);
 					
-					//***@Hejer.FESSI 
+					
 				    //***load all smartwindows of the Building building and the floor numbre floorNumber
 					Response winResponse= sendRequestToServer("select-wind-to-configure.json",null);					
 					String winResponseBody=winResponse.getResponseBody().substring(winResponse.getResponseBody().indexOf("["),
