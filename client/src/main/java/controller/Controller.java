@@ -116,7 +116,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBox().addItem("étage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -128,7 +128,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
+	                			LoanPanel.getFloorBox().addItem("étage "+j);
 	                		}
 	                	}
 	                }
@@ -191,7 +191,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("étage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -203,7 +203,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("étage "+j);
 		                		}
 		                	}
 		                }
@@ -226,12 +226,11 @@ public class Controller {
 			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> offerList = (ArrayList<Map>)response.getResponseData();
 			System.out.println("First id :" + offerList.get(0).get("space_id"));
+			new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}
 
@@ -388,7 +387,7 @@ public class Controller {
 					spot.setState(equipment.isState());
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -553,10 +552,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();
@@ -694,7 +693,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
 			}
 			
 		};
