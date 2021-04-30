@@ -226,11 +226,11 @@ public class Controller {
 			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> offerList = (ArrayList<Map>)response.getResponseData();
 			System.out.println("First id :" + offerList.get(0).get("space_id"));
+			new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}
 
