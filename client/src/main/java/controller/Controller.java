@@ -230,7 +230,6 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
 		new LocationOfferPanel();
 		//LoanPanel.getJPanel().dispose();
 	}
