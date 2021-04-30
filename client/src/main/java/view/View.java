@@ -1,14 +1,13 @@
 package view;
 
-import java.awt.BorderLayout;
+
 import java.awt.CardLayout;
-import java.awt.Color;
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

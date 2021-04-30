@@ -840,8 +840,8 @@ ActionListener returnButtonActionListener =new ActionListener() {
 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
 					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
 					
-					//***@Hejer.FESSI 
-				    //***load all mapped and taken workspaces of  the floor numbre floorNumber of the Building building 
+					 
+				    //***load all mapped and taken workspaces of  the floor number floorNumber of the Building building 
 					//Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+false+"\"}");
 					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json",null);
 					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
@@ -851,7 +851,7 @@ ActionListener returnButtonActionListener =new ActionListener() {
 							 new TypeReference<ArrayList<WorkSpace>>(){});					
 					takenWorkSpaces.removeIf(w -> w.getNumber_of_windows()==0);
 					
-					//***@Hejer.FESSI 
+					
 				    //***load all smartwindows of the Building building and the floor numbre floorNumber
 					Response winResponse= sendRequestToServer("select-wind-to-configure.json",null);					
 					String winResponseBody=winResponse.getResponseBody().substring(winResponse.getResponseBody().indexOf("["),

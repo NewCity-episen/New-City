@@ -6,8 +6,8 @@ import javax.swing.*;
 public class LocationOfferPanel {
 
 
-	//private static JLabel searchResults=new JLabel("Ici seront les résulats des recherches");
-	//private static JPanel LocationOfferPanel=new JPanel();
+	private static JLabel searchResults=new JLabel("Ici seront les résulats des recherches");
+	private static JPanel LocationOfferPanel=new JPanel();
 	
 	//public LocationOfferPanel(){
 		
@@ -38,14 +38,14 @@ public class LocationOfferPanel {
 	//private static JFrame locationOfferPanel =new JFrame();
 	//JLabel noResults = new JLabel("Aucune offre ne correspond a votre recherche");
 
-	//public LocationOfferPanel() {
+     //public LocationOfferPanel1() {
 		//locationOfferPanel.setSize(600, 400);
 		//locationOfferPanel.setLocationRelativeTo(null);
 		//locationOfferPanel.add(noResults);
 		//locationOfferPanel.setVisible(true);
 
-	//}
-   // public static JFrame getJFrame() {
+	// }
+      //public static JFrame getJFrame() {
 		// return locationOfferPanel;
 	//}
 
