@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class SmartWindow {
 	private int level_of_blind;
 	private int teint_of_glass;
-	private boolean configured;
+	private boolean configured_window;
 	private int id_window;
 	private int window_orientation;
 	private int id_work_space;
@@ -27,10 +27,10 @@ public class SmartWindow {
 		this.teint_of_glass = teint_of_glass;
 	}
 	public boolean isConfigured() {
-		return configured;
+		return configured_window;
 	}
 	public void setConfigured(boolean configured) {
-		this.configured = configured;
+		this.configured_window = configured;
 	}
 	public int getId_window() {
 		return id_window;
@@ -55,12 +55,12 @@ public void updateWindow(SmartWindow w) {
 	this.level_of_blind=w.getLevel_of_blind();
 	this.teint_of_glass=w.getTeint_of_glass();
 	this.id_window=w.getId_window();
-	this.configured=w.isConfigured();
+	this.configured_window=w.isConfigured();
 	this.id_work_space=w.getWindow_orientation();
 	this.window_orientation=w.getWindow_orientation();
 }
 public String toString() {
-	return ("espace "+ id_work_space +" : Fenetre "+configured);
+	return ("espace "+ id_work_space +" : Fenetre "+configured_window);
 }	
 
 }
