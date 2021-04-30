@@ -31,6 +31,8 @@ public class WorkSpace {
 	private ArrayList<Equipment> equipmentsToInstall=new ArrayList<Equipment>();
 	@JsonIgnore
 	private ArrayList<Spot> spots=new ArrayList<Spot>();
+	@JsonIgnore
+	private boolean initialized=false;
 	
 	
 	/*****GETTERS AND SETTERS******/
@@ -143,6 +145,13 @@ public class WorkSpace {
 		this.space_area = space_area;
 	}
 	
+	
+	public boolean isInitialized() {
+		return initialized;
+	}
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
 	public ArrayList<Spot> getSpots() {
 		return spots;
 	}

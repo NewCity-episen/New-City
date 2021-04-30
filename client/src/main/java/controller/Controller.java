@@ -14,6 +14,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.sql.rowset.WebRowSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,6 +42,7 @@ import javax.swing.UIManager;
 
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +80,6 @@ public class Controller {
 		refreshButtonLoad();
 		quitButtonLoad();
 		okButtonLoad();
-		loadMappingButtons();
 		filterLoad();
 
 
@@ -88,7 +90,7 @@ public class Controller {
 		//filterButtonLoad();
 		loadConfigurate();
 
-
+		loadMappingButtons();
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
@@ -314,15 +316,18 @@ public class Controller {
 		}	
 	}
 	public void workSpaceButtonLoad() {
+		
 		for(WorkSpace workSpace: mdl.getAllWorkSpaces()) {
 			if(workSpace.isTaken()) {
 			workSpace.getWorkSpaceButton().addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					if(!FrameReservedWorkSpace.isOpened()) {
+						
 					FrameReservedWorkSpace frame=new FrameReservedWorkSpace();
 					MappingWorkSpaceButtonLoad(frame.getButtonMapping(),workSpace,frame);
-					
+					}
 				  }
 				 
 			   });
@@ -344,27 +349,35 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(!View.getappFrame().isEnabled()) {
+				MappingPanel mappingPanel=new MappingPanel();
+				if(!View.getappFrame().isEnabled()) {	
 				View.getappFrame().setEnabled(true);
 				frame.dispose();
 				}
-				MappingPanel mappingPanel=new MappingPanel();
+				mdl.setMp(mappingPanel);
 				loadEquipments();
 				loadWorkSpaces();
 				loadEquipmentsToInstall(workSpace.getId_work_space());
-				MappingPanel.setWorkSpace(workSpace);
-				if(!MappingPanel.isInitialized()) {
-				loadMapSpots();
-				}else {
-					updateSpotMap();
+				mappingPanel.setWorkSpace(workSpace);
+				if(!workSpace.isInitialized()) {
+				loadMapSpots(mappingPanel);
 				}
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(), "Mapping");
-				MappingPanel.showChoiceOfMappingPanel();
+				else {
+					try {
+						logger.info("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY");
+						updateSpotMap(mappingPanel,1);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				
+				mappingPanel.showChoiceOfMappingPanel();
 			}
 		});
 		
 	}
-	public void updateSpotMap() {
+	public void updateSpotMap(MappingPanel MappingPanel,int x) throws IOException {
 		int id_work_space=MappingPanel.getWorkSpace().getId_work_space();
 		Response response;
 		try {
@@ -381,11 +394,54 @@ public class Controller {
 		}
 		
 		MappingPanel.getCancelButton().setEnabled(false);
+	
+		if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\openspace.jpg"));
+			
+		}
+		else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
+		}
+		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+		}
+		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+		}
+		if(x==1) {
+		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
+		MappingPanel.getSpotsMap().setLayout(null);
+		}
+		MappingPanel.getMappingSpotsPanel().add(MappingPanel.getSpotsMap());
+		
+		
 		for(Spot spot: MappingPanel.getWorkSpace().getSpots()) {
 			for(Equipment equipment:MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 				if(equipment.getId_equipment()==spot.getId_equipment()) {
 					spot.setState(equipment.isState());
 				}
+			}
+			if(x==1) {
+				JLabel label=new JLabel();
+				spot.setLabelSpot(label);
+				MappingPanel.getSpotsMap().add(label);
+		
+				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
+					public void mouseEntered(MouseEvent e) {
+						
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-white.png"));
+					}
+					public void mouseExited(MouseEvent e) {
+						if(!spot.getColor().equals("orange")) {
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".png"));
+						}else {
+							spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".gif"));
+						}
+					}
+					public void mouseClicked(MouseEvent e) {
+						spot.getPopUpMenu().show(MappingPanel.getSpotsMap(), spot.getPosition_x(), spot.getPosition_y()+40);
+					}
+				});
 			}
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
@@ -406,32 +462,47 @@ public class Controller {
 					spot.setColor("red");
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
+			spot.getLabelSpot().repaint();
+			spot.getLabelSpot().revalidate();
+			
 			MappingPanel.getSpotsMap().revalidate();
 			MappingPanel.getSpotsMap().validate();
 			MappingPanel.getSpotsMap().repaint();
-			
+			MappingPanel.getSpotsMap().revalidate();
+    	}
 	}
-	}
-	public void loadMapSpots(){
+	public void loadMapSpots(MappingPanel MappingPanel){
 		int id_work_space=MappingPanel.getWorkSpace().getId_work_space();
 		Response response;
 		try {
-			MappingPanel.setInitialized(true);
+			MappingPanel.getWorkSpace().setInitialized(true);
 			response = sendRequestToServer("select-Spot.json","{\"id_work_space\": \""+id_work_space+"\"}");
 			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
 	                response.getResponseBody().indexOf("]")+1);
 			ObjectMapper mapper=new ObjectMapper();
+			
 			ArrayList<Spot> allSpots=mapper.readValue(responseBody,
 					 new TypeReference<ArrayList<Spot>>(){});
-			MappingPanel.getWorkSpace().setSpots(allSpots);
-			MappingPanel.getSpotsMap().removeAll();
-			MappingPanel.getSpotsMap().revalidate();
-			MappingPanel.getSpotsMap().validate();
-			MappingPanel.getSpotsMap().repaint();
-			MappingPanel.getJPanel().revalidate();
-			MappingPanel.getJPanel().validate();
-			MappingPanel.getJPanel().repaint();
+			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\openspace.jpg"));	
+			}
+			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
+			}
+			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+			}
+			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+			}
+			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
+			MappingPanel.getMappingSpotsPanel().add(MappingPanel.getSpotsMap());
+			MappingPanel.getSpotsMap().revalidate();
+			MappingPanel.getWorkSpace().setSpots(allSpots);	
+			MappingPanel.getSpotsMap().invalidate();
+			MappingPanel.getSpotsMap().revalidate();
+			MappingPanel.getSpotsMap().repaint();
 			for(Spot spot: allSpots) {
 				for(Equipment equipment:MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 					if(equipment.getId_equipment()==spot.getId_equipment()) {
@@ -439,6 +510,11 @@ public class Controller {
 						spot.setEquipmentInstalled(equipment);
 					}
 				}
+				
+				MappingPanel.getSpotsMap().revalidate();
+				MappingPanel.getSpotsMap().repaint();
+				JLabel labelSpot=new JLabel();
+				spot.setLabelSpot(labelSpot);
 				spot.getPlaceBtnItem().setEnabled(false);
 				spot.getPlaceBtnItem().addActionListener(new ActionListener() {
 
@@ -456,7 +532,8 @@ public class Controller {
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
 						loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
-						updateSpotMap();
+						updateSpotMap(MappingPanel,-1);
+						
 						if(MappingPanel.getCurrentp()==2) {
 							MappingPanel.getMapEquipmentsBtn().doClick();
 						}
@@ -486,7 +563,8 @@ public class Controller {
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
-							updateSpotMap();
+							
+							updateSpotMap(MappingPanel,-1);
 							if(MappingPanel.getCurrentp()==2) {
 								MappingPanel.getMapEquipmentsBtn().doClick();
 							}
@@ -504,28 +582,37 @@ public class Controller {
 				spot.getPopUpMenu().add(spot.getRemoveBtnItem());
 				spot.getLabelSpot().setComponentPopupMenu(spot.getPopUpMenu());
 				spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
-				if(!spot.isTaken()) {
-				spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-blue.png"));
+				 
+				try{
+					if(!spot.isTaken()) {
+						BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-blue.png"));
+				spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 				spot.setColor("blue");
 				spot.getRemoveBtnItem().setEnabled(false);
 				}
 				else if((spot.isTaken())&&(spot.isState())) {
-					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-green.png"));
+					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-green.png"));
+					spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 					spot.setColor("green");
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
 				else if((spot.isTaken())&&((!spot.isState()))){
-					logger.info("result:{}",spot.isState());
-					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-red.png"));
+					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-red.png"));
+					spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 					spot.setColor("red");
 					spot.getRemoveBtnItem().setEnabled(true);
+				}
+				}
+				catch(Exception e) {
+					e.printStackTrace();
 				}
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
+						
 						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-white.png"));
 					}
 					public void mouseExited(MouseEvent e) {
@@ -542,23 +629,8 @@ public class Controller {
 				MappingPanel.getSpotsMap().revalidate();
 				
 			}
-			JLabel spotsMapBackground=new JLabel();
-			spotsMapBackground.setBounds(0, 0, 888, 508);
-			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\openspace.jpg"));
-				
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_conférence.jpg"));
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_réunion.jpg"));
-			}
-			MappingPanel.getSpotsMap().add(spotsMapBackground);
-			MappingPanel.getSpotsMap().revalidate();
+			
+			
 			
 		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
@@ -571,7 +643,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				MappingPanel.getEquipmentsToInstallBox().revalidate();
 				MappingPanel.getEquipmentsToInstallBox().removeAllItems();
 				for(Equipment equipment: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 					if(equipment.getEquipment_type().equals("connected object")&&(!equipment.isInstalled())) {
@@ -588,7 +660,7 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				MappingPanel.getEquipmentsToInstallBox().removeAllItems();
-				MappingPanel.getMappingSpotsPanel().validate();
+
 				for(Equipment equipment: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 					if((equipment.getEquipment_type().equals("sensor")||(equipment.getEquipment_type().equals("sensorWindows")))&&(!equipment.isInstalled())) {
 						MappingPanel.getEquipmentsToInstallBox().addItem(equipment);
@@ -607,11 +679,13 @@ public class Controller {
 				// TODO Auto-generated method stub
 				
 				Equipment equipmentChoosed=(Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
-				
+				if(equipmentChoosed!=null) {
 				ArrayList<Spot> allSpots=MappingPanel.getWorkSpace().getSpots();
-	
+				
 				for(Spot spot: allSpots) {
 					if(spot.getSpot_type().equals(equipmentChoosed.getEquipment_spot_type())) {
+						spot.getLabelSpot().invalidate();
+						spot.getLabelSpot().revalidate();
 						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-orange.gif"));
 						spot.setColor("orange");
 						spot.getPopUpMenu().revalidate();
@@ -620,6 +694,7 @@ public class Controller {
  	
 					}
 				}
+				}
 			}
 		});
 		MappingPanel.getCancelButton().addActionListener(new ActionListener() {
@@ -627,7 +702,12 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				updateSpotMap();
+				try {
+					updateSpotMap(mdl.getMp(),-1);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -693,6 +773,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
 			}
 			
