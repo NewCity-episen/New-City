@@ -20,6 +20,11 @@ public class Offer {
 		this.offer_area = off_ar;
 	}
 	
+	public Offer(int off_id, String off_na) {
+		this.offer_id = off_id;
+		this.offer_name = off_na;
+	}
+	
 	public Offer(int off_id) {
 		this.offer_id = off_id;
 	}

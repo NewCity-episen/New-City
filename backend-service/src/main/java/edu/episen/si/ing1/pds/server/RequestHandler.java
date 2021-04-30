@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shared.code.Request;
 import shared.code.Response;
-import java.util.HashMap;
+///import shared.code.Offer;
 
 
 
@@ -77,18 +78,24 @@ public class RequestHandler {
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
 			//ArrayList<Offer> offerList = new ArrayList<>();
-			String sql = "SELECT id_work_space FROM work_space WHERE taken = false";
+			String sql = "SELECT id_work_space, space_name FROM work_space WHERE taken = false";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
-			ArrayList<Object> resultList = new ArrayList<>();
+			ArrayList<ArrayList<HashMap<String, Object>>> resultList = new ArrayList<>();
 			
 			while(rs.next()) {
-				//offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
-				//rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),))
+				/*offerList.add(new Offer(rs.getInt("space_id"), rs.getString("space_type"), rs.getString("space_name"), 
+				rs.getInt("space_floor"), rs.getInt("space_building"), rs.getInt("space_cost"), rs.getInt("space_area")));
+				HashMap<String, Object> row = new HashMap<>();
+				row.put("space_id", rs.getInt("id_work_space"));*/
+				
+				ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 				HashMap<String, Object> row = new HashMap<>();
 				row.put("space_id", rs.getInt("id_work_space"));
-				resultList.add(row);
+				row.put("space_name", rs.getString("space_name"));
+				rowList.add(row);
+				resultList.add(rowList);
 				System.out.println("Line : " + row);
 			}
 
