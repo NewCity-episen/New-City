@@ -3,6 +3,7 @@ import view.*;
 import model.*;
 import shared.code.Request;
 import shared.code.Response;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 
@@ -24,32 +25,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-<<<<<<< HEAD
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-
-
-
-
-
 import javax.swing.JLabel;
-
-=======
 import javax.imageio.ImageIO;
 import javax.sql.rowset.WebRowSet;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.UIManager;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +44,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import ClientConfig.ClientConfig;
+import edu.episen.si.ing1.pds.client.ClientGUI;
 
 
 
@@ -68,8 +53,7 @@ import ClientConfig.ClientConfig;
 
 
 public class Controller {
-	private static final String ConfigEnVar="REQUESTS_LOCATION";
-	private final String RequestsFileLocation;
+	private final String RequestsFileLocation = ClientGUI.getRequestsFileLocation();;
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
 	private Model mdl;
 	private View vw;
@@ -78,7 +62,6 @@ public class Controller {
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		this.mdl=mdl;
 		this.vw=vw;
-		RequestsFileLocation= System.getenv(ConfigEnVar);
 		loadData();
 		loadButtons();
 	}
@@ -89,12 +72,6 @@ public class Controller {
 		quitButtonLoad();
 		okButtonLoad();
 		filterLoad();
-<<<<<<< HEAD
-		
-		//@Hejer Fessi 
-=======
-
-
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
@@ -103,7 +80,6 @@ public class Controller {
 		loadConfigurate();
 
 		loadMappingButtons();
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 		loadAdvancedFiltre();
 		loadReturnButton();		
 		loadReturn ();		
@@ -136,7 +112,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBox().addItem("Etage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -148,7 +124,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
+	                			LoanPanel.getFloorBox().addItem("Etage "+j);
 	                		}
 	                	}
 	                }
@@ -211,7 +187,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("Etage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -223,7 +199,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("Etage "+j);
 		                		}
 		                	}
 		                }
@@ -417,7 +393,7 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 		MappingPanel.getCancelButton().setEnabled(false);
 	
 		if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
@@ -447,9 +423,6 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-<<<<<<< HEAD
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
-=======
 			if(x==1) {
 				JLabel label=new JLabel();
 				spot.setLabelSpot(label);
@@ -472,8 +445,7 @@ public class Controller {
 					}
 				});
 			}
-			
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -487,7 +459,6 @@ public class Controller {
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
 				else if((spot.isTaken())&&((!spot.isState()))){
-					logger.info("result:{}",spot.isState());
 					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-red.png"));
 					spot.setColor("red");
 					spot.getRemoveBtnItem().setEnabled(true);
@@ -562,7 +533,6 @@ public class Controller {
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
 						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
-						loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -668,28 +638,8 @@ public class Controller {
 				MappingPanel.getSpotsMap().revalidate();
 				
 			}
-<<<<<<< HEAD
-			JLabel spotsMapBackground=new JLabel();
-			spotsMapBackground.setBounds(0, 0, 888, 508);
-			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\openspace.jpg"));
-				
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
-			}
-			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
-			}
-			MappingPanel.getSpotsMap().add(spotsMapBackground);
-			MappingPanel.getSpotsMap().revalidate();
-=======
 			
 			
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 			
 		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
@@ -783,10 +733,45 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MappingPanel.getCancelButton().doClick();
+				try {
+					updateSpotMap(mdl.getMp(),-1);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				MappingPanel.showChoiceOfMappingPanel();
 			}
 			
+		});
+		MappingPanel.getRefreshButton().addActionListener((new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				if(MappingPanel.getCurrentp()==2) {
+					MappingPanel.getMapEquipmentsBtn().doClick();
+				}
+				else {
+				MappingPanel.getMapSensorsBtn().doClick();
+				}
+				try {
+					updateSpotMap(mdl.getMp(),-1);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+		}));
+		MappingPanel.getCloseButton().addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				mdl.getMp().dispose();
+			}
+		
 		});
 	}
 	public void verifyWindows(Spot spot) {
@@ -883,12 +868,9 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
-=======
-				
+
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");			
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 			}
 			
 		};
