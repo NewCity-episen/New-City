@@ -960,6 +960,7 @@ public class Controller {
 		return null;
 		
 	}
+	
 	public Response sendRequestToServer(String jsonNameFile,String jsonValues) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
 		
 		Socket socketClient=connectToServer();
