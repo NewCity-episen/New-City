@@ -55,13 +55,15 @@ import edu.episen.si.ing1.pds.client.ClientGUI;
 
 
 public class Controller {
-	private final String RequestsFileLocation = ClientGUI.getRequestsFileLocation();;
+	private String RequestsFileLocation="";
+	private static final String ConfigEnVar="REQUESTS_LOCATION";
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
 	private Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
+		RequestsFileLocation= System.getenv(ConfigEnVar);
 		this.mdl=mdl;
 		this.vw=vw;
 		loadData();

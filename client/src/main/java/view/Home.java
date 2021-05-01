@@ -11,7 +11,8 @@ import edu.episen.si.ing1.pds.client.ClientGUI;
 import model.Company;
 import model.Model;
 public class Home{
-	
+	private static final String ConfigEnVar="REQUESTS_LOCATION";
+	private static String RequestsFileLocation = "";
 	private static JButton okButton=new JButton("Se connecter");
 	private static JPanel panel=new JPanel();
 	//we should use an arrayList or a vector to list the company names
@@ -21,13 +22,14 @@ public class Home{
 	private static JLabel selectCompany=new JLabel("Veuillez choisir votre entreprise:");
 	
 	Home(){
+		RequestsFileLocation= System.getenv(ConfigEnVar);
 		homePanel.setLayout(null);
 		homePanel.setBackground(Color.white);
 		selectCompany.setBounds(287, 419, 310, 16);
 		homePanel.add(selectCompany);
 		homePanel.add(companyNameList);
 		JLabel gifNewcity = new JLabel("");
-		gifNewcity.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\new-city (2).gif"));
+		gifNewcity.setIcon(new ImageIcon(RequestsFileLocation+"\\new-city (2).gif"));
 		gifNewcity.setBounds(161, 13, 534, 393);
 		homePanel.add(gifNewcity);
 		companyNameList.setMaximumRowCount(5);
