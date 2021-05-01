@@ -156,22 +156,20 @@ public class WorkSpace {
 		return spots;
 	}
 	public void setSpots(ArrayList<Spot> spots) {
-		int i=0;
 		
 		if(this.spots.isEmpty()) {
 			this.spots.addAll(spots);
 		}
 		else {
-		for(Spot spot: spots) {
-			if(i<this.spots.size()) {
-			this.spots.get(i).update(spot);
+		for(Spot spot: this.spots) {
+			for(int i=0;i<spots.size();i++) {
+				if(spot.getId_spot()==spots.get(i).getId_spot()) {
+					spot.update(spots.get(i));
+					
+				}
 			}
-			else {
-				this.spots.add(spot);
-			}
-			i++;
 		}
-	}
+	 }
 	}
 	public void update(WorkSpace wk) {
 		this.id_work_space=wk.getId_work_space();
@@ -180,7 +178,7 @@ public class WorkSpace {
 		this.id_entreprise=wk.getId_entreprise();
 		this.configurable=wk.isConfigurable();
 		this.nb_room=wk.getNb_room();
-		this.number_of_windows=wk.getNb_room();
+		this.number_of_windows=wk.getNumber_of_windows();
 		this.space_cost=wk.getSpace_cost();
 		this.space_floor=wk.getSpace_floor();
 		this.space_name=wk.getSpace_name();

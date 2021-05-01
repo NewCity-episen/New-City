@@ -363,7 +363,6 @@ public class Controller {
 				}
 				else {
 					try {
-						logger.info("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY");
 						updateSpotMap(mappingPanel,1);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -418,6 +417,7 @@ public class Controller {
 			for(Equipment equipment:MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 				if(equipment.getId_equipment()==spot.getId_equipment()) {
 					spot.setState(equipment.isState());
+					spot.setEquipmentInstalled(equipment);
 				}
 			}
 			if(x==1) {
@@ -442,7 +442,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -530,7 +530,9 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 						loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
+						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
 						if(MappingPanel.getCurrentp()==2) {
@@ -557,10 +559,17 @@ public class Controller {
 							  		+spot.getId_spot()+ "\", \"taken\": \""+false+"\"}");
 							response=sendRequestToServer("update-MaterialNeeds.json","{\"id_equipment\": \""+id_equipment
 							+"\", \"installed\": \""+false+ "\", \"state\": \""+true+"\"}");
+							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+id_equipment+"\","
+									+ "\"id_window\": \""+null +"\"}");
+							if(spot.getEquipmentInstalled().getEquipment_type().equals("sensorWindows")) {
+								response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
+										+ "\"configurable\": \""+false +"\"}");
+							}
 							spot.setColor("blue");	
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -682,13 +691,21 @@ public class Controller {
 				ArrayList<Spot> allSpots=MappingPanel.getWorkSpace().getSpots();
 				
 				for(Spot spot: allSpots) {
-					if(spot.getSpot_type().equals(equipmentChoosed.getEquipment_spot_type())) {
+					if((spot.getSpot_type().equals(equipmentChoosed.getEquipment_spot_type()))||
+							(equipmentChoosed.getEquipment_type().equals("sensorWindows")&&((spot.getSpot_type().equals("On Window Right"))||
+								(spot.getSpot_type().equals("On Window Left"))))) {
+						if(spot.isTaken()) {
+							spot.getPlaceBtnItem().setEnabled(false);
+						}
+						else {
+							spot.getPlaceBtnItem().setEnabled(true);
+						}
 						spot.getLabelSpot().invalidate();
 						spot.getLabelSpot().revalidate();
 						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-orange.gif"));
 						spot.setColor("orange");
 						spot.getPopUpMenu().revalidate();
-						spot.getPlaceBtnItem().setEnabled(true);
+						
 						MappingPanel.getCancelButton().setEnabled(true);
  	
 					}
@@ -720,6 +737,49 @@ public class Controller {
 			}
 			
 		});
+	}
+	public void verifyWindows(Spot spot) {
+		if(MappingPanel.getWorkSpace().getNumber_of_windows()!=0) {
+			Equipment equipment= (Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
+			if(equipment.getEquipment_type().equals("sensorWindows")) {
+				try {
+					Response response= sendRequestToServer("select-SmartWindow.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\"}");
+					String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
+			                response.getResponseBody().indexOf("]")+1);
+					ObjectMapper mapper=new ObjectMapper();
+					ArrayList<Map<String,String>> windowMap=mapper.readValue(responseBody, new TypeReference<ArrayList<Map<String,String>>>(){});
+						
+						if(spot.getSpot_type().equals("On Window Left")) {
+							int id_window= Integer.valueOf(windowMap.get(0).get("id_window"));
+							equipment.setId_window(id_window);
+							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
+									+ "\"id_window\": \""+id_window +"\"}");
+						}
+						else if(spot.getSpot_type().equals("On Window Right")) {
+							int id_window= Integer.valueOf(windowMap.get(1).get("id_window"));
+							equipment.setId_window(id_window);
+							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
+									+ "\"id_window\": \""+id_window +"\"}");
+						}
+						int sensorInstalled=0;
+						for(Equipment equipment1: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
+							if(equipment1.getId_window()>0) {
+								sensorInstalled++;
+							}
+						}
+						if(((sensorInstalled==5)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
+						(sensorInstalled==10)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
+							response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
+									+ "\"configurable\": \""+true +"\"}");
+							
+						}
+					
+				} catch (InterruptedException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	public void loadEquipmentsToInstall(int id_work_space) {
 		try {
