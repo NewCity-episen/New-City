@@ -152,14 +152,20 @@ public class Controller {
 							WorkSpace workSpace=mdl.getAllWorkSpaces().get(i);
 							if((workSpace.getId_building()==buildingNumber)&&(workSpace.getSpace_floor()==floorNumber)) {
 								if((workSpace.isTaken())&&(workSpace.getId_entreprise()==mdl.getSelectedCompany().getId_entreprise())) {
-									workSpace.getWorkSpaceButton().setBackground(new Color(143, 188, 143));	
+									workSpace.getWorkSpaceButton().setBackground(new Color(143, 188, 143));
+									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								else if(workSpace.isTaken()) {
 									workSpace.getWorkSpaceButton().setBackground(new Color(165, 42, 42));
 									workSpace.getWorkSpaceButton().setEnabled(false);
+									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								else {
 									workSpace.getWorkSpaceButton().setBackground(new Color(169, 169, 169));	
+									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								workSpace.getWorkSpaceButton().setText(workSpace.getSpace_name());
 								LoanPanel.getPanelMap().add(workSpace.getWorkSpaceButton());
@@ -407,10 +413,10 @@ public class Controller {
 			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
 		}
 		if(x==1) {
 		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
@@ -451,7 +457,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -497,10 +503,10 @@ public class Controller {
 				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -538,7 +544,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -576,7 +582,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -624,7 +630,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -893,7 +899,7 @@ public class Controller {
 
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");			
 
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
 			}
 			
 		};
@@ -1038,10 +1044,12 @@ public class Controller {
 				   
 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
 					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
+					ConfigurateWindowsPanel.getWinToCnfgmodel().removeAllElements();
+					ConfigurateWindowsPanel.getConfiguredWinmodel().removeAllElements();
 					
 					 
 				    //***load all mapped and taken workspaces of  the floor number floorNumber of the Building building 
-					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+true+"\"}");
+					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"id_entreprise\": \""+mdl.getSelectedCompany().getId_entreprise()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+true+"\"}");
 					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
 							workspaceResponse.getResponseBody().indexOf("]")+1);
 					ObjectMapper takenmapper=new ObjectMapper();
