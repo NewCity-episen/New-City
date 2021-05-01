@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shared.code.Request;
 import shared.code.Response;
-import java.util.HashMap;
+///import shared.code.Offer;
 
 
 
@@ -87,24 +88,29 @@ public class RequestHandler {
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
 			//ArrayList<Offer> offerList = new ArrayList<>();
-			String sql = "SELECT id_work_space FROM work_space WHERE taken = false";
+			String sql = "SELECT * FROM work_space INNER JOIN building ON work_space.id_building = building.id_building and taken = false";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
-			ArrayList<Object> resultList = new ArrayList<>();
+			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
-				//offerList.add(new Offer(rs.getInt('space_id'), rs.getString('space_type'), rs.getString('space_name'), 
-				//rs.getInt('space_floor'), rs.getInt('space_building'), rs.getInt('space_cost'), rs.getInt('space_area'),))
 				HashMap<String, Object> row = new HashMap<>();
 				row.put("space_id", rs.getInt("id_work_space"));
-				resultList.add(row);
+				row.put("space_type", rs.getString("space_type"));
+				row.put("space_name", rs.getString("space_name"));
+				row.put("space_floor", rs.getInt("space_floor"));
+				row.put("building_name", rs.getString("building_name"));
+				row.put("space_cost", rs.getInt("space_cost"));
+				row.put("space_area", rs.getInt("space_area"));
+
+				rowList.add(row);
 				System.out.println("Line : " + row);
 			}
 
-			System.out.println("Data to sent: " + resultList);
-			return new Response(request.getRequestId(), resultList);
-		     }
+			System.out.println("Data to sent: " + rowList);
+			return new Response(request.getRequestId(), rowList);
+		}
 		
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
 
@@ -128,6 +134,22 @@ public class RequestHandler {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			sqlRequest+="installed="+valuesMap.get("installed")+", state="+valuesMap.get("state")+" WHERE id_equipment="+valuesMap.get("id_equipment");
+			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_WORKSPACE")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="configurable="+valuesMap.get("configurable")+" WHERE id_work_space="+valuesMap.get("id_work_space");
+			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_EQUIPMENT")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="id_window="+valuesMap.get("id_window")+" WHERE id_equipment="+valuesMap.get("id_equipment");
 			stmt.executeUpdate(sqlRequest);
 			responseBody="{ \"message\": \"Update is successful\"}";
 			

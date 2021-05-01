@@ -1,0 +1,8 @@
+{
+		"request_id": "999",
+		"request_order": "UPDATE_EQUIPMENT",
+		"request_table": "equipment",
+		"request_body": {
+	       
+		}
+}

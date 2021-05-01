@@ -2,12 +2,16 @@ package view;
 import model.Equipment;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-
+import java.awt.Graphics;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -17,26 +21,40 @@ import javax.swing.JPanel;
 
 import javax.swing.UIManager;
 
+import ch.qos.logback.classic.Logger;
 import model.WorkSpace;
-public class MappingPanel{
-	private static JPanel mappingPanel=new JPanel();
-	private static CardLayout mappingCard=new CardLayout();
-	private static JPanel choiceOfMappingPanel=new JPanel();
-	private static JPanel mappingSpotsPanel=new JPanel();
-	private static JPanel spotsMap=new JPanel();
-	private static JComboBox<Equipment> equipmentsToInstallBox=new JComboBox<Equipment>();
-	private static WorkSpace workSpace=null;
+public class MappingPanel extends JFrame{
+	private static  JPanel mappingPanel=new JPanel();
+	private static  CardLayout mappingCard=new CardLayout();
+	private static  JPanel choiceOfMappingPanel=new JPanel();
+	private  JPanel mappingSpotsPanel=new JPanel();
+	private  SpotsMapBackground spotsMap;
+	private static  JComboBox<Equipment> equipmentsToInstallBox=new JComboBox<Equipment>();
+	private static  WorkSpace workSpace=null;
 	private static JLabel position=new JLabel();
-	private static JLabel position2=new JLabel();
+	private static  JLabel position2=new JLabel();
 	private static JButton mapSensorsBtn = new JButton("Mapper capteurs");
 	private static JButton mapEquipmentsBtn = new JButton("Mapper équipements");
 	private static JButton okEquipmentButton=new JButton("OK");
 	private static JButton returnButton=new JButton("Retour");
 	private static JButton cancelButton=new JButton("Annuler");
 	private static int currentp=1;
-	private static boolean initialized=false;
+	private static boolean opened=false;
 	public MappingPanel() {
-		
+		setOpened(true);
+		this.setSize(View.getWIDTH(),View.getHEIGHT());
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.getContentPane().add(mappingPanel);
+		addWindowListener((WindowListener) new WindowAdapter() {
+			
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				setOpened(false);
+				View.getappFrame().setEnabled(true);
+				View.getappFrame().setVisible(true);
+				}
+			});
 		
 		mappingPanel.setLayout(mappingCard);
 		mappingPanel.add("Choix",choiceOfMappingPanel);
@@ -67,17 +85,17 @@ public class MappingPanel{
 		mappingSpotsPanel.add(equipmentsToInstallBox);
 		okEquipmentButton.setBounds(660, 5, 97, 21);
 		mappingSpotsPanel.add(okEquipmentButton);
-		spotsMap.setBounds(10, 30, 888, 508);
-		mappingSpotsPanel.add(spotsMap);
 		cancelButton.setBounds(777,5,100,21);
 		cancelButton.setEnabled(false);
 		mappingSpotsPanel.add(cancelButton);
 		returnButton.setBounds(24, 548, 97, 25);
 		mappingSpotsPanel.add(returnButton);
-		spotsMap.setLayout(null);
+
+		View.getappFrame().setVisible(false);
+		this.setVisible(true);
 		
 	}
-	public static void showChoiceOfMappingPanel() {
+	public static  void showChoiceOfMappingPanel() {
 		mappingCard.show(mappingPanel, "Choix");	
 		position.setText("WorkSpace "+workSpace.getId_work_space()+", \u00C9tage "+ workSpace.getSpace_floor()+" - B\u00E2timent "+ workSpace.getId_building());
 		choiceOfMappingPanel.validate();
@@ -85,16 +103,18 @@ public class MappingPanel{
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
 		if(choice==1) {// if user clicked on "mapper équipements"
-			setCurrentp(2);
+			currentp=2;
 			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
 
 		}
 		else {
-			setCurrentp(3);
+			currentp=3;
 			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");
 		}
+		
+
 	}
-	public static JPanel getJPanel() {
+	public JPanel getJPanel() {
 		return mappingPanel;
 	}
 	public CardLayout getMappingCard() {
@@ -112,65 +132,81 @@ public class MappingPanel{
 	public static WorkSpace getWorkSpace() {
 		return workSpace;
 	}
-	public static void setWorkSpace(WorkSpace workSpace1) {
+	public  void setWorkSpace(WorkSpace workSpace1) {
 		workSpace = workSpace1;
 	}
-	public static JPanel getMappingPanel() {
+	public  JPanel getMappingPanel() {
 		return mappingPanel;
 	}
-	public static void setMappingPanel(JPanel mappingPanel) {
-		MappingPanel.mappingPanel = mappingPanel;
+	public  void setMappingPanel(JPanel mappingPanel) {
+		this.mappingPanel = mappingPanel;
 	}
-	public static JPanel getMappingSpotsPanel() {
+	public  JPanel getMappingSpotsPanel() {
 		return mappingSpotsPanel;
 	}
-	public static void setMappingSpotsPanel(JPanel mappingSpotsPanel) {
-		MappingPanel.mappingSpotsPanel = mappingSpotsPanel;
+	public void setMappingSpotsPanel(JPanel mappingSpotsPanel) {
+		this.mappingSpotsPanel = mappingSpotsPanel;
 	}
-	public static JPanel getSpotsMap() {
+	public JPanel getSpotsMap() {
 		return spotsMap;
 	}
-	public static void setSpotsMap(JPanel spotsMap) {
-		MappingPanel.spotsMap = spotsMap;
+	public void setSpotsMap(SpotsMapBackground spotsMap) {
+		this.spotsMap = spotsMap;
+	}
+	
+	public static boolean isOpened() {
+		return opened;
+	}
+	public static void setOpened(boolean opened) {
+		MappingPanel.opened = opened;
 	}
 	public static JComboBox<Equipment> getEquipmentsToInstallBox() {
 		return equipmentsToInstallBox;
 	}
-	public static void setEquipmentsToInstallBox(JComboBox<Equipment> equipmentsToInstallBox) {
-		MappingPanel.equipmentsToInstallBox = equipmentsToInstallBox;
+	public void setEquipmentsToInstallBox(JComboBox<Equipment> equipmentsToInstallBox) {
+		this.equipmentsToInstallBox = equipmentsToInstallBox;
 	}
-	public static JLabel getPosition() {
+	public JLabel getPosition() {
 		return position;
 	}
-	public static void setPosition(JLabel position) {
-		MappingPanel.position = position;
+	public void setPosition(JLabel position) {
+		this.position = position;
 	}
-	public static JLabel getPosition2() {
+	public JLabel getPosition2() {
 		return position2;
 	}
-	public static void setPosition2(JLabel position2) {
-		MappingPanel.position2 = position2;
+	public void setPosition2(JLabel position2) {
+		this.position2 = position2;
 	}
 	public static JButton getMapSensorsBtn() {
 		return mapSensorsBtn;
 	}
-	public static void setMapSensorsBtn(JButton mapSensors) {
-		MappingPanel.mapSensorsBtn = mapSensors;
+	public void setMapSensorsBtn(JButton mapSensorsBtn) {
+		this.mapSensorsBtn = mapSensorsBtn;
 	}
 	public static JButton getMapEquipmentsBtn() {
 		return mapEquipmentsBtn;
 	}
-	public static void setMapEquipmentsBtn(JButton mapEquipments) {
-		MappingPanel.mapEquipmentsBtn = mapEquipments;
+	public void setMapEquipmentsBtn(JButton mapEquipmentsBtn) {
+		this.mapEquipmentsBtn = mapEquipmentsBtn;
 	}
 	public static JButton getOkEquipmentButton() {
 		return okEquipmentButton;
 	}
-	public static void setOkEquipmentButton(JButton okEquipmentButton) {
-		MappingPanel.okEquipmentButton = okEquipmentButton;
+	public void setOkEquipmentButton(JButton okEquipmentButton) {
+		this.okEquipmentButton = okEquipmentButton;
 	}
 	public static JButton getReturnButton() {
 		return returnButton;
+	}
+	public void setReturnButton(JButton returnButton) {
+		this.returnButton = returnButton;
+	}
+	public static JButton getCancelButton() {
+		return cancelButton;
+	}
+	public void setCancelButton(JButton cancelButton) {
+		this.cancelButton = cancelButton;
 	}
 	public static int getCurrentp() {
 		return currentp;
@@ -178,15 +214,7 @@ public class MappingPanel{
 	public static void setCurrentp(int currentp) {
 		MappingPanel.currentp = currentp;
 	}
-	public static JButton getCancelButton() {
-		return cancelButton;
-	}
-	public static boolean isInitialized() {
-		return initialized;
-	}
-	public static void setInitialized(boolean initialized) {
-		MappingPanel.initialized = initialized;
-	}
+	
 
 
 	

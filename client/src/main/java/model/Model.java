@@ -9,6 +9,8 @@ import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import view.MappingPanel;
+
 
 public class Model {
 	private final static Logger logger=LoggerFactory.getLogger(Model.class.getName());
@@ -17,6 +19,7 @@ public class Model {
 	private ArrayList<Company> allCompanies=new ArrayList<Company>();
 	private ArrayList<Building> allBuildings=new ArrayList<Building>();
 	private ArrayList<Equipment> allEquipments=new ArrayList<Equipment>();
+	private MappingPanel mp=null;
 	public Model() {
 	
 		
@@ -132,6 +135,16 @@ public class Model {
 			i++;
 		}
 	}
+	}
+
+
+	public MappingPanel getMp() {
+		return mp;
+	}
+
+
+	public void setMp(MappingPanel mp) {
+		this.mp = mp;
 	}
 
 

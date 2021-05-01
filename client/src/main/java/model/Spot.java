@@ -23,7 +23,8 @@ public class Spot {
 	@JsonIgnore
 	private boolean state;
 	@JsonIgnore
-	private JMenuItem placeBtnItem=new JMenuItem("Placer");
+	private JMenuItem placeBtnItem=placeBtnItem=new JMenuItem("Placer");
+	
 	@JsonIgnore
 	private JMenuItem removeBtnItem=new JMenuItem("Retirer");
 	@JsonIgnore
