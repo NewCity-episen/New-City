@@ -3,9 +3,9 @@ import view.*;
 import model.*;
 import shared.code.Request;
 import shared.code.Response;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -14,31 +14,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-
-
-
-
-
 import javax.swing.JLabel;
-
-=======
 import javax.imageio.ImageIO;
 import javax.sql.rowset.WebRowSet;
 import javax.swing.ImageIcon;
@@ -48,7 +41,6 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,21 +81,13 @@ public class Controller {
 		quitButtonLoad();
 		okButtonLoad();
 		filterLoad();
-<<<<<<< HEAD
-		
-		//@Hejer Fessi 
-=======
-
-
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
 		loadReturn ();
-		//filterButtonLoad();
+		filterButtonLoad();
 		loadConfigurate();
-
 		loadMappingButtons();
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 		loadAdvancedFiltre();
 		loadReturnButton();		
 		loadReturn ();		
@@ -447,9 +431,9 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-<<<<<<< HEAD
+			
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
-=======
+
 			if(x==1) {
 				JLabel label=new JLabel();
 				spot.setLabelSpot(label);
@@ -472,8 +456,7 @@ public class Controller {
 					}
 				});
 			}
-			
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
+
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -668,7 +651,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().revalidate();
 				
 			}
-<<<<<<< HEAD
+
 			JLabel spotsMapBackground=new JLabel();
 			spotsMapBackground.setBounds(0, 0, 888, 508);
 			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
@@ -685,12 +668,7 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
-			MappingPanel.getSpotsMap().revalidate();
-=======
-			
-			
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
-			
+			MappingPanel.getSpotsMap().revalidate();			
 		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -883,12 +861,8 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
-=======
-				
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
->>>>>>> d078e7abbeb826588c88f6ad2ae6d09ef8e9d252
 			}
 			
 		};
