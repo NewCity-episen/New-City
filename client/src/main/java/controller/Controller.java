@@ -3,7 +3,6 @@ import view.*;
 import model.*;
 import shared.code.Request;
 import shared.code.Response;
-
 import java.awt.Color;
 import java.awt.FlowLayout;
 
@@ -23,9 +22,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-
 import java.util.HashMap;
-
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -33,13 +30,7 @@ import javax.sql.rowset.WebRowSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
-
 import javax.swing.UIManager;
-
-
-
-
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -220,14 +211,20 @@ public class Controller {
 		}
  
 	}
-	
+
 	private void filterButtonLoad() {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
 			System.out.println("result : " + response.getResponseData());
-			ArrayList<Map> offerList = (ArrayList<Map>)response.getResponseData();
-			System.out.println("First id :" + offerList.get(0).get("space_id"));
+			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
+			
+			ArrayList<Offer> offerList = new ArrayList<Offer>();
+			
+			for(int i = 0; i < resultList.size(); i++) {
+				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_name")));
+				offerList.add(offerRow);
+			}			
 			new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block

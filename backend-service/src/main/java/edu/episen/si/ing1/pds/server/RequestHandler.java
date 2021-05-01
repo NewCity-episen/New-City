@@ -82,26 +82,23 @@ public class RequestHandler {
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
-			ArrayList<ArrayList<HashMap<String, Object>>> resultList = new ArrayList<>();
+			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
 				/*offerList.add(new Offer(rs.getInt("space_id"), rs.getString("space_type"), rs.getString("space_name"), 
 				rs.getInt("space_floor"), rs.getInt("space_building"), rs.getInt("space_cost"), rs.getInt("space_area")));
 				HashMap<String, Object> row = new HashMap<>();
 				row.put("space_id", rs.getInt("id_work_space"));*/
-				
-				ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 				HashMap<String, Object> row = new HashMap<>();
 				row.put("space_id", rs.getInt("id_work_space"));
 				row.put("space_name", rs.getString("space_name"));
 				rowList.add(row);
-				resultList.add(rowList);
 				System.out.println("Line : " + row);
 			}
 
-			System.out.println("Data to sent: " + resultList);
-			return new Response(request.getRequestId(), resultList);
-		     }
+			System.out.println("Data to sent: " + rowList);
+			return new Response(request.getRequestId(), rowList);
+		}
 		
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
 

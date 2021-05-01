@@ -1,35 +1,39 @@
 package view;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Map;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import model.Offer;
+
 
 public class LocationOfferPanel {
 
 	private static JFrame locationOfferPanel =new JFrame();
 	private JLabel noResults = new JLabel("Aucune offre ne correspond a votre recherche");
-	private String[] columnNames = {"Numero offre", "Batiment", "Etage", "Prix"};
+	private String[] columnNames = {"Numero offre", "nom salle"};
 
-	public LocationOfferPanel(ArrayList<Map> list) {
-		
+	public LocationOfferPanel(ArrayList<Offer> list) {
+		locationOfferPanel.setVisible(true);
 		locationOfferPanel.setSize(600, 400);
 		locationOfferPanel.setLocationRelativeTo(null);
-		int resultTable[] = new int[list.size()];
 
 		if(list.isEmpty()) {
 			locationOfferPanel.add(noResults);
 		} else {
+			Object resultTable[][] = new Object[list.size()][columnNames.length];
+
 			for(int i = 0; i < list.size(); i++) {
-				//resultTable[i] = list.get(i).get("space_id");
+				resultTable[i][0] = list.get(i).getOfferId();
+				resultTable[i][1] = list.get(i).getOfferName();
 			}
 			
-		//JTable researchResults = new JTable(resultsTable, columnNames);
+			JTable researchResults = new JTable(resultTable, columnNames);
+			locationOfferPanel.add(researchResults);
 		}
-		locationOfferPanel.setVisible(true);
-
 	}
+
     public static JFrame getJFrame() {
 		return locationOfferPanel;
 	}
