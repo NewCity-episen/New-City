@@ -78,20 +78,22 @@ public class RequestHandler {
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
 			//ArrayList<Offer> offerList = new ArrayList<>();
-			String sql = "SELECT id_work_space, space_name FROM work_space WHERE taken = false";
+			String sql = "SELECT * FROM work_space WHERE taken = false";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
 			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
-				/*offerList.add(new Offer(rs.getInt("space_id"), rs.getString("space_type"), rs.getString("space_name"), 
-				rs.getInt("space_floor"), rs.getInt("space_building"), rs.getInt("space_cost"), rs.getInt("space_area")));
-				HashMap<String, Object> row = new HashMap<>();
-				row.put("space_id", rs.getInt("id_work_space"));*/
 				HashMap<String, Object> row = new HashMap<>();
 				row.put("space_id", rs.getInt("id_work_space"));
+				row.put("space_type", rs.getString("space_type"));
 				row.put("space_name", rs.getString("space_name"));
+				row.put("space_floor", rs.getInt("space_floor"));
+				row.put("id_building", rs.getInt("id_building"));
+				row.put("space_cost", rs.getInt("space_cost"));
+				row.put("space_area", rs.getInt("space_area"));
+
 				rowList.add(row);
 				System.out.println("Line : " + row);
 			}

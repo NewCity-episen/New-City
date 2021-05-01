@@ -222,9 +222,11 @@ public class Controller {
 			ArrayList<Offer> offerList = new ArrayList<Offer>();
 			
 			for(int i = 0; i < resultList.size(); i++) {
-				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_name")));
+				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
+						(int)(resultList.get(i).get("space_floor")), (int)(resultList.get(i).get("id_building")),(int)(resultList.get(i).get("space_cost")), (int)(resultList.get(i).get("space_area")));
 				offerList.add(offerRow);
 			}			
+
 			new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block

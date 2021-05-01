@@ -7,7 +7,7 @@ public class Offer {
 	private String offer_name;
 	private int offer_floor;
 	private int offer_building;
-	private int offer_price;
+	private int offer_cost;
 	private int offer_area;
 	
 	public Offer(int off_id, String off_ty, String off_na, int off_fl, int off_bui, int off_pr,  int off_ar) {
@@ -16,7 +16,7 @@ public class Offer {
 		this.offer_name = off_na;
 		this.offer_floor = off_fl;
 		this.offer_building = off_bui;
-		this.offer_price = off_pr;
+		this.offer_cost = off_pr;
 		this.offer_area = off_ar;
 	}
 	
@@ -65,12 +65,12 @@ public class Offer {
 		this.offer_building = offer_building;
 	}
 
-	public int getOfferPrice() {
-		return offer_price;
+	public int getOfferCost() {
+		return offer_cost;
 	}
 
-	public void setOfferPrice(int offer_price) {
-		this.offer_price = offer_price;
+	public void setOfferCost(int offer_cost) {
+		this.offer_cost = offer_cost;
 	}
 
 	public int getOfferArea() {
