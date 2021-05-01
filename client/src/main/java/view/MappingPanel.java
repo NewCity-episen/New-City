@@ -24,6 +24,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 
 import ch.qos.logback.classic.Logger;
+import edu.episen.si.ing1.pds.client.ClientGUI;
 import model.WorkSpace;
 public class MappingPanel extends JFrame{
 	private static  JPanel mappingPanel=new JPanel();
@@ -117,7 +118,7 @@ public class MappingPanel extends JFrame{
 		returnButton.setBounds(24, 548, 97, 25);
 		mappingSpotsPanel.add(returnButton);
 		JLabel window1_1 = new JLabel("");
-		window1_1.setIcon(new ImageIcon("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\pin-blue.png"));
+		window1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-blue.png"));
 		window1_1.setBounds(823, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1);
 		
@@ -127,7 +128,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2);
 		
 		JLabel window1_1_1 = new JLabel("");
-		window1_1_1.setIcon(new ImageIcon("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\pin-red.png"));
+		window1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-red.png"));
 		window1_1_1.setBounds(678, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1);
 		
@@ -137,7 +138,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2_1);
 		
 		JLabel window1_1_1_1 = new JLabel("");
-		window1_1_1_1.setIcon(new ImageIcon("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\pin-green.png"));
+		window1_1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-green.png"));
 		window1_1_1_1.setBounds(531, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1_1);
 		
@@ -152,7 +153,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2_1_1_1);
 		
 		JLabel window1_1_1_1_1 = new JLabel("");
-		window1_1_1_1_1.setIcon(new ImageIcon("C:\\Users\\user16\\new-city\\client\\src\\main\\resources\\pin-orange.gif"));
+		window1_1_1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-orange.gif"));
 		window1_1_1_1_1.setBounds(392, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1_1_1);
 		View.getappFrame().setVisible(false);

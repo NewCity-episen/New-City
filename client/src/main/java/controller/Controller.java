@@ -27,10 +27,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-<<<<<<< HEAD
-
-=======
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -40,10 +36,6 @@ import javax.sql.rowset.WebRowSet;
 import javax.swing.UIManager;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-<<<<<<< HEAD
-
-=======
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -432,12 +424,9 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-<<<<<<< HEAD
-			
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 
-=======
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
+
 			if(x==1) {
 				JLabel label=new JLabel();
 				spot.setLabelSpot(label);
@@ -460,11 +449,7 @@ public class Controller {
 					}
 				});
 			}
-<<<<<<< HEAD
-
-=======
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -657,7 +642,6 @@ public class Controller {
 				MappingPanel.getSpotsMap().revalidate();
 				
 			}
-<<<<<<< HEAD
 
 			JLabel spotsMapBackground=new JLabel();
 			spotsMapBackground.setBounds(0, 0, 888, 508);
@@ -676,11 +660,6 @@ public class Controller {
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
-=======
-			
-			
-			
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
 		} catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -908,12 +887,10 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
-=======
 
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");			
->>>>>>> 70ff59b04218be133e3e9ba0fd0e17caca1cc588
+
 				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
 			}
 			
@@ -1199,7 +1176,7 @@ public class Controller {
                 if(!(jsonValues==null)) {
                 	rq.setRequestContent(jsonValues); //If there are values that you would like to add into the RequestBody of your JSON file(the object "jsonValues" must be written in json format)
                 }
-                
+             
                 logger.info("Request from client : {}",jsonMapper.writeValueAsString(rq));
                 DataOutputStream out= new DataOutputStream(socketClient.getOutputStream());
                 out.write(jsonMapper.writeValueAsBytes(rq),0,jsonMapper.writeValueAsBytes(rq).length);//Sending the json file converted as bytes to the server
