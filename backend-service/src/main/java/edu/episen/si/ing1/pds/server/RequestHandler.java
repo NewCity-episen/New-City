@@ -78,7 +78,7 @@ public class RequestHandler {
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
 			//ArrayList<Offer> offerList = new ArrayList<>();
-			String sql = "SELECT * FROM work_space WHERE taken = false";
+			String sql = "SELECT * FROM work_space INNER JOIN building ON work_space.id_building = building.id_building and taken = false";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
@@ -90,7 +90,7 @@ public class RequestHandler {
 				row.put("space_type", rs.getString("space_type"));
 				row.put("space_name", rs.getString("space_name"));
 				row.put("space_floor", rs.getInt("space_floor"));
-				row.put("id_building", rs.getInt("id_building"));
+				row.put("building_name", rs.getString("building_name"));
 				row.put("space_cost", rs.getInt("space_cost"));
 				row.put("space_area", rs.getInt("space_area"));
 

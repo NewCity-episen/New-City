@@ -6,11 +6,11 @@ public class Offer {
 	private String offer_type;
 	private String offer_name;
 	private int offer_floor;
-	private int offer_building;
+	private String offer_building;
 	private int offer_cost;
 	private int offer_area;
 	
-	public Offer(int off_id, String off_ty, String off_na, int off_fl, int off_bui, int off_pr,  int off_ar) {
+	public Offer(int off_id, String off_ty, String off_na, int off_fl, String off_bui, int off_pr,  int off_ar) {
 		this.offer_id = off_id;
 		this.offer_type = off_ty;
 		this.offer_name = off_na;
@@ -57,11 +57,11 @@ public class Offer {
 		this.offer_floor = offer_floor;
 	}
 
-	public int getOfferBuilding() {
+	public String getOfferBuilding() {
 		return offer_building;
 	}
 
-	public void setOfferBuilding(int offer_building) {
+	public void setOfferBuilding(String offer_building) {
 		this.offer_building = offer_building;
 	}
 

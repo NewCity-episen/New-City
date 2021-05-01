@@ -223,7 +223,7 @@ public class Controller {
 			
 			for(int i = 0; i < resultList.size(); i++) {
 				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (int)(resultList.get(i).get("id_building")),(int)(resultList.get(i).get("space_cost")), (int)(resultList.get(i).get("space_area")));
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), (int)(resultList.get(i).get("space_area")));
 				offerList.add(offerRow);
 			}			
 

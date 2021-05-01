@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import model.Offer;
@@ -44,7 +45,7 @@ public class LocationOfferPanel {
 			}
 
 			JTable researchResults = new JTable(resultTable, columnNames);
-			locationOfferPanel.add(researchResults.getTableHeader());
+			locationOfferPanel.add(new JScrollPane(researchResults));
 			locationOfferPanel.add(researchResults);
 		}
 	}
