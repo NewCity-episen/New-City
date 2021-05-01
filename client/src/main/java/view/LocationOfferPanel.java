@@ -24,7 +24,7 @@ public class LocationOfferPanel {
 		if(list.isEmpty()) {
 			locationOfferPanel.add(noResults);
 		} else {
-			Object resultTable[][] = new Object[list.size()][columnNames.length + 1];
+			Object resultTable[][] = new Object[list.size() + 1][columnNames.length];
 
 			resultTable[0][0] = "Numero offre";
 			resultTable[0][1] = "Type de salle";
@@ -35,13 +35,13 @@ public class LocationOfferPanel {
 			resultTable[0][6] = "Surface";
 			
 			for(int i = 0; i < list.size(); i++) {
-				resultTable[i][0] = i + 1;
-				resultTable[i][1] = list.get(i).getOfferType();
-				resultTable[i][2] = list.get(i).getOfferName();
-				resultTable[i][3] = list.get(i).getOfferBuilding();
-				resultTable[i][4] = list.get(i).getOfferFloor();
-				resultTable[i][5] = "" + list.get(i).getOfferCost() + " euros";
-				resultTable[i][6] = list.get(i).getOfferArea();
+				resultTable[i + 1][0] = i + 1;
+				resultTable[i + 1][1] = list.get(i).getOfferType();
+				resultTable[i + 1][2] = list.get(i).getOfferName();
+				resultTable[i + 1][3] = list.get(i).getOfferBuilding();
+				resultTable[i + 1][4] = list.get(i).getOfferFloor();
+				resultTable[i + 1][5] = "" + list.get(i).getOfferCost() + " euros";
+				resultTable[i + 1][6] = list.get(i).getOfferArea();
 			}
 
 			JTable researchResults = new JTable(resultTable, columnNames);
