@@ -54,23 +54,33 @@ public class RequestHandler {
 			}
 			ResultSet rs= stmt.executeQuery(sqlRequest);
 			ResultSetMetaData rsM=rs.getMetaData();
-			while(rs.next()) {
-				valuesJson+="{";
-				for(int i=1;i<=rsM.getColumnCount();i++) {
-					if(!(i==1)) {
-						valuesJson+=",";
-					}
-						Object columnValue=rs.getObject(i);
-						valuesJson+="\""+rsM.getColumnLabel(i)+"\": "+"\""+columnValue+"\"";
-				}
-				if(rs.isLast()) {
-					valuesJson+="}]";
-				}
-				else {
-				valuesJson+="},";
-				}
-			}
 			
+			//@Hejer Fessi
+			//fix bug 
+			//in case of no response, the following error is raised : 
+			//com.fasterxml.jackson.databind.JsonMappingException: Unexpected close marker '}': expected ']' (for Array starting at [Source: (String)"{"responseData":null,"request_id":"112","response_body":{ "message": [}}"; line: 1, column: 70])			
+			//
+			if (!rs.next()) {
+				valuesJson+="]";
+			} else {
+					do{
+						valuesJson+="{";
+						for(int i=1;i<=rsM.getColumnCount();i++) {
+							if(!(i==1)) {
+								valuesJson+=",";
+							}
+								Object columnValue=rs.getObject(i);
+								valuesJson+="\""+rsM.getColumnLabel(i)+"\": "+"\""+columnValue+"\"";
+						}
+						if(rs.isLast()) {
+							valuesJson+="}]";
+						}
+						else {
+						valuesJson+="},";
+						}
+					}while(rs.next()) ;
+			
+			}
 			responseBody="{ \"message\": "+valuesJson+"}";
 			rs.close();
 		}

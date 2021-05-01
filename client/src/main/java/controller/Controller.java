@@ -27,19 +27,18 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-import javax.sql.rowset.WebRowSet;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
-import javax.swing.UIManager;
 
 
 
 
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +50,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 import ClientConfig.ClientConfig;
+
+
 
 
 
@@ -79,20 +80,17 @@ public class Controller {
 		okButtonLoad();
 		loadMappingButtons();
 		filterLoad();
-
-
+		
+		//@Hejer Fessi 
 		loadAdvancedFiltre();
-		loadReturnButton();
-		loadConfigurateWindows(); 
-		loadReturn ();
-		//filterButtonLoad();
-		loadConfigurate();
-
-
-		loadAdvancedFiltre();
-		loadReturnButton();
-		loadConfigurateWindows(); 
-		//filterButtonLoad();
+		loadReturnButton();		
+		loadReturn ();		
+		loadConfigurateWindows();	
+		loadConfigurate(); 
+		loadWinAddBtn();
+		loadWinRmvBtn() ;
+	 
+		
 		
 
 	}
@@ -116,7 +114,7 @@ public class Controller {
 				  LoanPanel.getBuildingBox().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBox().addItem("étage "+i); 
+				 LoanPanel.getFloorBox().addItem("ï¿½tage "+i); 
 			 }
 			
 			 LoanPanel.getBuildingBox().addActionListener(new ActionListener() {
@@ -128,7 +126,7 @@ public class Controller {
 	                	if((LoanPanel.getBuildingBox().getSelectedIndex()==i)) {
 	                		LoanPanel.getFloorBox().removeAllItems();
 	                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBox().getSelectedItem()).getNb_of_floor());j++) {
-	                			LoanPanel.getFloorBox().addItem("étage "+j);
+	                			LoanPanel.getFloorBox().addItem("ï¿½tage "+j);
 	                		}
 	                	}
 	                }
@@ -191,7 +189,7 @@ public class Controller {
 				  LoanPanel.getBuildingBoxFilter().addItem(building);
 			  }
 			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("étage "+i); 
+				 LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+i); 
 			 }
 
 			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
@@ -203,7 +201,7 @@ public class Controller {
 		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
 		                		LoanPanel.getFloorBoxFilter().removeAllItems();
 		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("étage "+j);
+		                			LoanPanel.getFloorBoxFilter().addItem("ï¿½tage "+j);
 		                		}
 		                	}
 		                }
@@ -387,7 +385,7 @@ public class Controller {
 					spot.setState(equipment.isState());
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -552,10 +550,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();
@@ -693,7 +691,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
 			}
 			
 		};
@@ -815,7 +813,7 @@ public class Controller {
 		
 	public void loadReturnButton() {
 		
-ActionListener returnButtonActionListener =new ActionListener() {
+    ActionListener returnButtonActionListener =new ActionListener() {
             
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -835,14 +833,13 @@ ActionListener returnButtonActionListener =new ActionListener() {
 				
 				try {
 					
-				    ConfigurateWindowsPanel configurateWindowsPanel = new ConfigurateWindowsPanel ();
+				   
 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
 					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
 					
 					 
 				    //***load all mapped and taken workspaces of  the floor number floorNumber of the Building building 
-					//Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+false+"\"}");
-					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json",null);
+					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+true+"\"}");
 					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
 							workspaceResponse.getResponseBody().indexOf("]")+1);
 					ObjectMapper takenmapper=new ObjectMapper();
@@ -859,13 +856,17 @@ ActionListener returnButtonActionListener =new ActionListener() {
 					ArrayList<SmartWindow> allSmartWin=allWinMapper.readValue(winResponseBody,new TypeReference<ArrayList<SmartWindow>>(){});
 					
 					ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
+					ArrayList<SmartWindow> configuredWinArrayList = new ArrayList<SmartWindow>();
 					for (SmartWindow sw:allSmartWin) {
 						if (takenWorkSpaces.stream().anyMatch(ws -> ws.getId_work_space()==sw.getId_work_space() )) {
-							
-							 winToCfgArrayList.add(sw);
+							sw.setMsgtoString("WorkSpace "+ takenWorkSpaces.stream().filter(ws -> ws.getId_work_space()==sw.getId_work_space()).findFirst().orElse(null).getSpace_name()  +", fenetre id : "+sw.getId_window());
+							if (sw.getConfigured_window()==true) configuredWinArrayList.add(sw);	
+							else winToCfgArrayList.add(sw);
 						}
 					}
+					
 					for (SmartWindow sw:winToCfgArrayList)  {ConfigurateWindowsPanel.getWinToCnfgmodel().addElement(sw);}	
+					for (SmartWindow sw:configuredWinArrayList)  {ConfigurateWindowsPanel.getConfiguredWinmodel().addElement(sw);}
 					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurate");	
 				}catch (InterruptedException | IOException e1) {
 					// TODO Auto-generated catch block
@@ -874,15 +875,14 @@ ActionListener returnButtonActionListener =new ActionListener() {
 			}}}; 
 			AdvancedFiltrePanel.getBtnOk().addActionListener(configurerActionListener);
 	}
-	public void loadReturn ()
-	{
+	public void loadReturn () {
 		ActionListener returnActionListener  =new ActionListener() {	
-	
-		
 		public void actionPerformed(ActionEvent e) {
-		
+		    //clean ConfigurateWindowsPanel models
+			ConfigurateWindowsPanel.getWinToCnfgmodel().removeAllElements();
+			ConfigurateWindowsPanel.getConfiguredWinmodel().removeAllElements();
 		FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");	
-	}
+			}
 		};
 		
 	    ConfigurateWindowsPanel.getRetourBtn().addActionListener(returnActionListener);
@@ -895,9 +895,52 @@ ActionListener returnButtonActionListener =new ActionListener() {
 				 new FrameToConfigurate();
 		
 		}
-	};
-	ConfigurateWindowsPanel.getConfigureBtn().addActionListener(confActionListener);
-	}
+	   };
+	   ConfigurateWindowsPanel.getConfigureBtn().addActionListener(confActionListener);
+	 }
+	
+	
+	public void loadWinAddBtn() {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {	
+				
+				@SuppressWarnings("deprecation")
+				Object[] selectedValues = ConfigurateWindowsPanel.getWinToCnfgList().getSelectedValues();
+				for (int i = 0; i < selectedValues.length; i++) {
+					Object x = selectedValues[i];
+					if (! ConfigurateWindowsPanel.getWinToCnfgSelmodel().contains((SmartWindow) x)) {
+						
+					ConfigurateWindowsPanel.getWinToCnfgSelmodel().addElement((SmartWindow) x);
+					System.out.println((SmartWindow)x);
+					}
+					
+				}		
+				 
+		
+		}
+	   };
+	   ConfigurateWindowsPanel.getWinAddBtn().addActionListener(confActionListener);
+	 }
+	
+	public void loadWinRmvBtn() {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("deprecation")
+				Object[] selectedValues = ConfigurateWindowsPanel.getWinToCnfgSelList().getSelectedValues();
+				for (int i = 0; i < selectedValues.length; i++) {
+					Object x = selectedValues[i];					
+					ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeElement((SmartWindow) x);								
+				}		
+		}
+	   };
+	   ConfigurateWindowsPanel.getWinRmvBtn().addActionListener(confActionListener);
+	 }
+	
+	
+	
+	
 	
 /******************Server Part*********************************************************/
 	public Socket connectToServer()  {

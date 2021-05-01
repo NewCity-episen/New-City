@@ -10,12 +10,22 @@ public class SmartWindow {
 	private boolean configured_window;
 	private int id_window;
 	private int window_orientation;
-	private int id_work_space;
+	private int id_work_space;	
 	@JsonIgnore
+	private String msgtoString ="";
 	
 	
 	
 	/*****GETTERS AND SETTERS******/
+	public String getMsgtoString() {
+		return msgtoString;
+	}
+
+	public void setMsgtoString(String msgtoString) {
+		this.msgtoString = msgtoString;
+	}
+
+	
 	public int getLevel_of_blind() {
 		return level_of_blind;
 	}
@@ -29,7 +39,7 @@ public class SmartWindow {
 	public void setTeint_of_glass(int teint_of_glass) {
 		this.teint_of_glass = teint_of_glass;
 	}
-	public boolean isConfigured() {
+	public boolean getConfigured_window() {
 		return configured_window;
 	}
 	public void setConfigured_window(boolean configured_window) {
@@ -58,12 +68,14 @@ public void updateWindow(SmartWindow w) {
 	this.level_of_blind=w.getLevel_of_blind();
 	this.teint_of_glass=w.getTeint_of_glass();
 	this.id_window=w.getId_window();
-	this.configured_window=w.isConfigured();
+	this.configured_window=w.getConfigured_window();
 	this.id_work_space=w.getWindow_orientation();
 	this.window_orientation=w.getWindow_orientation();
+	this.msgtoString=w.msgtoString;
 }
 public String toString() {
-	return ("espace "+ id_work_space +" : Fenetre "+configured_window);
+	if (this.msgtoString=="")return ("WorkSpace id "+ id_work_space +", Fenetre id : "+id_window);
+	else return this.msgtoString;
 }	
 
 }
