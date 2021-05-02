@@ -35,7 +35,10 @@ import javax.imageio.ImageIO;
 import javax.sql.rowset.WebRowSet;
 import javax.swing.UIManager;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +50,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ClientConfig.ClientConfig;
 import edu.episen.si.ing1.pds.client.ClientGUI;
+
+
 
 
 
@@ -90,6 +95,7 @@ public class Controller {
 		loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn() ;
+		loadvaliderbtnFTC ();
 	 
 		
 		
@@ -1103,7 +1109,16 @@ public class Controller {
 		
 		ActionListener confActionListener  =new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {	
-				 new FrameToConfigurate();
+				
+				if(! ConfigurateWindowsPanel.getWinToCnfgSelmodel().isEmpty())
+				{
+					 new FrameToConfigurate();	
+					 
+				}else 
+				{
+					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres");
+				}
+					
 		
 		}
 	   };
@@ -1123,7 +1138,6 @@ public class Controller {
 					if (! ConfigurateWindowsPanel.getWinToCnfgSelmodel().contains((SmartWindow) x)) {
 						
 					ConfigurateWindowsPanel.getWinToCnfgSelmodel().addElement((SmartWindow) x);
-					System.out.println((SmartWindow)x);
 					}
 					
 				}		
@@ -1149,6 +1163,39 @@ public class Controller {
 	   ConfigurateWindowsPanel.getWinRmvBtn().addActionListener(confActionListener);
 	 }
 	
+public void loadvaliderbtnFTC () {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				      
+				String preferredlum = FrameToConfigurate.getBg().getSelection().getActionCommand();
+				int preferredtem= FrameToConfigurate.getSelectedTem();
+				int nbrOfWinToCfg=ConfigurateWindowsPanel.getWinToCnfgSelmodel().size();
+				ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
+				Object [] winToCfgArrayObj=new Object [nbrOfWinToCfg];
+				ConfigurateWindowsPanel.getWinToCnfgSelmodel().copyInto(winToCfgArrayObj);
+				
+				for (Object swObj:winToCfgArrayObj) {
+					winToCfgArrayList.add((SmartWindow) swObj);						
+				}
+				
+				for (SmartWindow sw:winToCfgArrayList) {
+					try {
+					Response response=sendRequestToServer("update-SmartWindow.json","{\"id_window\": \""+sw.getId_window()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+preferredlum+ "\", \"preferredtem\": \""+preferredtem+"\"}");
+				    ConfigurateWindowsPanel.getConfiguredWinmodel().addElement(sw);
+				    ConfigurateWindowsPanel.getWinToCnfgmodel().removeElement(sw);
+						}catch (InterruptedException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				   }	
+				}
+				ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
+				JOptionPane.showMessageDialog(null,"Luminosité choisi : "+preferredlum+"\n"+"la valeur choisie est : "+preferredtem);
+				
+		}
+	   };
+	   FrameToConfigurate.getValiderbtnFTC().addActionListener(confActionListener);
+	 }
 	
 	
 	

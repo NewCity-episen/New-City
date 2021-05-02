@@ -10,7 +10,10 @@ public class SmartWindow {
 	private boolean configured_window;
 	private int id_window;
 	private int window_orientation;
-	private int id_work_space;	
+	private int id_work_space;
+	private String preferredlum="";
+	private int preferredtem;
+	
 	@JsonIgnore
 	private String msgtoString ="";
 	
@@ -63,6 +66,21 @@ public class SmartWindow {
 	public void setId_work_space(int id_work_space) {
 		this.id_work_space = id_work_space;
 	}
+	public String getPreferredlum() {
+		return preferredlum;
+	}
+
+	public void setPreferredlum(String preferredLum) {
+		this.preferredlum = preferredLum;
+	}
+
+	public int getPreferredtem() {
+		return preferredtem;
+	}
+
+	public void setPreferredtem(int preferredTem) {
+		this.preferredtem = preferredTem;
+	}
 	
 public void updateWindow(SmartWindow w) {
 	this.level_of_blind=w.getLevel_of_blind();
@@ -72,6 +90,8 @@ public void updateWindow(SmartWindow w) {
 	this.id_work_space=w.getWindow_orientation();
 	this.window_orientation=w.getWindow_orientation();
 	this.msgtoString=w.msgtoString;
+	this.preferredlum=w.preferredlum;
+	this.preferredtem=w.preferredtem;
 }
 public String toString() {
 	if (this.msgtoString=="")return ("WorkSpace id "+ id_work_space +", Fenetre id : "+id_window);
