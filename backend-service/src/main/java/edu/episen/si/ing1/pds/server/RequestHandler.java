@@ -111,7 +111,22 @@ public class RequestHandler {
 			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
 		}
-		
+
+		else if(requestOrder.equals("select-Equipments-List.json")) {
+			System.out.println("Workspace recu");
+			//ArrayList<Offer> offerList = new ArrayList<>();
+			String sql = "SELECT DISTINCT equipment_name FROM equipment";
+			System.out.println("Requete sql");
+			ResultSet rs= stmt.executeQuery(sql);
+			System.out.println("Requete sql bis");
+			ArrayList<String> rowList = new ArrayList<>();
+			
+			while(rs.next()) {
+				rowList.add(rs.getString("equipment_name"));
+				System.out.println("Line : " + rs.getString("equipment_name"));
+			}
+			return new Response(request.getRequestId(), rowList);
+		}
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
 
 		}
