@@ -23,7 +23,7 @@ public class AdvancedFiltrePanel {
 	private static JLabel titleLabel =new JLabel();
 	private static JLabel msgLabel=new JLabel();
 	private static JButton btnReturn = new JButton("retour");
-	private static JRadioButton btnFilterWindow = new JRadioButton ("Éspaces résérvés, mappés et possédant des fenetres",false);
+	private static JRadioButton btnFilterWindow = new JRadioButton ("Éspaces mappés et possédant des fenetres",false);
 	private static JButton btnOk =new JButton ("Filtrer");
 	private static int floorNum=1;
 	private static Building building=null;

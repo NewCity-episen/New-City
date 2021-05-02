@@ -29,7 +29,7 @@ public class LoanPanel {
 	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
 	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
-	private static JButton btnAdvancedFilter=new JButton("Filtres avancés"); //HF
+	private static JButton btnAdvancedFilter=new JButton("mes espaces reserves"); 
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
