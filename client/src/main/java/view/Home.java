@@ -29,7 +29,7 @@ public class Home{
 		homePanel.add(selectCompany);
 		homePanel.add(companyNameList);
 		JLabel gifNewcity = new JLabel("");
-		gifNewcity.setIcon(new ImageIcon(RequestsFileLocation+"\\new-city (2).gif"));
+		gifNewcity.setIcon(new ImageIcon(RequestsFileLocation+"/new-city (2).gif"));
 		gifNewcity.setBounds(161, 13, 534, 393);
 		homePanel.add(gifNewcity);
 		companyNameList.setMaximumRowCount(5);

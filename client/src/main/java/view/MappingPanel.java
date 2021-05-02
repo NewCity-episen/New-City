@@ -27,6 +27,8 @@ import ch.qos.logback.classic.Logger;
 import edu.episen.si.ing1.pds.client.ClientGUI;
 import model.WorkSpace;
 public class MappingPanel extends JFrame{
+	private static final String ConfigEnVar="REQUESTS_LOCATION";
+	private static String RequestsFileLocation = "";
 	private static  JPanel mappingPanel=new JPanel();
 	private static  CardLayout mappingCard=new CardLayout();
 	private static  JPanel choiceOfMappingPanel=new JPanel();
@@ -47,6 +49,7 @@ public class MappingPanel extends JFrame{
 	private static boolean opened=false;
 	public MappingPanel() {
 		setOpened(true);
+		RequestsFileLocation=System.getenv(ConfigEnVar);
 		this.setSize(View.getWIDTH(),View.getHEIGHT());
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -71,28 +74,38 @@ public class MappingPanel extends JFrame{
 		position.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
 		position.setBounds(12, 25, 480, 36);
 		mapSensorsBtn.setFocusPainted(false);
-		mapSensorsBtn.setBorderPainted(true);
+		mapSensorsBtn.setOpaque(true);
+		mapSensorsBtn.setBorderPainted(false);
 		mapSensorsBtn.setBackground(Color.gray);
 		returnButton.setBackground(Color.gray);
+		returnButton.setOpaque(true);
 		returnButton.setForeground(Color.white);
+		returnButton.setBorderPainted(false);
 		closeButton.setBackground(Color.gray);
+		closeButton.setOpaque(true);
+		closeButton.setBorderPainted(false);
 		closeButton.setForeground(Color.white);
 		closeButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		returnButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		okEquipmentButton.setBackground(Color.gray);
 		okEquipmentButton.setForeground(Color.white);
+		okEquipmentButton.setBorderPainted(false);
+		okEquipmentButton.setOpaque(true);
 		okEquipmentButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		cancelButton.setBackground(Color.gray);
+		cancelButton.setOpaque(true);
 		cancelButton.setForeground(Color.white);
 		cancelButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		mapSensorsBtn.setForeground(Color.white);
 		mapSensorsBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		mapSensorsBtn.setBounds(249, 255, 215, 42);
+		mapSensorsBtn.setOpaque(true);
 		mapEquipmentsBtn.setBounds(502, 255, 215, 42);
 		mapEquipmentsBtn.setFocusPainted(false);
-		mapEquipmentsBtn.setBorderPainted(true);
 		mapEquipmentsBtn.setBackground(Color.gray);
+		mapEquipmentsBtn.setOpaque(true);
 		mapEquipmentsBtn.setForeground(Color.white);
+		mapEquipmentsBtn.setBorderPainted(false);
 		mapEquipmentsBtn.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		choiceOfMappingPanel.add(mapEquipmentsBtn);
 		choiceOfMappingPanel.add(mapSensorsBtn);
@@ -111,14 +124,18 @@ public class MappingPanel extends JFrame{
 		refreshButton.setBounds(890,5,100,21);
 		refreshButton.setBackground(Color.gray);
 		refreshButton.setForeground(Color.white);
+		refreshButton.setBorderPainted(false);
+		refreshButton.setOpaque(true);
 		refreshButton.setFont(new Font("Segoe UI Semibold", Font.BOLD, 12));
 		cancelButton.setEnabled(false);
+		cancelButton.setBorderPainted(false);
 		mappingSpotsPanel.add(cancelButton);
 		mappingSpotsPanel.add(refreshButton);
 		returnButton.setBounds(24, 548, 97, 25);
+		returnButton.setBorderPainted(false);
 		mappingSpotsPanel.add(returnButton);
 		JLabel window1_1 = new JLabel("");
-		window1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-blue.png"));
+		window1_1.setIcon(new ImageIcon(RequestsFileLocation+"/pin-blue.png"));
 		window1_1.setBounds(823, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1);
 		
@@ -128,7 +145,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2);
 		
 		JLabel window1_1_1 = new JLabel("");
-		window1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-red.png"));
+		window1_1_1.setIcon(new ImageIcon(RequestsFileLocation+"/pin-red.png"));
 		window1_1_1.setBounds(678, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1);
 		
@@ -138,7 +155,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2_1);
 		
 		JLabel window1_1_1_1 = new JLabel("");
-		window1_1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-green.png"));
+		window1_1_1_1.setIcon(new ImageIcon(RequestsFileLocation+"/pin-green.png"));
 		window1_1_1_1.setBounds(531, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1_1);
 		
@@ -153,7 +170,7 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(lblNewLabel_2_1_1_1);
 		
 		JLabel window1_1_1_1_1 = new JLabel("");
-		window1_1_1_1_1.setIcon(new ImageIcon(ClientGUI.getRequestsFileLocation()+"\\pin-orange.gif"));
+		window1_1_1_1_1.setIcon(new ImageIcon(RequestsFileLocation+"/pin-orange.gif"));
 		window1_1_1_1_1.setBounds(392, 550, 32, 41);
 		mappingSpotsPanel.add(window1_1_1_1_1);
 		View.getappFrame().setVisible(false);
