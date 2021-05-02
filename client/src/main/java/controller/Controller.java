@@ -90,10 +90,7 @@ public class Controller {
 		loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn() ;
-	 
-		
-		
-
+		advancedFilterButtonLoad();
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -216,7 +213,7 @@ public class Controller {
 				 });
 			 
 			LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
-
+			LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -249,8 +246,17 @@ public class Controller {
 	}
 	
 	private void advancedFilterButtonLoad() {
-		new AdvancedFilterPanel();
-		//LoanPanel.getJPanel().dispose();
+		
+		try {
+			Response response= sendRequestToServer("select-Equipments-List.json",null);
+			System.out.println("result : " + response.getResponseData());
+			ArrayList<String> equipmentList = (ArrayList<String>)response.getResponseData();
+			new AdvancedFilterPanel(equipmentList);
+	
+		} catch (InterruptedException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 
