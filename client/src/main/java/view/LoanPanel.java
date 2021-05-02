@@ -30,6 +30,7 @@ public class LoanPanel {
 	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
 	private static JButton btnAdvancedFilter=new JButton("mes espaces reserves"); 
+	private static JButton advancedFilterButton=new JButton("Filtres avancees"); 
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
@@ -103,7 +104,6 @@ public class LoanPanel {
 		
 	}
 	public static JPanel getJPanel() {
-		// find a way to show two times the same JComboBox
 		loanPanel.add(buildingMessage);
 		loanPanel.add(buildingBoxFilter);
 		
@@ -115,11 +115,9 @@ public class LoanPanel {
 
 		loanPanel.add(areaMessage);
 		loanPanel.add(area);
-
+		loanPanel.add(advancedFilterButton);
 		loanPanel.add(filterButton);
-		//loanPanel.add(floorMap);
-		//floorMap map = new floorMap(4,3);
-		//loanPanel.add(map);
+
 		return panelAbsolute;
 	}
 	
@@ -173,7 +171,10 @@ public class LoanPanel {
 		LoanPanel.btnOkFloorBuilding = btnOkFloorBuilding;
 	}
 	
-	
+	public static JButton getAdvancedFilterButton() {
+		return advancedFilterButton;
+	}
+
 	public static JButton getBtnAdvancedFilter() {
 		return btnAdvancedFilter;
 	}
