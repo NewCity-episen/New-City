@@ -239,7 +239,7 @@ public class Controller {
 				offerList.add(offerRow);
 			}			
 
-			new LocationOfferPanel(offerList);
+			//new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -1091,6 +1091,7 @@ public class Controller {
 		    //clean ConfigurateWindowsPanel models
 			ConfigurateWindowsPanel.getWinToCnfgmodel().removeAllElements();
 			ConfigurateWindowsPanel.getConfiguredWinmodel().removeAllElements();
+			ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
 		FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");	
 			}
 		};
