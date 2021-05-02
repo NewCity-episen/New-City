@@ -1156,9 +1156,9 @@ public class Controller {
 		try {
 			
 			clientconfig= new ClientConfig();
-			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			//logger.info("Trying to connect to IP:{}",ip.getHostAddress());
-			InetAddress ip=InetAddress.getByName("localhost");
+			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
+			//InetAddress ip=InetAddress.getByName("localhost");
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
@@ -1194,8 +1194,7 @@ public class Controller {
 					Thread.sleep(0); /* The thread sleeps until there is data in the inputStream
 											sent by the server*/						
 				}
-                byte [] inputData=new byte[inputStream.available()];
-                inputStream.read(inputData);
+                byte [] inputData=inputStream.readAllBytes() ;        
                 logger.debug("Data received {} bytes from server, content={}",inputData.length,new String(inputData));
                 Response response=jsonMapper.readValue(new String(inputData), Response.class);
                 out.close();
