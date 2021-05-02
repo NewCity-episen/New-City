@@ -497,16 +497,16 @@ public class Controller {
 			ArrayList<Spot> allSpots=mapper.readValue(responseBody,
 					 new TypeReference<ArrayList<Spot>>(){});
 			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\openspace.jpg"));	
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/openspace.jpg"));	
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_conférence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_réunion.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -661,10 +661,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
