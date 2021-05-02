@@ -80,6 +80,7 @@ public class Controller {
 		refreshButtonLoad();
 		quitButtonLoad();
 		okButtonLoad();
+		loadMappingButtons();
 		filterLoad();
 		loadAdvancedFiltre();
 		loadReturnButton();
@@ -87,7 +88,6 @@ public class Controller {
 		loadReturn ();
 		filterButtonLoad();
 		loadConfigurate();
-		loadMappingButtons();
 		loadAdvancedFiltre();
 		loadReturnButton();		
 		loadReturn ();		
@@ -95,11 +95,15 @@ public class Controller {
 		loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn() ;
+<<<<<<< HEAD
 		loadvaliderbtnFTC ();
 	 
 		
 		
 
+=======
+		advancedFilterButtonLoad();
+>>>>>>> d5083d4e8e57468e9f3e5f661de24af5819a57b0
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -222,13 +226,14 @@ public class Controller {
 				 });
 			 
 			LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
-
+			LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
  
 	}
+
 
 	private void filterButtonLoad() {
 		
@@ -245,13 +250,28 @@ public class Controller {
 				offerList.add(offerRow);
 			}			
 
-			//new LocationOfferPanel(offerList);
+			new LocationOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		//LoanPanel.getJPanel().dispose();
 	}
+	
+	private void advancedFilterButtonLoad() {
+		
+		try {
+			Response response= sendRequestToServer("select-Equipments-List.json",null);
+			System.out.println("result : " + response.getResponseData());
+			ArrayList<String> equipmentList = (ArrayList<String>)response.getResponseData();
+			new AdvancedFilterPanel(equipmentList);
+	
+		} catch (InterruptedException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	
 
 	public void loadBuildingMap() {
 		int row=0;int column=0;
@@ -412,17 +432,17 @@ public class Controller {
 		MappingPanel.getCancelButton().setEnabled(false);
 	
 		if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\openspace.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/openspace.jpg"));
 			
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
 		}
 		if(x==1) {
 		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
@@ -438,7 +458,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -449,13 +469,13 @@ public class Controller {
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
-						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-white.png"));
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-white.png"));
 					}
 					public void mouseExited(MouseEvent e) {
 						if(!spot.getColor().equals("orange")) {
-						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".png"));
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-"+spot.getColor()+".png"));
 						}else {
-							spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".gif"));
+							spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-"+spot.getColor()+".gif"));
 						}
 					}
 					public void mouseClicked(MouseEvent e) {
@@ -463,21 +483,21 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
-				spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-blue.png"));
+				spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-blue.png"));
 				spot.setColor("blue");
 				spot.getRemoveBtnItem().setEnabled(false);
 				}
 				else if((spot.isTaken())&&(spot.isState())) {
-					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-green.png"));
+					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-green.png"));
 					spot.setColor("green");
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
 				else if((spot.isTaken())&&((!spot.isState()))){
-					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-red.png"));
+					spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-red.png"));
 					spot.setColor("red");
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
@@ -503,16 +523,16 @@ public class Controller {
 			ArrayList<Spot> allSpots=mapper.readValue(responseBody,
 					 new TypeReference<ArrayList<Spot>>(){});
 			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\openspace.jpg"));	
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/openspace.jpg"));	
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\bureau.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -550,7 +570,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -588,7 +608,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -612,19 +632,19 @@ public class Controller {
 				 
 				try{
 					if(!spot.isTaken()) {
-						BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-blue.png"));
+						BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"/pin-blue.png"));
 				spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 				spot.setColor("blue");
 				spot.getRemoveBtnItem().setEnabled(false);
 				}
 				else if((spot.isTaken())&&(spot.isState())) {
-					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-green.png"));
+					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"/pin-green.png"));
 					spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 					spot.setColor("green");
 					spot.getRemoveBtnItem().setEnabled(true);
 				}
 				else if((spot.isTaken())&&((!spot.isState()))){
-					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"\\pin-red.png"));
+					BufferedImage	myPicture = ImageIO.read(new File(RequestsFileLocation+"/pin-red.png"));
 					spot.getLabelSpot().setIcon(new ImageIcon(myPicture));
 					spot.setColor("red");
 					spot.getRemoveBtnItem().setEnabled(true);
@@ -636,17 +656,17 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
-						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-white.png"));
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-white.png"));
 					}
 					public void mouseExited(MouseEvent e) {
 						if(!spot.getColor().equals("orange")) {
-						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".png"));
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-"+spot.getColor()+".png"));
 						}else {
-							spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-"+spot.getColor()+".gif"));
+							spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-"+spot.getColor()+".gif"));
 						}
 					}
 					public void mouseClicked(MouseEvent e) {
@@ -660,17 +680,17 @@ public class Controller {
 			JLabel spotsMapBackground=new JLabel();
 			spotsMapBackground.setBounds(0, 0, 888, 508);
 			if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\openspace.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/openspace.jpg"));
 				
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("bureau")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\bureau.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_confï¿½rence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"\\salle_de_rï¿½union.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
@@ -681,6 +701,7 @@ public class Controller {
 		
 	}
 	public void loadMappingButtons() {
+		logger.info("hey");
 		MappingPanel.getMapEquipmentsBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -736,7 +757,7 @@ public class Controller {
 						}
 						spot.getLabelSpot().invalidate();
 						spot.getLabelSpot().revalidate();
-						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"\\pin-orange.gif"));
+						spot.getLabelSpot().setIcon(new ImageIcon(RequestsFileLocation+"/pin-orange.gif"));
 						spot.setColor("orange");
 						spot.getPopUpMenu().revalidate();
 						
@@ -901,11 +922,8 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
-
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");			
-
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+	
 			}
 			
 		};
@@ -1205,9 +1223,9 @@ public void loadvaliderbtnFTC () {
 		try {
 			
 			clientconfig= new ClientConfig();
-			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			//logger.info("Trying to connect to IP:{}",ip.getHostAddress());
-			InetAddress ip=InetAddress.getByName("localhost");
+			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
+			//InetAddress ip=InetAddress.getByName("localhost");
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
@@ -1243,8 +1261,7 @@ public void loadvaliderbtnFTC () {
 					Thread.sleep(0); /* The thread sleeps until there is data in the inputStream
 											sent by the server*/						
 				}
-                byte [] inputData=new byte[inputStream.available()];
-                inputStream.read(inputData);
+                byte [] inputData=inputStream.readAllBytes() ;        
                 logger.debug("Data received {} bytes from server, content={}",inputData.length,new String(inputData));
                 Response response=jsonMapper.readValue(new String(inputData), Response.class);
                 out.close();
