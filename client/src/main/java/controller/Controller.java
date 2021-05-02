@@ -95,15 +95,15 @@ public class Controller {
 		loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn() ;
-<<<<<<< HEAD
+
 		loadvaliderbtnFTC ();
 	 
 		
 		
 
-=======
+
 		advancedFilterButtonLoad();
->>>>>>> d5083d4e8e57468e9f3e5f661de24af5819a57b0
+
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -439,10 +439,10 @@ public class Controller {
 			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 		}
 		if(x==1) {
 		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
@@ -458,7 +458,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -483,7 +483,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -529,10 +529,10 @@ public class Controller {
 				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -570,7 +570,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -608,7 +608,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -656,7 +656,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -687,10 +687,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conférence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_réunion.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
@@ -922,7 +922,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
 	
 			}
 			
@@ -1208,12 +1208,14 @@ public void loadvaliderbtnFTC () {
 				   }	
 				}
 				ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
-				JOptionPane.showMessageDialog(null,"LuminositÃ© choisi : "+preferredlum+"\n"+"la valeur choisie est : "+preferredtem);
+				
 				
 		}
 	   };
 	   FrameToConfigurate.getValiderbtnFTC().addActionListener(confActionListener);
 	 }
+
+
 	
 	
 	

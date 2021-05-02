@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -27,7 +28,8 @@ public class FrameToConfigurate extends JFrame implements ChangeListener {
 	private final int MinTem=20;
 	private final int MaxTem=28;
 	private final int DefaultTem=24;
-	private static JButton validerbtnFTC =new  JButton("valider");;
+	private static JButton validerbtnFTC =new  JButton("valider");
+	private static JButton annulerbtnFTC = new JButton("annuler");
 	private static JSlider slider;
 	private static int selectedTem=24;
 	private static ButtonGroup bg=new ButtonGroup();;
@@ -104,9 +106,9 @@ public class FrameToConfigurate extends JFrame implements ChangeListener {
 		
 		slider.addChangeListener(this);
 		
-		JButton btnNewButton = new JButton("annuler");
-		btnNewButton.setBounds(73, 330, 117, 29);
-		framePanel.add(btnNewButton);
+		annulerbtnFTC.setBounds(73, 330, 117, 29);
+		framePanel.add(annulerbtnFTC);
+		
 		
 		validerbtnFTC.setBounds(195, 330, 117, 29);
 		framePanel.add(validerbtnFTC);
@@ -125,6 +127,20 @@ public class FrameToConfigurate extends JFrame implements ChangeListener {
 				}
 			});
 		
+	}
+
+
+
+
+	public static JButton getAnnulerbtnFTC() {
+		return annulerbtnFTC;
+	}
+
+
+
+
+	public static void setAnnulerbtnFTC(JButton annulerbtnFTC) {
+		FrameToConfigurate.annulerbtnFTC = annulerbtnFTC;
 	}
 
 
