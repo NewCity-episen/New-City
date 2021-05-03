@@ -175,23 +175,24 @@ public class MappingPanel extends JFrame{
 		mappingSpotsPanel.add(window1_1_1_1_1);
 		View.getappFrame().setVisible(false);
 		this.setVisible(true);
+		position2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 	}
 	public static  void showChoiceOfMappingPanel() {
 		mappingCard.show(mappingPanel, "Choix");	
-		position.setText("WorkSpace "+workSpace.getId_work_space()+", \u00C9tage "+ workSpace.getSpace_floor()+" - B\u00E2timent "+ workSpace.getId_building());
+		position.setText("WorkSpace "+workSpace.getSpace_name()+", \u00C9tage "+ workSpace.getSpace_floor()+" - B\u00E2timent "+ workSpace.getId_building());
 		choiceOfMappingPanel.validate();
 	}
 	public static void showMappingPanel(int choice) {
 		mappingCard.show(mappingPanel, "Emplacement");
 		if(choice==1) {// if user clicked on "mapper équipements"
 			currentp=2;
-			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getId_work_space()+" a mapper");
+			position2.setText("Plan des emplacements des équipements du workspace "+workSpace.getSpace_name()+" a mapper");
 
 		}
 		else {
 			currentp=3;
-			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getId_work_space()+" a mapper");
+			position2.setText("Plan des emplacements des capteurs du workspace "+workSpace.getSpace_name()+" a mapper");
 		}
 		
 

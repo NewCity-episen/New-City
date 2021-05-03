@@ -178,6 +178,26 @@ public class RequestHandler {
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}
+		else if(requestOrder.toUpperCase().equals("UNMAP_WORKSPACE")){
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			stmt.executeUpdate("UPDATE spot SET id_equipment=null, taken=false WHERE id_work_space="+valuesMap.get("id_work_space"));
+			stmt.executeUpdate("UPDATE material_needs SET installed=false WHERE id_work_space="+valuesMap.get("id_work_space"));
+			stmt.executeUpdate("UPDATE work_space SET configurable=false WHERE id_work_space="+valuesMap.get("id_work_space"));
+			ResultSet rs= stmt.executeQuery("SELECT id_equipment FROM spot WHERE id_work_space="+valuesMap.get("id_work_space"));
+			while(rs.next()) {
+				stmt.executeUpdate("UPDATE equipment SET id_window=null WHERE id_equipment="+rs.getInt("id_equipment"));
+				
+			}
+			rs.close();
+			responseBody="{ \"message\": \"Update is successful\"}";
+		}
+		else if(requestOrder.toUpperCase().equals("STATE_EQUIPMENT_FALSE")) {
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			ResultSet rs= stmt.executeQuery("SELECT id_equipment FROM spot WHERE id_spot="+valuesMap.get("id_spot"));
+			stmt.executeUpdate("UPDATE material_needs SET state=false WHERE id_equipment="+rs.getInt("id_equiment"));
+			rs.close();
+			responseBody="{ \"message\": \"Update is successful\"}";
+		}
 		
 		else if(requestOrder.toUpperCase().equals("UPDATE_SMARTWINDOW")) {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
@@ -186,6 +206,7 @@ public class RequestHandler {
 			stmt.executeUpdate(sqlRequest);
 			System.out.print(sqlRequest);
 			responseBody="{ \"message\": \"Update is successful\"}";
+			
 			
 		}
 			stmt.close();

@@ -60,7 +60,7 @@ import edu.episen.si.ing1.pds.client.ClientGUI;
 
 
 public class Controller {
-	private String RequestsFileLocation="";
+	private static String RequestsFileLocation="";
 	private static final String ConfigEnVar="REQUESTS_LOCATION";
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
 	private Model mdl;
@@ -445,10 +445,10 @@ public class Controller {
 			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conf�rence.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_r�union.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
 		}
 		if(x==1) {
 		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
@@ -464,7 +464,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> install�:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -489,7 +489,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> install�:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -535,10 +535,10 @@ public class Controller {
 				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conf�rence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_r�union.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -576,7 +576,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> install�:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -614,7 +614,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> install�:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -662,7 +662,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> install�:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -693,10 +693,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conf�rence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conférence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_r�union.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_réunion.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
@@ -808,7 +808,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 				if(MappingPanel.getCurrentp()==2) {
 					MappingPanel.getMapEquipmentsBtn().doClick();
 				}
@@ -1227,7 +1227,7 @@ public void loadvaliderbtnFTC () {
 	
 	
 /******************Server Part*********************************************************/
-	public Socket connectToServer()  {
+	public static Socket connectToServer()  {
 		try {
 			
 			clientconfig= new ClientConfig();
@@ -1245,7 +1245,7 @@ public void loadvaliderbtnFTC () {
 		
 	}
 	
-	public Response sendRequestToServer(String jsonNameFile,String jsonValues) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
+	public static Response sendRequestToServer(String jsonNameFile,String jsonValues) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
 		
 		Socket socketClient=connectToServer();
 		if(socketClient==null) {
