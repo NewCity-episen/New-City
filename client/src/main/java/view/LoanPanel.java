@@ -29,8 +29,11 @@ public class LoanPanel {
 	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
 	private static JComboBox floorBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
-	private static JButton btnAdvancedFilter=new JButton("mes espaces reserves"); 
+
+	private static JButton btnAdvancedFilter=new JButton(" espaces reserves"); 
+
 	private static JButton advancedFilterButton=new JButton("Filtres avancees"); 
+
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
@@ -88,15 +91,15 @@ public class LoanPanel {
 		panelMap.setBounds(37, 120, 680, 400);
 		panelMap.setLayout(new FlowLayout(FlowLayout.CENTER,15,15));
 		panelAbsolute.add(panelMap);
-		buildingBox.setBounds(210, 540, 108, 22);//-200 en X
+		buildingBox.setBounds(210, 540, 108, 22);
 		buildingBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(buildingBox);
-		floorBox.setBounds(330, 540, 108, 22);//-200 en X
+		floorBox.setBounds(330, 540, 108, 22);
 		floorBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(floorBox);
-		btnOkFloorBuilding.setBounds(450,540,130,22);//-200 en X
+		btnOkFloorBuilding.setBounds(450,540,130,22);
 		panelAbsolute.add(btnOkFloorBuilding);
-		btnAdvancedFilter.setBounds(590,540,130,22);//HF, -200 en X
+		btnAdvancedFilter.setBounds(590,540,130,22);
 		panelAbsolute.add(btnAdvancedFilter);//HF
 
 	}

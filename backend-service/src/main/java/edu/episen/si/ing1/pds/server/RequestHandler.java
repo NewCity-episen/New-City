@@ -18,13 +18,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import shared.code.Request;
 import shared.code.Response;
+
 ///import shared.code.Offer;
 
 
 
 public class RequestHandler {
 	
-	//private final static Logger logger=LoggerFactory.getLogger(RequestHandler.class.getName());
+	private final static Logger logger=LoggerFactory.getLogger(RequestHandler.class.getName());
 	
 	
 	public static Response handle(Request request, Connection cnx) throws JsonMappingException, JsonProcessingException, SQLException {
@@ -150,6 +151,9 @@ public class RequestHandler {
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}
+		
+		
+		
 		else if(requestOrder.toUpperCase().equals("UPDATE_MATERIALNEEDS")) {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
@@ -171,6 +175,16 @@ public class RequestHandler {
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			sqlRequest+="id_window="+valuesMap.get("id_window")+" WHERE id_equipment="+valuesMap.get("id_equipment");
 			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
+		
+		else if(requestOrder.toUpperCase().equals("UPDATE_SMARTWINDOW")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);			
+			sqlRequest+="configured_window="+valuesMap.get("configured_window")+", preferredtem = "+valuesMap.get("preferredtem")+", preferredlum = '"+valuesMap.get("preferredlum")+"' WHERE id_window="+valuesMap.get("id_window");
+			stmt.executeUpdate(sqlRequest);
+			System.out.print(sqlRequest);
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}

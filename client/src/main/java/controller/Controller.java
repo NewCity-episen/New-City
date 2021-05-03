@@ -35,7 +35,10 @@ import javax.imageio.ImageIO;
 import javax.sql.rowset.WebRowSet;
 import javax.swing.UIManager;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +50,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ClientConfig.ClientConfig;
 import edu.episen.si.ing1.pds.client.ClientGUI;
+
+
 
 
 
@@ -90,7 +95,15 @@ public class Controller {
 		loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn() ;
+
+		loadvaliderbtnFTC ();
+	 
+		
+		
+
+
 		advancedFilterButtonLoad();
+
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -432,10 +445,10 @@ public class Controller {
 			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 		}
 		else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
+			MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 		}
 		if(x==1) {
 		MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
@@ -451,7 +464,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -476,7 +489,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -522,10 +535,10 @@ public class Controller {
 				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_conférence.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_réunion.jpg"));
+				MappingPanel.setSpotsMap(new SpotsMapBackground(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().setBounds(10, 30, 888, 508);
 			MappingPanel.getSpotsMap().setLayout(null);
@@ -563,7 +576,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -601,7 +614,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -649,7 +662,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installï¿½:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -680,10 +693,10 @@ public class Controller {
 				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/bureau.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de conference")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_conférence.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_confï¿½rence.jpg"));
 			}
 			else if(MappingPanel.getWorkSpace().getSpace_type().equals("salle de reunion")) {
-				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_réunion.jpg"));
+				spotsMapBackground.setIcon(new ImageIcon(RequestsFileLocation+"/salle_de_rï¿½union.jpg"));
 			}
 			MappingPanel.getSpotsMap().add(spotsMapBackground);
 			MappingPanel.getSpotsMap().revalidate();			
@@ -915,7 +928,7 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Réservation");	
+				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Rï¿½servation");	
 	
 			}
 			
@@ -1120,7 +1133,16 @@ public class Controller {
 		
 		ActionListener confActionListener  =new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {	
-				 new FrameToConfigurate();
+				
+				if(! ConfigurateWindowsPanel.getWinToCnfgSelmodel().isEmpty())
+				{
+					 new FrameToConfigurate();	
+					 
+				}else 
+				{
+					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres");
+				}
+					
 		
 		}
 	   };
@@ -1140,7 +1162,6 @@ public class Controller {
 					if (! ConfigurateWindowsPanel.getWinToCnfgSelmodel().contains((SmartWindow) x)) {
 						
 					ConfigurateWindowsPanel.getWinToCnfgSelmodel().addElement((SmartWindow) x);
-					System.out.println((SmartWindow)x);
 					}
 					
 				}		
@@ -1166,6 +1187,41 @@ public class Controller {
 	   ConfigurateWindowsPanel.getWinRmvBtn().addActionListener(confActionListener);
 	 }
 	
+public void loadvaliderbtnFTC () {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				      
+				String preferredlum = FrameToConfigurate.getBg().getSelection().getActionCommand();
+				int preferredtem= FrameToConfigurate.getSelectedTem();
+				int nbrOfWinToCfg=ConfigurateWindowsPanel.getWinToCnfgSelmodel().size();
+				ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
+				Object [] winToCfgArrayObj=new Object [nbrOfWinToCfg];
+				ConfigurateWindowsPanel.getWinToCnfgSelmodel().copyInto(winToCfgArrayObj);
+				
+				for (Object swObj:winToCfgArrayObj) {
+					winToCfgArrayList.add((SmartWindow) swObj);						
+				}
+				
+				for (SmartWindow sw:winToCfgArrayList) {
+					try {
+					Response response=sendRequestToServer("update-SmartWindow.json","{\"id_window\": \""+sw.getId_window()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+preferredlum+ "\", \"preferredtem\": \""+preferredtem+"\"}");
+				    ConfigurateWindowsPanel.getConfiguredWinmodel().addElement(sw);
+				    ConfigurateWindowsPanel.getWinToCnfgmodel().removeElement(sw);
+						}catch (InterruptedException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				   }	
+				}
+				ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
+				
+				
+		}
+	   };
+	   FrameToConfigurate.getValiderbtnFTC().addActionListener(confActionListener);
+	 }
+
+
 	
 	
 	
