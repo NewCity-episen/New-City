@@ -248,11 +248,17 @@ public class Controller {
 	private void advancedFilterButtonLoad() {
 		
 		try {
-			Response response= sendRequestToServer("select-Equipments-List.json",null);
+			System.out.println("Requete envoyee cote client");
+			Response response= sendRequestToServer("select-equipment-list.json",null);
 			System.out.println("result : " + response.getResponseData());
-			ArrayList<String> equipmentList = (ArrayList<String>)response.getResponseData();
-			new AdvancedFilterPanel(equipmentList);
+			ArrayList<Map> equipmentList = (ArrayList<Map>)response.getResponseData();			
+			ArrayList<String> equipmentNameList = new ArrayList<String>();
 	
+			for(int i = 0; i < equipmentList.size(); i++) {
+				equipmentNameList.add((String)(equipmentList.get(i).get("equipment_name")));
+			}			
+
+			new AdvancedFilterPanel(equipmentNameList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
