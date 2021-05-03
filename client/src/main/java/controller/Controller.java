@@ -250,7 +250,7 @@ public class Controller {
 				offerList.add(offerRow);
 			}			
 
-			new LocationOfferPanel(offerList);
+			new LoanOfferPanel(offerList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
