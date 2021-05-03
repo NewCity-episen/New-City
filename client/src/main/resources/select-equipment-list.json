@@ -1,6 +1,6 @@
 {
-		"request_id": "136",
-		"request_order": "SELECT",
+		"request_id": "140",
+		"request_order": "equipment_list",
 		"request_table": "equipment",
 		"request_body": {
 	       

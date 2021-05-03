@@ -87,7 +87,6 @@ public class RequestHandler {
 		}
 		else if (requestOrder.equals("available_workspace")) {
 			System.out.println("Workspace recu");
-			//ArrayList<Offer> offerList = new ArrayList<>();
 			String sql = "SELECT * FROM work_space INNER JOIN building ON work_space.id_building = building.id_building and taken = false";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
@@ -112,21 +111,27 @@ public class RequestHandler {
 			return new Response(request.getRequestId(), rowList);
 		}
 
-		else if(requestOrder.equals("select-Equipments-List.json")) {
-			System.out.println("Workspace recu");
-			//ArrayList<Offer> offerList = new ArrayList<>();
-			String sql = "SELECT DISTINCT equipment_name FROM equipment";
+		else if(requestOrder.equals("equipment_list")) {
+			System.out.println("Equipment name recu");
+			String sql = "SELECT DISTINCT equipment_name, unit_cost, ref FROM equipment";
 			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
 			System.out.println("Requete sql bis");
-			ArrayList<String> rowList = new ArrayList<>();
+			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
-				rowList.add(rs.getString("equipment_name"));
-				System.out.println("Line : " + rs.getString("equipment_name"));
+				HashMap<String, Object> row = new HashMap<>();
+				row.put("equipment_name", rs.getString("equipment_name"));
+				row.put("unit_cost", rs.getInt("unit_cost"));
+				row.put("ref", rs.getInt("ref"));
+				
+				rowList.add(row);
+				System.out.println("Line : " + row);
 			}
+			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
 		}
+
 		else if(requestOrder.toUpperCase().equals("INSERT")) {
 
 		}
