@@ -95,7 +95,6 @@ public class Controller {
 		loadWinAddBtn();
 		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
-
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -222,12 +221,13 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public void filterLoad() {
 		LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
 		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 	}
+	
+	/*public void filterLoad() {
+		
+	}*/
 
 	public static void loanButtonLoad(String spaceName) {
 		try {
