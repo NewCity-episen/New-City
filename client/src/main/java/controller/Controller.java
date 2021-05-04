@@ -81,12 +81,11 @@ public class Controller {
 		quitButtonLoad();
 		okButtonLoad();
 		loadMappingButtons();
-		filterLoad();
+		filterInfoLoad();
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
 		loadReturn ();
-		filterButtonLoad();
 		loadConfigurate();
 		loadAdvancedFiltre();
 		loadReturnButton();		
@@ -96,7 +95,6 @@ public class Controller {
 		loadWinAddBtn();
 		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
-		advancedFilterButtonLoad();
 
 	}
 	public void loadData() {
@@ -185,7 +183,7 @@ public class Controller {
  
 	}
 	
-	public void filterLoad() {
+	public void filterInfoLoad() {
 		Response response;
 		try {
 			response = sendRequestToServer("select-Buildings.json",null);
@@ -219,20 +217,25 @@ public class Controller {
 					} 
 				 });
 			 
-			LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
-			LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
+			
 			 } catch (InterruptedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
- 
+	}
+	
+	public void filterLoad() {
+		LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
+		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 	}
 
 	public static void loanButtonLoad(String spaceName) {
 		try {
 			System.out.println("Trying to loan space " + spaceName);
+			System.out.println("loan-work-space.json" + "{\"spaceName\": \"" + spaceName + "\", \"companyId\": \"" + 
+					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 
-			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"spaceName\": \"" + spaceName + "\", \"companyId\": \"" + 
+			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\":\"" + spaceName + "\",\"id_entreprise\":\"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 			System.out.println("Request well send ");
 			//boolean result = (boolean)response.getResponseData();
