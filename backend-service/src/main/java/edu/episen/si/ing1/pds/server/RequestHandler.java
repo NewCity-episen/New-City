@@ -129,7 +129,7 @@ public class RequestHandler {
 				System.out.println("Requete sql");
 				return new Response(request.getRequestId(), "" + spaceName + " reserved with success");
 			}
-			return new Response(request.getRequestId(), rs.getBoolean("taken"));
+			
 			
 		}
 		

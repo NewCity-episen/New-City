@@ -473,7 +473,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -498,7 +498,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -585,7 +585,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -623,7 +623,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -671,7 +671,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -755,7 +755,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				boolean compatible=false;
 				Equipment equipmentChoosed=(Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
 				if(equipmentChoosed!=null) {
 				ArrayList<Spot> allSpots=MappingPanel.getWorkSpace().getSpots();
@@ -764,6 +764,7 @@ public class Controller {
 					if((spot.getSpot_type().equals(equipmentChoosed.getEquipment_spot_type()))||
 							(equipmentChoosed.getEquipment_type().equals("sensorWindows")&&((spot.getSpot_type().equals("On Window Right"))||
 								(spot.getSpot_type().equals("On Window Left"))))) {
+						compatible=true;
 						if(spot.isTaken()) {
 							spot.getPlaceBtnItem().setEnabled(false);
 						}
@@ -779,6 +780,9 @@ public class Controller {
 						MappingPanel.getCancelButton().setEnabled(true);
  	
 					}
+				}
+				if(!compatible) {
+					new JOptionPane().showMessageDialog(null, "Aucun emplacement est compatible avec l'équipement choisi!");
 				}
 				}
 			}
@@ -872,8 +876,8 @@ public class Controller {
 								sensorInstalled++;
 							}
 						}
-						if(((sensorInstalled==5)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
-						(sensorInstalled==10)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
+						if(((sensorInstalled==4)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
+						(sensorInstalled==8)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
 							response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
 									+ "\"configurable\": \""+true +"\"}");
 							

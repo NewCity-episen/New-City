@@ -19,7 +19,6 @@ import javax.swing.table.TableCellRenderer;
 
 import controller.Controller;
 import model.Offer;
-import model.LoanInformation;
 import controller.Controller;
 import shared.code.Request;
 import shared.code.Response;
