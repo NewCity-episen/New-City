@@ -95,12 +95,11 @@ public class Controller {
 		loadWinAddBtn();
 		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
+		
 	}
 	public void loadData() {
 		loadCompaniesBox();
 		buildingAndFloorBoxLoad();
-
-		
 	}
 	public void buildingAndFloorBoxLoad() {
 		Response response;
@@ -232,15 +231,12 @@ public class Controller {
 	public static void loanButtonLoad(String spaceName) {
 		try {
 			System.out.println("Trying to loan space " + spaceName);
-			System.out.println("loan-work-space.json" + "{\"spaceName\": \"" + spaceName + "\", \"companyId\": \"" + 
-					mdl.getSelectedCompany().getId_entreprise() + "\"}");
-
-			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\":\"" + spaceName + "\",\"id_entreprise\":\"" + 
+			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 			System.out.println("Request well send ");
-			//boolean result = (boolean)response.getResponseData();
+			boolean result = (boolean)response.getResponseData();
 			
-			//System.out.println(result);
+			System.out.println(result);
 			
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block

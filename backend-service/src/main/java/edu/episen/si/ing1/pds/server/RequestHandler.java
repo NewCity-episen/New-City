@@ -39,7 +39,7 @@ public class RequestHandler {
 		
 		final ObjectMapper mapper=new ObjectMapper();
 	
-		
+		System.out.print("Request order : " + requestOrder);
 		if(requestOrder.toUpperCase().equals("SELECT")) { //this only works for requests that are like this : 
 															//SELECT * FROM TABLE_NAME WHERE column_name='column_value' AND column_name1='column_value1' AND .......;
 			sqlRequest="SELECT * FROM "+ request.getRequestTable();
@@ -116,19 +116,19 @@ public class RequestHandler {
 			System.out.println("Demande de reservation recu");
 			Map<String,Object> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 
-			String spaceName = (String)valuesMap.get("spaceName");
-			String companyId = (String)valuesMap.get("companyId");
+			String spaceName = (String)valuesMap.get("space_name");
+			String companyId = (String)valuesMap.get("id_entreprise");
 			
 			String sql = "SELECT taken from work_space WHERE space_name = '" + spaceName + "'";
 			ResultSet rs= stmt.executeQuery(sql);
 	
-			/*if(rs.getBoolean("taken")) {
+			if(rs.getBoolean("taken")) {
 				return new Response(request.getRequestId(), "" + spaceName + " already taken");
 			} else  {			
 				String sqlUpdate = "UPDATE work_space SET taken = 'true', id_entreprise = " + companyId + " WHERE space_name = '" + spaceName + "'";
 				System.out.println("Requete sql");
 				return new Response(request.getRequestId(), "" + spaceName + " reserved with success");
-			}*/
+			}
 			return new Response(request.getRequestId(), rs.getBoolean("taken"));
 			
 		}
