@@ -63,7 +63,7 @@ public class Controller {
 	private static String RequestsFileLocation="";
 	private static final String ConfigEnVar="REQUESTS_LOCATION";
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
-	private Model mdl;
+	private static Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
 	
@@ -94,14 +94,8 @@ public class Controller {
 		loadConfigurateWindows();	
 		loadConfigurate(); 
 		loadWinAddBtn();
-		loadWinRmvBtn() ;
-
+		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
-	 
-		
-		
-
-
 		advancedFilterButtonLoad();
 
 	}
@@ -234,6 +228,22 @@ public class Controller {
  
 	}
 
+	public static void loanButtonLoad(String spaceName) {
+		try {
+			System.out.println("Trying to loan space " + spaceName);
+
+			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"spaceName\": \"" + spaceName + "\", \"companyId\": \"" + 
+					mdl.getSelectedCompany().getId_entreprise() + "\"}");
+			System.out.println("Request well send ");
+			//boolean result = (boolean)response.getResponseData();
+			
+			//System.out.println(result);
+			
+		} catch (InterruptedException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	private void filterButtonLoad() {
 		
