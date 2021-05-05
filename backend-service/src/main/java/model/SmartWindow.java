@@ -14,6 +14,7 @@ public class SmartWindow {
 	private String preferredlum="";
 	private int preferredtem;
 	
+	
 	@JsonIgnore
 	private String msgtoString ="";
 	
@@ -82,6 +83,7 @@ public class SmartWindow {
 		this.preferredtem = preferredTem;
 	}
 	
+
 public void updateWindow(SmartWindow w) {
 	this.level_of_blind=w.getLevel_of_blind();
 	this.teint_of_glass=w.getTeint_of_glass();
@@ -94,8 +96,28 @@ public void updateWindow(SmartWindow w) {
 	this.preferredtem=w.preferredtem;
 }
 public String toString() {
-	if (this.msgtoString=="")return ("WorkSpace id "+ id_work_space +", Fenetre id : "+id_window);
-	else return this.msgtoString;
+	if (this.msgtoString=="")return ("WorkSpace id "+ id_work_space +", Fenetre id : "+id_window+this.getOrientationText());
+	else return this.msgtoString+getOrientationText();
 }	
+public String getOrientationText() {
+	String orientation="";
+	if(this.window_orientation>23 && this.window_orientation<=68) {
+		orientation=" (Orientation Nord-Est)";
+	}else if (this.window_orientation>68 && this.window_orientation<=113) {
+		orientation=" (Orientation Est)";
+	}else if (this.window_orientation>113 && this.window_orientation<=158) {
+		orientation=" (Orientation Sud-Est)";
+	}else if (this.window_orientation>158 && this.window_orientation<=203) {
+		orientation=" (Orientation Sud)";
+	}else if (this.window_orientation>203 && this.window_orientation<=248) {
+		orientation=" (Orientation Sud-Ouest)";
+	}else if (this.window_orientation>248 && this.window_orientation<=294) {
+		orientation=" (Orientation Ouest)";
+	}else if (this.window_orientation>294 && this.window_orientation<=339) {
+		orientation=" (Orientation Nord-Ouest)";
+	}else orientation=" (Orientation Nord)";
+	
+	return orientation;
+}
 
 }

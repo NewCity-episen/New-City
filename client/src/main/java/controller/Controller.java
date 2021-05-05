@@ -87,15 +87,16 @@ public class Controller {
 		loadConfigurateWindows(); 
 		loadReturn ();
 		loadConfigurate();
-		loadAdvancedFiltre();
-		loadReturnButton();		
-		loadReturn ();		
-		loadConfigurateWindows();	
-		loadConfigurate(); 
+		//loadAdvancedFiltre();
+		//loadReturnButton();		
+		//loadReturn ();		
+		//loadConfigurateWindows();	
+		//loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
-		
+		loadresetBtn();
+		loadSwStatusBtn();
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -1270,7 +1271,7 @@ public class Controller {
 	   ConfigurateWindowsPanel.getWinRmvBtn().addActionListener(confActionListener);
 	 }
 	
-public void loadvaliderbtnFTC () {
+	public void loadvaliderbtnFTC () {
 		
 		ActionListener confActionListener  =new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {
@@ -1303,8 +1304,62 @@ public void loadvaliderbtnFTC () {
 	   };
 	   FrameToConfigurate.getValiderbtnFTC().addActionListener(confActionListener);
 	 }
+     public void loadresetBtn() {
+		
+		ActionListener confActionListener  =new ActionListener() {	
+			public void actionPerformed(ActionEvent e) {
+				
+				@SuppressWarnings("deprecation")
+				Object[] selectedValues = ConfigurateWindowsPanel.getConfiguredWinList().getSelectedValues();
+				
+				if(selectedValues.length !=0)
+				{
+					for (int i = 0; i < selectedValues.length; i++) {
+						Object sw = selectedValues[i];
+						try {
+							Response response=sendRequestToServer("update-SmartWindow.json","{\"id_window\": \""+((SmartWindow) sw).getId_window()+"\", \"configured_window\": \""+false+"\"}");
+							ConfigurateWindowsPanel.getConfiguredWinmodel().removeElement((SmartWindow) sw);	
+							ConfigurateWindowsPanel.getWinToCnfgmodel().addElement((SmartWindow) sw);
+						} catch (InterruptedException | IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}	
+					 
+				}else 
+				{
+					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres a deconfigurer");
+				}
+					
+		
+		}
+	   };
+	   ConfigurateWindowsPanel.getResetBtn().addActionListener(confActionListener);
+	 }
 
-
+     public void loadSwStatusBtn() {
+ 		
+ 		ActionListener confActionListener  =new ActionListener() {	
+ 			public void actionPerformed(ActionEvent e) {
+ 				
+ 				
+ 				//Object selectedValue = ConfigurateWindowsPanel.getConfiguredWinList().getSelectedValue();
+ 				
+ 				if(! ConfigurateWindowsPanel.getConfiguredWinList().isSelectionEmpty())
+ 				{
+ 					new SmartWindowStatusFrame();
+ 					 
+ 				}else 
+ 				{
+ 					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une fenetre");
+ 				}
+ 					
+ 		
+ 		}
+ 	   };
+ 	   ConfigurateWindowsPanel.getStatusBtn().addActionListener(confActionListener);
+ 	 }
 	
 	
 	

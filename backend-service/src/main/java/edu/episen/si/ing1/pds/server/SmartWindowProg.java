@@ -15,11 +15,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.sql.Connection;  
+import java.sql.Connection;
 
-
-
-
+import connectionPool.DataSource;
 import connectionPool.InfoConnection;
 import shared.code.Request;
 import shared.code.Response;
@@ -62,7 +60,8 @@ public class SmartWindowProg extends TimerTask {
 					rpAllConfiguredWin.getResponseBody().indexOf("]")+1);
 			ObjectMapper allWinMapper=new ObjectMapper();
 			ArrayList<SmartWindow> allSmartWin=allWinMapper.readValue(rpAllConfiguredWinBody,new TypeReference<ArrayList<SmartWindow>>(){});	
-			for(SmartWindow sw : allSmartWin) {
+			if (allSmartWin.size()!=0) {
+			   for(SmartWindow sw : allSmartWin) {
 				//Smart Window Program
 				
 				int tempExt;
@@ -126,7 +125,7 @@ public class SmartWindowProg extends TimerTask {
 								rqTempIntValue.setRequestContent("{\"id_equipment\": \""+tempIntSensor.getId_equipment()+"\"}");					
 								Response rpTempIntValue = RequestHandler.handle(rqTempIntValue,cnx);
 								String rpTempIntValueBody=rpTempIntValue.getResponseBody().substring(rpTempIntValue.getResponseBody().indexOf("["),
-										rpSunAzimuthValue.getResponseBody().indexOf("]")+1);
+										rpTempIntValue.getResponseBody().indexOf("]")+1);
 								ObjectMapper tempIntMapper=new ObjectMapper();					
 								Readings[] tempIntReadings =tempIntMapper.readValue(rpTempIntValueBody,Readings[].class);
 								
@@ -156,10 +155,10 @@ public class SmartWindowProg extends TimerTask {
 								ObjectMapper outdoorIlluminanceMapper=new ObjectMapper();					
 								Readings[] outdoorIlluminanceReadings =outdoorIlluminanceMapper.readValue(rpOutdoorIlluminanceValueBody,Readings[].class);
 					
-								if (! outdoorIlluminanceReadings.equals(null) &&  
-									! tempExtReadings.equals(null) && 
-									! tempIntReadings.equals(null) && 
-									! sunAzimuReadings.equals(null)) {
+								if ( outdoorIlluminanceReadings.length!=0 &&  
+									 tempExtReadings.length!=0 && 
+									 tempIntReadings.length!=0 && 
+									 sunAzimuReadings.length!=0) {
 						
 						
 													tempExt=tempExtReadings[0].getValue();
@@ -286,7 +285,7 @@ public class SmartWindowProg extends TimerTask {
 						                          }
 					
 								   }else {									
-									logger.debug(" missing Equipments'readings in Database. Check Equipment ids  : "+sunAzimuthSensor.getId_equipment() + " , " +tempExtSensor.getId_equipment() + " , "+tempIntSensor.getId_equipment() + " , "+ " , "+outdoorIlluminanceSensor.getId_equipment());
+									logger.debug(" missing Equipments'readings in Database. Check Equipment ids  : "+sunAzimuthSensor.getId_equipment() + " , " +tempExtSensor.getId_equipment() + " , "+tempIntSensor.getId_equipment() + " , "+outdoorIlluminanceSensor.getId_equipment());
 									continue;
 								     }
 					
@@ -304,10 +303,21 @@ public class SmartWindowProg extends TimerTask {
 				rqSmartWindowCfg.setRequestContent("{\"id_window\": \""+sw.getId_window()+"\", \"level_of_blind\": \""+sw.getLevel_of_blind()+"\", \"teint_of_glass\": \""+sw.getTeint_of_glass()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+sw.getPreferredlum()+ "\", \"preferredtem\": \""+sw.getPreferredtem()+"\"}");
 				logger.debug(" SmartWindow finished the configuration update of the smartwindow id : "+ sw.getId_window());
 			  }
+			
+		      } else {
+		    	  logger.debug(" no smartwindow to configure");
+		      }
 				
 		   } catch (SQLException | JsonProcessingException e) {
 			logger.debug(" SmartWindow Program Failed to parse response from database.");
 			e.printStackTrace();
-		} 
+		} finally {
+			try {
+				cnx.close();
+			} catch (SQLException e) {
+				logger.debug(" SmartWindow Program failed to close connection to the database");
+				e.printStackTrace();
+			}	
+		}
 	}
 }

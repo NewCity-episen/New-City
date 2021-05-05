@@ -23,6 +23,8 @@ private static JButton retourBtn=new JButton("retour");
 private static JButton configureBtn=new JButton ("configurer");	
 private static JButton winAddBtn=new JButton (">>>");
 private static JButton winRmvBtn = new JButton("<<<");
+private static JButton statusBtn = new JButton("statut");
+private static JButton resetBtn = new JButton("reset");
 private static DefaultListModel<SmartWindow> configuredWinmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgSelmodel= new DefaultListModel<SmartWindow>();
@@ -53,9 +55,12 @@ private static JList<SmartWindow> winToCnfgSelList;
 		configuratePanel.add(configuredWinJScrollPane);		
 		configuredWinJScrollPane.setViewportView(configuredWinList);
 				
-		JButton statusBtn = new JButton("statut");
-		statusBtn.setBounds(445, 253, 117, 29);
+		
+		statusBtn.setBounds(510, 253, 115, 29);
 		configuratePanel.add(statusBtn);
+		
+		resetBtn.setBounds(375, 253, 115, 29);
+		configuratePanel.add(resetBtn);
 		
 		JLabel lblNewLabel_1 = new JLabel("Les fenêtres à configurer");
 		lblNewLabel_1.setBounds(153, 282, 169, 16);
@@ -180,6 +185,22 @@ private static JList<SmartWindow> winToCnfgSelList;
 	public static void setWinToCnfgSelList(JList<SmartWindow> winToCnfgSelList) {
 		ConfigurateWindowsPanel.winToCnfgSelList = winToCnfgSelList;
 	}
+	public static JButton getStatusBtn() {
+		return statusBtn;
+	}
+
+	public static void setStatusBtn(JButton statusBtn) {
+		ConfigurateWindowsPanel.statusBtn = statusBtn;
+	}
+
+	public static JButton getResetBtn() {
+		return resetBtn;
+	}
+
+	public static void setResetBtn(JButton resetBtn) {
+		ConfigurateWindowsPanel.resetBtn = resetBtn;
+	}
+
 
 }
 	
