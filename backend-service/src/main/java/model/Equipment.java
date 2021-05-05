@@ -11,12 +11,9 @@ public class Equipment {
 	private String equipment_type;
 	private String Equipment_spot_type;
 	private int id_window;
-
+	private int id_work_space;
 	private int ref;
-
-	@JsonIgnore
 	private boolean installed;
-	@JsonIgnore
 	private boolean state;
 	public int getId_equipment() {
 		return id_equipment;
@@ -97,6 +94,12 @@ public class Equipment {
 
 		this.ref=eq.getRef();
 
+	}
+	public int getId_work_space() {
+		return id_work_space;
+	}
+	public void setId_work_space(int id_work_space) {
+		this.id_work_space = id_work_space;
 	}
 	
 }
