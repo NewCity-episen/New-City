@@ -234,7 +234,7 @@ public class Controller {
 			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 			System.out.println("Request well send ");
-			boolean result = (boolean)response.getResponseData();
+			String result = (String)response.getResponseData();
 			
 			System.out.println(result);
 			
@@ -1244,9 +1244,9 @@ public void loadvaliderbtnFTC () {
 		try {
 			
 			clientconfig= new ClientConfig();
-			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
+			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
 			//InetAddress ip=InetAddress.getByName("localhost");
+			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");
