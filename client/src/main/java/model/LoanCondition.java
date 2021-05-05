@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class LoanCondition {
 	private static int loanBudget;
@@ -24,15 +25,15 @@ public class LoanCondition {
 		return spaceBuilding;
 	}
 	
-	private static void setSpaceBuilding(String s) {
+	public static void setSpaceBuilding(String s) {
 		spaceBuilding = s;
 	}
 
-	private static String getSpaceFloor() {
+	public static String getSpaceFloor() {
 		return spaceFloor;
 	}
 
-	private static void setSpaceFloor (String s) {
+	public static void setSpaceFloor (String s) {
 		spaceFloor = s;
 	}
 
@@ -72,61 +73,65 @@ public class LoanCondition {
 		
 	}
 	
-	public static ArrayList<Offer> filterLoanOffer(ArrayList<Offer> list) {
-		//the method get an ArrayList of offer wich will be filtered with the known filter
-		for(int i = 0; i < list.size(); i ++) {
-			list.get(i).setOfferCost(list.get(i).getOfferCost() + getEquipmentCost());
+	public static ArrayList<Offer> filterLoanOffer(ArrayList<Map> resultList) {
+		
+		/*setSpaceBuilding(LoanPanel.getSelectedBuilding());
+		System.out.println(LoanCondition.getSpaceBuilding()+"\\");
+		setSpaceFloor(LoanPanel.getSelectedFloor());
+		System.out.println(LoanCondition.getSpaceFloor()+"\\");*/
+
+		/*for(int i = 0; i < resultList.size(); i ++) {
+			resultList.get(i).setOfferCost(resultList.get(i).get("space_cost") + getEquipmentCost());
+		}*/
+		
+		for(Map offer : resultList) {
+			System.out.println(offer.get("building_name")+"\\");	
+			offer.replace("to_present", false);
+
 			
-			if(list.get(i).getOfferCost() > getLoanBudget()) {
-				list.remove(i);
+			if ((spaceBuilding.equals("Veuillez selectionner un batiment"))) {
+						offer.replace("to_present", true);
+			} else if(spaceBuilding.equals(offer.get("building_name"))) {
+						offer.replace("to_present", true);
+			}
+
+			/*if(((int)resultList.get(i).get("space_cost") + getEquipmentCost()) > getLoanBudget()) {
+				resultList.remove(i);
 			}
 			
-			if((list.get(i).getOfferBuilding() != getSpaceBuilding()) && (spaceBuilding != "Veuillez selectionner un batiment")) {
-				list.remove(i);
+			if (!(spaceFloor.equals("Veuillez selectionner un etage"))) {
+				if (((int)offer.get("space_floor")) != Integer.parseInt(getSpaceFloor())){
+					offer.replace("to_present", true, false);
+				}
 			}
 			
-			if((String.valueOf(list.get(i).getOfferFloor()) != getSpaceFloor()) && (spaceFloor != "Veuillez selectionner un etage")) {
-				list.remove(i);
+			if(!(spaceType.equals("Veuillez selectionner un type d'espace"))) {
+				if (!(offer.get("space_type").equals(getSpaceType()))){
+					offer.replace("to_present", true, false);
+				}
+				
 			}
 			
-			if((list.get(i).getOfferType() != getSpaceType()) && (spaceType != "Veuillez selectionner un type d'espace")) {
-				list.remove(i);
+			if((int)resultList.get(i).get("space_area") < getSpaceArea()) {
+				resultList.remove(i);
 			}
 			
-			if(list.get(i).getOfferArea() != getSpaceArea()) {
-				list.remove(i);
-			}
-			
-			if(getNeededEquipments().containsKey("fenetre") && (list.get(i).getNumber_of_windows() == 0)) {
-				list.remove(i);
+			if(getNeededEquipments().containsKey("fenetre") && ((int)offer.get("number_of_windows") == 0)) {
+				offer.replace("to_present", true, false);
+			}*/
+		}
+		
+
+		ArrayList<Offer> offerList = new ArrayList<>();
+		
+		for(int i = 0; i < resultList.size(); i++) {
+			if((boolean)resultList.get(i).get("to_present") == true) {
+				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
+						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
+				offerList.add(offerRow);
 			}
 		}
-		return list;
+		return offerList;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

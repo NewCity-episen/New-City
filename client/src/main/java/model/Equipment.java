@@ -11,8 +11,13 @@ public class Equipment {
 	private String equipment_type;
 	private String Equipment_spot_type;
 	private int id_window;
-
 	private int ref;
+
+	public Equipment(String s, int c, int r) {
+		this.equipment_name = s;
+		this.unit_cost = c;
+		this.ref = r;
+	}
 
 	@JsonIgnore
 	private boolean installed;

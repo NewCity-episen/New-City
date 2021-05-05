@@ -10,13 +10,6 @@ import java.awt.*;
 public class LoanPanel {
     private static JPanel panelAbsolute=new JPanel();
 	private static JPanel loanPanel=new JPanel();
-	
-	private static String[] buildingNames = new String[] {"Stark Tower", "Watchtower", "Batcave"};
-	private static JComboBox<String> buildingNameList= new JComboBox<String>(buildingNames);
-	private static String[] floorNumber = new String[] {"1", "2", "3"};
-	private static JComboBox<String> floorNumberList= new JComboBox<String>(floorNumber);
-	private static String selectedBuilding = (String)buildingNameList.getSelectedItem();
-	private static String selectedFloor = (String)floorNumberList.getSelectedItem();
 	private static JSlider budget = new JSlider(0, 20000);
 	private static JSlider area = new JSlider(0, 200);
 	private static JButton filterButton=new JButton("Filtrer");
@@ -36,7 +29,8 @@ public class LoanPanel {
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor
 	private int currentBuilding=1;
-
+	public static int selectedBudget;
+	public static int selectedArea;
 
 	public LoanPanel(){
 
@@ -109,11 +103,13 @@ public class LoanPanel {
 		loanPanel.add(buildingBoxFilter);
 		loanPanel.add(floorBoxFilter);
 		loanPanel.add(typeBoxFilter);
+		
 		loanPanel.add(priceMessage);
 		loanPanel.add(budget);
-
+		
 		loanPanel.add(areaMessage);
 		loanPanel.add(area);
+
 		loanPanel.add(advancedFilterButton);
 		loanPanel.add(filterButton);
 
@@ -149,6 +145,13 @@ public class LoanPanel {
 		LoanPanel.buildingBoxFilter = buildingBoxFilter;
 	}
 	
+	public static JComboBox getTypeBoxFilter() {
+		return typeBoxFilter;
+	}
+	public static void setTypeBoxFilter(JComboBox typeBoxFilter) {
+		LoanPanel.typeBoxFilter = typeBoxFilter;
+	}
+	
 	public static JComboBox getFloorBox() {
 		return floorBox;
 	}
@@ -161,13 +164,6 @@ public class LoanPanel {
 	}
 	public static void setFloorBoxFilter(JComboBox floorBoxFilter) {
 		LoanPanel.floorBoxFilter = floorBoxFilter;
-	}
-	
-	public static JComboBox getTypeBoxFilter() {
-		return typeBoxFilter;
-	}
-	public static void setTypeBoxFilter(JComboBox typeBoxFilter) {
-		LoanPanel.typeBoxFilter = typeBoxFilter;
 	}
 	
 	public static JButton getBtnOkFloorBuilding() {
@@ -194,4 +190,45 @@ public class LoanPanel {
 		LoanPanel.panelMap = panelMap;
 	}
 
+	public static JSlider getBudget() {
+		return budget;
+	}
+	
+	public static JSlider getArea() {
+		return area;
+	}
+	
+	public static int getSelectedBudget() {
+		return selectedBudget;
+	}
+	
+	public static int getSelectedArea() {
+		return selectedArea;
+	}
+	
+	public static int getBudgetValue() {
+		return budget.getValue();
+	}
+	
+	public static int getAreaValue() {
+		return area.getValue();
+	}
+	
+	public static String getSelectedBuilding() {
+		if(buildingBoxFilter.getSelectedItem().equals("Veuillez selectionner un batiment")) {
+			return (String)(buildingBoxFilter.getSelectedItem());
+		} else {
+			Building currentBuilding = (Building)buildingBoxFilter.getSelectedItem();
+			return currentBuilding.getBuilding_name();
+		}
+	}
+	
+	public static String getSelectedFloor() {
+		if(floorBoxFilter.getSelectedItem().equals("Veuillez selectionner un etage")) {
+			return (String)(floorBoxFilter.getSelectedItem());
+		} else {
+			String currentFloor = ((String)(floorBoxFilter.getSelectedItem())).substring(6);
+			return currentFloor;
+		}
+	}
 }

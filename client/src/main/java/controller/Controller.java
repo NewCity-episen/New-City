@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
@@ -233,9 +234,6 @@ public class Controller {
 		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 	}
 	
-	/*public void filterLoad() {
-		
-	}*/
 
 	//public static void loanButtonLoad(String spaceName, ArrayList<int> list) {
 	public static void loanButtonLoad(String spaceName) {
@@ -267,22 +265,28 @@ public class Controller {
 			Response response= sendRequestToServer("select-offers.json",null);
 			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
+						
+			System.out.println();
+			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
+			System.out.println(LoanCondition.getLoanBudget());
 			
-			ArrayList<Offer> offerList = new ArrayList<Offer>();
+			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
+			System.out.println(LoanCondition.getSpaceArea());
 			
-			for(int i = 0; i < resultList.size(); i++) {
-				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
-						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
-				offerList.add(offerRow);
-			}			
+			LoanCondition.setSpaceBuilding(LoanPanel.getSelectedBuilding());
+			System.out.println(LoanCondition.getSpaceBuilding() +"\\");
+			
+			LoanCondition.setSpaceFloor(LoanPanel.getSelectedFloor());
+			System.out.println(LoanCondition.getSpaceFloor()+"\\");
+			
+			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
+			System.out.println(LoanCondition.getSpaceType()+"\\");
 
-			new LoanOfferPanel(LoanCondition.filterLoanOffer(offerList));
+			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//LoanPanel.getJPanel().dispose();
 	}
 	
 	private void advancedFilterButtonLoad() {
@@ -291,14 +295,17 @@ public class Controller {
 			System.out.println("Requete envoyee cote client");
 			Response response= sendRequestToServer("select-equipment-list.json",null);
 			System.out.println("result : " + response.getResponseData());
-			ArrayList<Map> equipmentList = (ArrayList<Map>)response.getResponseData();			
-			ArrayList<String> equipmentNameList = new ArrayList<String>();
-	
-			for(int i = 0; i < equipmentList.size(); i++) {
-				equipmentNameList.add((String)(equipmentList.get(i).get("equipment_name")));
+			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
+			ArrayList<Equipment> equipmentList = new ArrayList<>();
+			
+			for(int i = 0; i < resultList.size(); i++) {
+				Equipment equipment = new Equipment((String)(resultList.get(i).get("equipment_type")),
+						(int)(resultList.get(i).get("unit_cost")), (int)(resultList.get(i).get("ref")));
+
+				equipmentList.add(equipment);
 			}			
 
-			new AdvancedFilterPanel(equipmentNameList);
+			new AdvancedFilterPanel(equipmentList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -31,6 +31,7 @@ public class LoanOfferPanel extends JFrame{
 	public LoanOfferPanel(ArrayList<Offer> list) {
 		setSize(600,400);
 		setVisible(true);
+		setLocationRelativeTo(null);
 
 		JLabel noResults = new JLabel("Aucun offre ne correspond a votre recherche");
 		Object resultTable[][] = new Object[list.size()][columnHeader.length];
@@ -47,7 +48,7 @@ public class LoanOfferPanel extends JFrame{
 				resultTable[i][3] = list.get(i).getOfferBuilding();
 				resultTable[i][4] = list.get(i).getOfferFloor();
 				resultTable[i][5] = "" + list.get(i).getOfferCost() + " euros";
-				resultTable[i][6] = list.get(i).getOfferArea();
+				resultTable[i][6] = "" + list.get(i).getOfferArea() + "m^2";
 				resultTable[i][7] = "reserver salle " +  list.get(i).getOfferName();
 			}
 			

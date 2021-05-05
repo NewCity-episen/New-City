@@ -104,6 +104,7 @@ public class RequestHandler {
 				row.put("space_cost", rs.getInt("space_cost"));
 				row.put("space_area", rs.getInt("space_area"));
 				row.put("number_of_windows", rs.getInt("number_of_windows"));
+				row.put("to_present", false);
 
 				rowList.add(row);
 				System.out.println("Line : " + row);
