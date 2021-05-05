@@ -20,14 +20,13 @@ public class LoanPanel {
 	private static JSlider budget = new JSlider(0, 20000);
 	private static JSlider area = new JSlider(0, 200);
 	private static JButton filterButton=new JButton("Filtrer");
-	private static JLabel buildingMessage=new JLabel("Selectionnez un batiment");
-	private static JLabel floorMessage=new JLabel("Selectionnez un etage");
 	private static JLabel priceMessage=new JLabel("Prix");
 	private static JLabel areaMessage=new JLabel("Surface");
 	private static JComboBox<Building> buildingBox =new JComboBox<Building>();
 	private static JComboBox floorBox=new JComboBox();
-	private static JComboBox<Building> buildingBoxFilter =new JComboBox<Building>();
+	private static JComboBox<Object> buildingBoxFilter =new JComboBox<Object>();
 	private static JComboBox floorBoxFilter =new JComboBox();
+	private static JComboBox typeBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
 
 	private static JButton btnAdvancedFilter=new JButton(" espaces reserves"); 
@@ -107,12 +106,9 @@ public class LoanPanel {
 		
 	}
 	public static JPanel getJPanel() {
-		loanPanel.add(buildingMessage);
 		loanPanel.add(buildingBoxFilter);
-		
-		loanPanel.add(floorMessage);
 		loanPanel.add(floorBoxFilter);
-
+		loanPanel.add(typeBoxFilter);
 		loanPanel.add(priceMessage);
 		loanPanel.add(budget);
 
@@ -146,10 +142,10 @@ public class LoanPanel {
 		LoanPanel.buildingBox = buildingBox;
 	}
 	
-	public static JComboBox<Building> getBuildingBoxFilter() {
+	public static JComboBox<Object> getBuildingBoxFilter() {
 		return buildingBoxFilter;
 	}
-	public static void setBuildingBoxFilter(JComboBox<Building> buildingBoxFilter) {
+	public static void setBuildingBoxFilter(JComboBox<Object> buildingBoxFilter) {
 		LoanPanel.buildingBoxFilter = buildingBoxFilter;
 	}
 	
@@ -165,6 +161,13 @@ public class LoanPanel {
 	}
 	public static void setFloorBoxFilter(JComboBox floorBoxFilter) {
 		LoanPanel.floorBoxFilter = floorBoxFilter;
+	}
+	
+	public static JComboBox getTypeBoxFilter() {
+		return typeBoxFilter;
+	}
+	public static void setTypeBoxFilter(JComboBox typeBoxFilter) {
+		LoanPanel.typeBoxFilter = typeBoxFilter;
 	}
 	
 	public static JButton getBtnOkFloorBuilding() {
