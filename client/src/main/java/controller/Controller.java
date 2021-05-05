@@ -63,7 +63,7 @@ public class Controller {
 	private static String RequestsFileLocation="";
 	private static final String ConfigEnVar="REQUESTS_LOCATION";
 	private final static Logger logger=LoggerFactory.getLogger(Controller.class.getName());
-	private Model mdl;
+	private static Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
 	
@@ -81,12 +81,11 @@ public class Controller {
 		quitButtonLoad();
 		okButtonLoad();
 		loadMappingButtons();
-		filterLoad();
+		filterInfoLoad();
 		loadAdvancedFiltre();
 		loadReturnButton();
 		loadConfigurateWindows(); 
 		loadReturn ();
-		filterButtonLoad();
 		loadConfigurate();
 		loadAdvancedFiltre();
 		loadReturnButton();		
@@ -94,22 +93,13 @@ public class Controller {
 		loadConfigurateWindows();	
 		loadConfigurate(); 
 		loadWinAddBtn();
-		loadWinRmvBtn() ;
-
+		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
-	 
 		
-		
-
-
-		advancedFilterButtonLoad();
-
 	}
 	public void loadData() {
 		loadCompaniesBox();
 		buildingAndFloorBoxLoad();
-
-		
 	}
 	public void buildingAndFloorBoxLoad() {
 		Response response;
@@ -191,49 +181,85 @@ public class Controller {
  
 	}
 	
-	public void filterLoad() {
-		Response response;
+	public void filterInfoLoad() {
 		try {
-			response = sendRequestToServer("select-Buildings.json",null);
+			LoanPanel.getBuildingBoxFilter().addItem("Veuillez selectionner un batiment");
+			LoanPanel.getFloorBoxFilter().addItem("Veuillez selectionner un etage");
+			LoanPanel.getTypeBoxFilter().addItem("Veuillez selectionner un type d'espace");
+			
+			Response response = sendRequestToServer("select-Buildings.json",null);
 			String responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
-					                                                        response.getResponseBody().indexOf("]")+1);
+					                                               response.getResponseBody().indexOf("]")+1);
 			ObjectMapper mapper=new ObjectMapper();
 			ArrayList<Building> allBuildings=mdl.getAllBuildings();
-			 allBuildings = mapper.readValue(responseBody,
-                    new TypeReference<ArrayList<Building>>(){});
+			allBuildings = mapper.readValue(responseBody, new TypeReference<ArrayList<Building>>(){});
 
-			 for(Building building: allBuildings) {
-				  LoanPanel.getBuildingBoxFilter().addItem(building);
-			  }
-			 for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				 LoanPanel.getFloorBoxFilter().addItem("Etage "+i); 
-			 }
+			Response spaceType = sendRequestToServer("select-space-type.json", null);
+			ArrayList<String> typeList = (ArrayList<String>)spaceType.getResponseData();
+			
+			for(Building building: allBuildings) {
+				LoanPanel.getBuildingBoxFilter().addItem(building);
+			}
+			for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
+				LoanPanel.getFloorBoxFilter().addItem("Etage "+i); 
+			}
 
-			 LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
+			LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
-		                for(int i=0;i<LoanPanel.getBuildingBoxFilter().getItemCount();i++) {
-		                	if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
-		                		LoanPanel.getFloorBoxFilter().removeAllItems();
-		                		for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
-		                			LoanPanel.getFloorBoxFilter().addItem("Etage "+j);
-		                		}
-		                	}
-		                }
-					} 
-				 });
-			 
-			LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
-			LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
-			 } catch (InterruptedException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+				    for(int i=0;i<LoanPanel.getBuildingBoxFilter().getItemCount();i++) {
+					    if((LoanPanel.getBuildingBoxFilter().getSelectedIndex()==i)) {
+						    LoanPanel.getFloorBoxFilter().removeAllItems();
+						    LoanPanel.getFloorBoxFilter().addItem("Veuillez selectionner un etage");
+						    for(int j=1;j<=Integer.valueOf(((Building)LoanPanel.getBuildingBoxFilter().getSelectedItem()).getNb_of_floor());j++) {
+						    	LoanPanel.getFloorBoxFilter().addItem("Etage "+j);
+						    }
+					    }
+				    }
+				} 
+			});
+			
+			for(int i = 0; i < typeList.size(); i++) {
+				LoanPanel.getTypeBoxFilter().addItem(typeList.get(i));
+			}
+			
+			} catch (InterruptedException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 		}
- 
+		LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
+		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
 	}
+	
+	/*public void filterLoad() {
+		
+	}*/
 
+	//public static void loanButtonLoad(String spaceName, ArrayList<int> list) {
+	public static void loanButtonLoad(String spaceName) {
+		try {
+			System.out.println("Trying to loan space " + spaceName);
+			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
+					mdl.getSelectedCompany().getId_entreprise() + "\"}");
+			System.out.println("Request well send ");
+			boolean result = (boolean)response.getResponseData();
+			
+			if(result) {
+				/*for(int i = 0; i < list.size(); i++) {
+					Response response = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + id_work_space + "\",\"id_entreprise\": \"" + 
+							mdl.getSelectedCompany().getId_entreprise() + "\",\"id_equipment\": \"" + list.get(i)+ "\"}");
+				}*/
+			} else {
+				
+			}
+			
+		} catch (InterruptedException | IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 
 	private void filterButtonLoad() {
 		
@@ -246,11 +272,12 @@ public class Controller {
 			
 			for(int i = 0; i < resultList.size(); i++) {
 				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), (int)(resultList.get(i).get("space_area")));
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
+						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
 				offerList.add(offerRow);
 			}			
 
-			new LoanOfferPanel(offerList);
+			new LoanOfferPanel(LoanCondition.filterLoanOffer(offerList));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -464,7 +491,7 @@ public class Controller {
 					spot.setEquipmentInstalled(equipment);
 				}
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 
 
 			if(x==1) {
@@ -489,7 +516,7 @@ public class Controller {
 					}
 				});
 			}
-			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 			spot.getLabelSpot().setBounds(spot.getPosition_x(),spot.getPosition_y(),32, 41);
 			spot.getPlaceBtnItem().setEnabled(false);
 			if(!spot.isTaken()) {
@@ -576,7 +603,7 @@ public class Controller {
 						spot.setTaken(true);
 						spot.setState(true);
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
-						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
 						updateSpotMap(MappingPanel,-1);
 						
@@ -614,7 +641,7 @@ public class Controller {
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
-							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+null+"</html>");
+							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+null+"</html>");
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 							
 							updateSpotMap(MappingPanel,-1);
@@ -662,7 +689,7 @@ public class Controller {
 				MappingPanel.getSpotsMap().add(spot.getLabelSpot());
 				MappingPanel.getSpotsMap().revalidate();
 				MappingPanel.getSpotsMap().validate();
-				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div> installé:"+spot.getEquipmentInstalled()+"</html>");
+				spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 				spot.getLabelSpot().addMouseListener(new MouseAdapter() {
 					public void mouseEntered(MouseEvent e) {
 						
@@ -746,7 +773,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+				boolean compatible=false;
 				Equipment equipmentChoosed=(Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
 				if(equipmentChoosed!=null) {
 				ArrayList<Spot> allSpots=MappingPanel.getWorkSpace().getSpots();
@@ -755,6 +782,7 @@ public class Controller {
 					if((spot.getSpot_type().equals(equipmentChoosed.getEquipment_spot_type()))||
 							(equipmentChoosed.getEquipment_type().equals("sensorWindows")&&((spot.getSpot_type().equals("On Window Right"))||
 								(spot.getSpot_type().equals("On Window Left"))))) {
+						compatible=true;
 						if(spot.isTaken()) {
 							spot.getPlaceBtnItem().setEnabled(false);
 						}
@@ -770,6 +798,9 @@ public class Controller {
 						MappingPanel.getCancelButton().setEnabled(true);
  	
 					}
+				}
+				if(!compatible) {
+					new JOptionPane().showMessageDialog(null, "Aucun emplacement est compatible avec l'équipement choisi!");
 				}
 				}
 			}
@@ -863,8 +894,8 @@ public class Controller {
 								sensorInstalled++;
 							}
 						}
-						if(((sensorInstalled==5)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
-						(sensorInstalled==10)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
+						if(((sensorInstalled==4)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
+						(sensorInstalled==8)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
 							response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
 									+ "\"configurable\": \""+true +"\"}");
 							
@@ -1232,8 +1263,8 @@ public void loadvaliderbtnFTC () {
 			
 			clientconfig= new ClientConfig();
 			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			//InetAddress ip=InetAddress.getByName("localhost");
+			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
 			logger.info("Unknown host:");

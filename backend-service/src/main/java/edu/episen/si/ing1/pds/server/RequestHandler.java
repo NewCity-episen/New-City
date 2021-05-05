@@ -39,7 +39,7 @@ public class RequestHandler {
 		
 		final ObjectMapper mapper=new ObjectMapper();
 	
-		
+		System.out.print("Request order : " + requestOrder);
 		if(requestOrder.toUpperCase().equals("SELECT")) { //this only works for requests that are like this : 
 															//SELECT * FROM TABLE_NAME WHERE column_name='column_value' AND column_name1='column_value1' AND .......;
 			sqlRequest="SELECT * FROM "+ request.getRequestTable();
@@ -103,6 +103,7 @@ public class RequestHandler {
 				row.put("building_name", rs.getString("building_name"));
 				row.put("space_cost", rs.getInt("space_cost"));
 				row.put("space_area", rs.getInt("space_area"));
+				row.put("number_of_windows", rs.getInt("number_of_windows"));
 
 				rowList.add(row);
 				System.out.println("Line : " + row);
@@ -112,12 +113,29 @@ public class RequestHandler {
 			return new Response(request.getRequestId(), rowList);
 		}
 
-		else if(requestOrder.equals("equipment_list")) {
-			System.out.println("Equipment name recu");
-			String sql = "SELECT DISTINCT equipment_name, unit_cost, ref FROM equipment";
-			System.out.println("Requete sql");
+		else if(requestOrder.equals("loan_work_space")) {
+			
+			Map<String,Object> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			
+			String spaceName = (String)valuesMap.get("space_name");
+			String companyId = (String)valuesMap.get("id_entreprise");
+			
+			String sql = "SELECT taken from work_space WHERE space_name = '" + spaceName + "'";
+
 			ResultSet rs= stmt.executeQuery(sql);
-			System.out.println("Requete sql bis");
+				while(rs.next()) {
+				if(rs.getBoolean("taken")) {
+					return new Response(request.getRequestId(), false);
+				} else  {			
+					String sqlUpdate = "UPDATE work_space SET taken = 'true', id_entreprise = " + companyId + " WHERE space_name = '" + spaceName + "'";
+					stmt.executeUpdate(sqlUpdate);
+					return new Response(request.getRequestId(), true);
+				}
+			}
+		}
+		else if(requestOrder.equals("equipment_list")) {
+			String sql = "SELECT DISTINCT equipment_name, unit_cost, ref FROM equipment";
+			ResultSet rs= stmt.executeQuery(sql);
 			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
@@ -125,9 +143,21 @@ public class RequestHandler {
 				row.put("equipment_name", rs.getString("equipment_name"));
 				row.put("unit_cost", rs.getInt("unit_cost"));
 				row.put("ref", rs.getInt("ref"));
-				
 				rowList.add(row);
 				System.out.println("Line : " + row);
+			}
+			System.out.println("Data to sent: " + rowList);
+			return new Response(request.getRequestId(), rowList);
+		}
+		
+		else if(requestOrder.equals("select_space_type")) {
+			String sql = "SELECT DISTINCT space_type FROM work_space";
+			ResultSet rs= stmt.executeQuery(sql);
+			ArrayList<String> rowList = new ArrayList<>();
+			
+			while(rs.next()) {
+				rowList.add(rs.getString("space_type"));
+				System.out.println("Line : " + rs.getString("space_type"));
 			}
 			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
