@@ -19,11 +19,9 @@ public class Equipment {
 		this.unit_cost = c;
 		this.ref = r;
 	}
-
-	@JsonIgnore
-
-	
-
+	public Equipment() {
+		
+	}
 	private boolean installed;
 	private boolean state;
 	
