@@ -30,7 +30,7 @@ public class ServerCore {
 			
 			Timer timer = new Timer();
 			  SmartWindowProg tS=new SmartWindowProg();
-			  logger.debug("time to run SW Prog");
+			  logger.debug("SmartWindow Program is running");
 			  timer.scheduleAtFixedRate(tS, 0, 60000);
 			while(true) {
 			logger.debug("Waiting for clients to connect...");

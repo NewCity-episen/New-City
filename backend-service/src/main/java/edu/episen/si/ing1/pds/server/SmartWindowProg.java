@@ -69,6 +69,8 @@ public class SmartWindowProg extends TimerTask {
 				int tempInt;
 				int sunAzimuth;
 				int outdoorIlluminance;
+				int teintOfGlass;
+				int levelOfBlind;
 				
 				Request rqWinEqpments = new Request();
 				rqWinEqpments.setRequestId("1002");
@@ -84,57 +86,228 @@ public class SmartWindowProg extends TimerTask {
 				ArrayList<Equipment> winEquipments=winEqpmetsMapper.readValue(rpWinEqpmentsBody,new TypeReference<ArrayList<Equipment>>(){});
 				
 				
-				if(winEquipments.stream().count()==5 )
-						//&& 
-						//winEquipments.stream().filter(eq -> eq.getEquipment_name()=="Capteur de soleil").count()==1  && 
-						//winEquipments.stream().filter(eq -> eq.getEquipment_name()=="Capteur de luminosite").count()==1 && 
-						//winEquipments.stream().filter(eq -> eq.getEquipment_name()=="Capteur de temperature").count()==1 && 
-						//winEquipments.stream().filter(eq -> eq.getEquipment_name()=="Capteur de temperature exterieure").count()==1 && 
-						//winEquipments.stream().filter(eq -> eq.getEquipment_name()=="Capteur d'ensoleillement").count()==1) 
-				{
+				if(winEquipments.stream().count()==4 && 
+				   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de soleil")).count()==1  &&  
+				   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature")).count()==1 && 
+				   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature exterieure")).count()==1 && 
+				   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur d'ensoleillement")).count()==1) { 
 					
-					Optional<Equipment> matchingCapteurDeSoleil = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de soleil")).findFirst();
-					Equipment capteurDeSoleil=matchingCapteurDeSoleil.get();
+								Optional<Equipment> matchingSunAzimuthSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de soleil")).findFirst();
+								Equipment sunAzimuthSensor=matchingSunAzimuthSensor.get();
+								
+								
+								Optional<Equipment> matchingTempIntSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature")).findFirst();
+								Equipment tempIntSensor=matchingTempIntSensor.get();
+								
+								Optional<Equipment> matchingTempExtSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature exterieure")).findFirst();
+								Equipment tempExtSensor=matchingTempExtSensor.get();
+								
+								
+								Optional<Equipment> matchingOutdoorIlluminanceSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur d'ensoleillement")).findFirst();
+								Equipment outdoorIlluminanceSensor=matchingOutdoorIlluminanceSensor.get();
+								
+								
+								Request rqSunAzimuthValue = new Request();
+								rqSunAzimuthValue.setRequestId("1003");
+								rqSunAzimuthValue.setRequestOrder("SELECT");
+								rqSunAzimuthValue.setRequestTable("readings");
+								rqSunAzimuthValue.setRequestContent("{\"id_equipment\": \""+sunAzimuthSensor.getId_equipment()+"\"}");					
+								Response rpSunAzimuthValue = RequestHandler.handle(rqSunAzimuthValue,cnx);
+								String rpSunAzimuthValueBody=rpSunAzimuthValue.getResponseBody().substring(rpSunAzimuthValue.getResponseBody().indexOf("["),
+										rpSunAzimuthValue.getResponseBody().indexOf("]")+1);				
+								ObjectMapper sunAzimuthMapper=new ObjectMapper();					
+								Readings[] sunAzimuReadings=sunAzimuthMapper.readValue(rpSunAzimuthValueBody,Readings[].class);
 					
-					Optional<Equipment> matchingCapteurDeLuminosite = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de luminosite")).findFirst();
-					Equipment capteurDeLuminosite=matchingCapteurDeLuminosite.get();
 					
-					Optional<Equipment> matchingCapteurDeTempInt = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature")).findFirst();
-					Equipment capteurDeTemperatureInt=matchingCapteurDeTempInt.get();
+								Request rqTempIntValue = new Request();
+								rqTempIntValue.setRequestId("1004");
+								rqTempIntValue.setRequestOrder("SELECT");
+								rqTempIntValue.setRequestTable("readings");
+								rqTempIntValue.setRequestContent("{\"id_equipment\": \""+tempIntSensor.getId_equipment()+"\"}");					
+								Response rpTempIntValue = RequestHandler.handle(rqTempIntValue,cnx);
+								String rpTempIntValueBody=rpTempIntValue.getResponseBody().substring(rpTempIntValue.getResponseBody().indexOf("["),
+										rpSunAzimuthValue.getResponseBody().indexOf("]")+1);
+								ObjectMapper tempIntMapper=new ObjectMapper();					
+								Readings[] tempIntReadings =tempIntMapper.readValue(rpTempIntValueBody,Readings[].class);
+								
+								
+								
+								Request rqTempExtValue = new Request();
+								rqTempExtValue.setRequestId("1006");
+								rqTempExtValue.setRequestOrder("SELECT");
+								rqTempExtValue.setRequestTable("readings");
+								rqTempExtValue.setRequestContent("{\"id_equipment\": \""+tempExtSensor.getId_equipment()+"\"}");					
+								Response rpTempExtValue = RequestHandler.handle(rqTempExtValue,cnx);
+								String rpTempExtValueBody=rpTempExtValue.getResponseBody().substring(rpTempExtValue.getResponseBody().indexOf("["),
+										rpTempExtValue.getResponseBody().indexOf("]")+1);
+								ObjectMapper tempExtMapper=new ObjectMapper();					
+								Readings[] tempExtReadings =tempExtMapper.readValue(rpTempExtValueBody,Readings[].class);
 					
-					Optional<Equipment> matchingCapteurDeTempExt = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature exterieure")).findFirst();
-					Equipment capteurDeTempExt=matchingCapteurDeTempExt.get();
 					
 					
-					Optional<Equipment> matchingCapteurEnsoleillement = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur d'ensoleillement")).findFirst();
-					Equipment capteurEnsoleillement=matchingCapteurEnsoleillement.get();
+								Request rqOutdoorIlluminanceValue = new Request();
+								rqOutdoorIlluminanceValue .setRequestId("1007");
+								rqOutdoorIlluminanceValue .setRequestOrder("SELECT");
+								rqOutdoorIlluminanceValue .setRequestTable("readings");
+								rqOutdoorIlluminanceValue .setRequestContent("{\"id_equipment\": \""+outdoorIlluminanceSensor.getId_equipment()+"\"}");					
+								Response rpOutdoorIlluminanceValue = RequestHandler.handle(rqOutdoorIlluminanceValue ,cnx);
+								String rpOutdoorIlluminanceValueBody=rpOutdoorIlluminanceValue.getResponseBody().substring(rpOutdoorIlluminanceValue.getResponseBody().indexOf("["),
+										rpOutdoorIlluminanceValue.getResponseBody().indexOf("]")+1);
+								ObjectMapper outdoorIlluminanceMapper=new ObjectMapper();					
+								Readings[] outdoorIlluminanceReadings =outdoorIlluminanceMapper.readValue(rpOutdoorIlluminanceValueBody,Readings[].class);
 					
-					logger.debug(" Capteur de soleil : "+capteurDeSoleil.getId_equipment() +" de la SmartWindow id :"+sw.getId_window() );
-					logger.debug(" Capteur de luminosite : "+capteurDeLuminosite.getId_equipment() +" de la SmartWindow id :"+sw.getId_window() );
-					logger.info(" Capteur de temperature : "+capteurDeTemperatureInt.getId_equipment() +" de la SmartWindow id :"+sw.getId_window() );
-					logger.info(" Capteur de temperature exterieure : "+ capteurDeTempExt.getId_equipment() +" de la SmartWindow id :"+sw.getId_window() );
-					logger.info(" Capteur d'ensoleillement : "+ capteurEnsoleillement.getId_equipment() +" de la SmartWindow id :"+sw.getId_window() );
+								if (! outdoorIlluminanceReadings.equals(null) &&  
+									! tempExtReadings.equals(null) && 
+									! tempIntReadings.equals(null) && 
+									! sunAzimuReadings.equals(null)) {
+						
+						
+													tempExt=tempExtReadings[0].getValue();
+													tempInt=tempIntReadings[0].getValue();
+													sunAzimuth=sunAzimuReadings[0].getValue();
+													outdoorIlluminance=outdoorIlluminanceReadings[0].getValue();
+
+													if(tempInt >= sw.getPreferredtem())	{
+														if (tempExt <= sw.getPreferredtem()) {
+															if (outdoorIlluminance<35000) {
+																sw.setLevel_of_blind(0);
+																sw.setTeint_of_glass(0);
+															}else {
+																if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
+																		if(sw.getPreferredlum().equals("luminosite intense")) {
+																			sw.setLevel_of_blind(0);
+																			sw.setTeint_of_glass(25);
+																		 }else if(sw.getPreferredlum().equals("lumineux")) {
+																			sw.setLevel_of_blind(0);
+																			sw.setTeint_of_glass(50);
+																		 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																			sw.setLevel_of_blind(0);
+																			sw.setTeint_of_glass(50);
+																		 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
+																			sw.setLevel_of_blind(0);
+																			sw.setTeint_of_glass(100);
+																		 }
+																
+																} else {
+																	    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																	    	sw.setLevel_of_blind(0);
+																		    sw.setTeint_of_glass(0);																	    	  
+																	     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																	    	sw.setLevel_of_blind(0);
+																		    sw.setTeint_of_glass(25);																	    	  
+																	     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																	    	sw.setLevel_of_blind(0);
+																		    sw.setTeint_of_glass(50);																		      
+																	     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																	    	sw.setLevel_of_blind(0);
+																		    sw.setTeint_of_glass(100);																		      
+																	      }
+															           }
+															       }	
+														 }else {
+														    if (outdoorIlluminance<10000) {
+														    	  sw.setLevel_of_blind(0);
+															      sw.setTeint_of_glass(0);	  
+														      }else if(outdoorIlluminance<35000 && outdoorIlluminance>=10000) {
+														    	  sw.setLevel_of_blind(25);
+															      sw.setTeint_of_glass(25);  
+														      }else if(outdoorIlluminance>=35000) {
+														    	  if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
+																		if(sw.getPreferredlum().equals("luminosite intense")) {
+																			sw.setLevel_of_blind(25);
+																			sw.setTeint_of_glass(50);
+																		 }else if(sw.getPreferredlum().equals("lumineux")) {
+																			sw.setLevel_of_blind(50);
+																			sw.setTeint_of_glass(50);
+																		 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																			sw.setLevel_of_blind(50);
+																			sw.setTeint_of_glass(50);
+																		 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
+																			sw.setLevel_of_blind(75);
+																			sw.setTeint_of_glass(100);
+																		 }
+																
+																  } else {
+																	    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																	    	sw.setLevel_of_blind(25);
+																		    sw.setTeint_of_glass(25);																	    	  
+																	     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																	    	sw.setLevel_of_blind(25);
+																		    sw.setTeint_of_glass(50);																	    	  
+																	     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																	    	sw.setLevel_of_blind(25);
+																		    sw.setTeint_of_glass(50);																		      
+																	     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																	    	sw.setLevel_of_blind(50);
+																		    sw.setTeint_of_glass(100);																		      
+																	      }
+															       }
+														      }
+														 }			
+												     }
+													else {
+															//Tint<Tpref
+														if (outdoorIlluminance<35000) {
+															sw.setLevel_of_blind(0);
+															sw.setTeint_of_glass(0);
+														}else {
+															if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
+																	if(sw.getPreferredlum().equals("luminosite intense")) {
+																		sw.setLevel_of_blind(0);
+																		sw.setTeint_of_glass(25);
+																	 }else if(sw.getPreferredlum().equals("lumineux")) {
+																		sw.setLevel_of_blind(0);
+																		sw.setTeint_of_glass(50);
+																	 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																		sw.setLevel_of_blind(0);
+																		sw.setTeint_of_glass(50);
+																	 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
+																		sw.setLevel_of_blind(0);
+																		sw.setTeint_of_glass(100);
+																	 }
+															
+															} else {
+																    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																    	sw.setLevel_of_blind(0);
+																	    sw.setTeint_of_glass(0);																	    	  
+																     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																    	sw.setLevel_of_blind(0);
+																	    sw.setTeint_of_glass(25);																	    	  
+																     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																    	sw.setLevel_of_blind(0);
+																	    sw.setTeint_of_glass(50);																		      
+																     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																    	sw.setLevel_of_blind(0);
+																	    sw.setTeint_of_glass(100);																		      
+																      }
+														           }
+														  }
+														
+						                          }
 					
+								   }else {									
+									logger.debug(" missing Equipments'readings in Database. Check Equipment ids  : "+sunAzimuthSensor.getId_equipment() + " , " +tempExtSensor.getId_equipment() + " , "+tempIntSensor.getId_equipment() + " , "+ " , "+outdoorIlluminanceSensor.getId_equipment());
+									continue;
+								     }
 					
-				} else {
-					
-					logger.debug(" SmartWindow Program Failed to find the right sensors of the window id : "+ sw.getId_window());
-					continue;
-				}
+			        }else {
+				        logger.debug(" SmartWindow Program Failed to find the right sensors of the window id : "+ sw.getId_window());
+					    continue;
+				   }
+				//update Database
 				
-			}
-			
-		} catch (SQLException | JsonProcessingException e) {
+				
+				Request rqSmartWindowCfg = new Request();
+				rqSmartWindowCfg.setRequestId("2001");
+				rqSmartWindowCfg.setRequestOrder("UPDATE_SMARTWINDOW_CFG");
+				rqSmartWindowCfg.setRequestTable("smart_window");
+				rqSmartWindowCfg.setRequestContent("{\"id_window\": \""+sw.getId_window()+"\", \"level_of_blind\": \""+sw.getLevel_of_blind()+"\", \"teint_of_glass\": \""+sw.getTeint_of_glass()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+sw.getPreferredlum()+ "\", \"preferredtem\": \""+sw.getPreferredtem()+"\"}");
+				logger.debug(" SmartWindow finished the configuration update of the smartwindow id : "+ sw.getId_window());
+			  }
+				
+		   } catch (SQLException | JsonProcessingException e) {
 			logger.debug(" SmartWindow Program Failed to parse response from database.");
 			e.printStackTrace();
 		} 
-		
-		
-		
-		
 	}
-	
-	
-
-
 }

@@ -14,6 +14,7 @@ public class SmartWindow {
 	private String preferredlum="";
 	private int preferredtem;
 	
+	
 	@JsonIgnore
 	private String msgtoString ="";
 	
@@ -82,6 +83,7 @@ public class SmartWindow {
 		this.preferredtem = preferredTem;
 	}
 	
+
 public void updateWindow(SmartWindow w) {
 	this.level_of_blind=w.getLevel_of_blind();
 	this.teint_of_glass=w.getTeint_of_glass();
