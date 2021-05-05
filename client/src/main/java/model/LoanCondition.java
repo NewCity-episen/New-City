@@ -100,23 +100,40 @@ public class LoanCondition {
 
 			} else if(spaceBuilding.equals(offer.get("building_name"))) {
 
-				if ((int)(offer.get("space_floor")) == (Integer.parseInt(getSpaceFloor()))){
+				if(spaceFloor.equals("Veuillez selectionner un etage")) {
 					offer.replace("to_present", true);
-				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+					if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+						offer.replace("to_present", true);
+					} else if((offer.get("space_type").equals(getSpaceType()))) {
+						offer.replace("to_present", true);
+					} else {
+						offer.replace("to_present", true, false);
+					}
+					
+					if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+						offer.replace("to_present", true);
+					} else if((offer.get("space_type").equals(getSpaceType()))) {
+						offer.replace("to_present", true);
+					} else {
+						offer.replace("to_present", true, false);
+					}
+				} else if ((int)(offer.get("space_floor")) == (Integer.parseInt(getSpaceFloor()))){
 					offer.replace("to_present", true);
-				} else if((offer.get("space_type").equals(getSpaceType()))) {
-					offer.replace("to_present", true);
-				} else {
-					offer.replace("to_present", true, false);
-				}
-				
-				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
-					offer.replace("to_present", true);
-				} else if((offer.get("space_type").equals(getSpaceType()))) {
-					offer.replace("to_present", true);
-				} else {
-					offer.replace("to_present", true, false);
-				}
+					if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+						offer.replace("to_present", true);
+					} else if((offer.get("space_type").equals(getSpaceType()))) {
+						offer.replace("to_present", true);
+					} else {
+						offer.replace("to_present", true, false);
+					}
+					
+					if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+						offer.replace("to_present", true);
+					} else if((offer.get("space_type").equals(getSpaceType()))) {
+						offer.replace("to_present", true);
+					} else {
+						offer.replace("to_present", true, false);
+					}
 				} else {
 					offer.replace("to_present", true, false);
 				}
