@@ -182,17 +182,6 @@ public class RequestHandler {
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}
-		
-		
-		
-		else if(requestOrder.toUpperCase().equals("UPDATE_MATERIALNEEDS")) {
-			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
-			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
-			sqlRequest+="installed="+valuesMap.get("installed")+", state="+valuesMap.get("state")+" WHERE id_equipment="+valuesMap.get("id_equipment");
-			stmt.executeUpdate(sqlRequest);
-			responseBody="{ \"message\": \"Update is successful\"}";
-			
-		}
 		else if(requestOrder.toUpperCase().equals("UPDATE_WORKSPACE")) {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
@@ -201,7 +190,7 @@ public class RequestHandler {
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}
-		else if(requestOrder.toUpperCase().equals("UPDATE_EQUIPMENT")) {
+		else if(requestOrder.toUpperCase().equals("UPDATE_EQUIPMENTWINDOW")) {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			sqlRequest+="id_window="+valuesMap.get("id_window")+" WHERE id_equipment="+valuesMap.get("id_equipment");
@@ -209,6 +198,61 @@ public class RequestHandler {
 			responseBody="{ \"message\": \"Update is successful\"}";
 			
 		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_EQUIPMENT")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="installed="+valuesMap.get("installed")+", state="+valuesMap.get("state")+" WHERE id_equipment="+valuesMap.get("id_equipment");
+			stmt.executeUpdate(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+		}
+		else if(requestOrder.toUpperCase().equals("SELECT_EQUIPMENTREF")) {
+			sqlRequest="SELECT * FROM "+request.getRequestTable()+" WHERE ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			sqlRequest+="ref="+valuesMap.get("ref")+" AND id_work_space is null limit 1";
+			ResultSet rs= stmt.executeQuery(sqlRequest);
+			if(rs.next()) {
+				int id_equipment=rs.getInt("id_equipment");
+				stmt.executeUpdate("UPDATE equipment SET id_work_space="+valuesMap.get("id_work_space")+" WHERE id_equipment="+id_equipment);
+				rs= stmt.executeQuery("SELECT * FROM equipment WHERE id_equipment="+id_equipment);
+				ResultSetMetaData rsM=rs.getMetaData();
+				if (!rs.next()) {
+					valuesJson+="]";
+				} else {
+						do{
+							valuesJson+="{";
+							for(int i=1;i<=rsM.getColumnCount();i++) {
+								if(!(i==1)) {
+									valuesJson+=",";
+								}
+									Object columnValue=rs.getObject(i);
+									valuesJson+="\""+rsM.getColumnLabel(i)+"\": "+"\""+columnValue+"\"";
+							}
+							if(rs.isLast()) {
+								valuesJson+="}]";
+							}
+							else {
+							valuesJson+="},";
+							}
+						}while(rs.next()) ;
+				
+				}
+				responseBody="{ \"message\": "+valuesJson+"}";
+			}
+			else {
+				responseBody="{ \"message\": \"No equipment is available!\"}";
+				rs.close();
+				return new Response("-1",responseBody); 
+				
+			}
+			rs.close();
+		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_MATERIALNEEDS")) {
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			stmt.executeUpdate("UPDATE material_needs SET checked=true WHERE ref="+valuesMap.get("ref")+" AND id_work_space="+valuesMap.get("id_work_space"));
+			responseBody="{ \"message\": \"Update is successful\"}";
+		}
+			
 		else if(requestOrder.toUpperCase().equals("UNMAP_WORKSPACE")){
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			stmt.executeUpdate("UPDATE spot SET id_equipment=null, taken=false WHERE id_work_space="+valuesMap.get("id_work_space"));
@@ -234,6 +278,16 @@ public class RequestHandler {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);			
 			sqlRequest+="configured_window="+valuesMap.get("configured_window")+", preferredtem = "+valuesMap.get("preferredtem")+", preferredlum = '"+valuesMap.get("preferredlum")+"' WHERE id_window="+valuesMap.get("id_window");
+			stmt.executeUpdate(sqlRequest);
+			System.out.print(sqlRequest);
+			responseBody="{ \"message\": \"Update is successful\"}";
+			
+			
+		}
+		else if(requestOrder.toUpperCase().equals("UPDATE_SMARTWINDOW_CFG")) {
+			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);			
+			sqlRequest+="configured_window="+valuesMap.get("configured_window")+"level_of_blind="+valuesMap.get("level_of_blind")+"teint_of_glass="+valuesMap.get("teint_of_glass")+", preferredtem = "+valuesMap.get("preferredtem")+", preferredlum = '"+valuesMap.get("preferredlum")+"' WHERE id_window="+valuesMap.get("id_window");
 			stmt.executeUpdate(sqlRequest);
 			System.out.print(sqlRequest);
 			responseBody="{ \"message\": \"Update is successful\"}";

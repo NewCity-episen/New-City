@@ -3,7 +3,6 @@ import view.*;
 import model.*;
 import shared.code.Request;
 import shared.code.Response;
-
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -432,15 +431,19 @@ public class Controller {
 				frame.dispose();
 				}
 				mdl.setMp(mappingPanel);
-				loadEquipments();
 				loadWorkSpaces();
-				loadEquipmentsToInstall(workSpace.getId_work_space());
 				mappingPanel.setWorkSpace(workSpace);
+				loadEquipments();
+				loadEquipmentsToInstall(workSpace.getId_work_space());
+			
+				
 				if(!workSpace.isInitialized()) {
+					
 				loadMapSpots(mappingPanel);
 				}
 				else {
 					try {
+						
 						updateSpotMap(mappingPanel,1);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -468,7 +471,6 @@ public class Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 		MappingPanel.getCancelButton().setEnabled(false);
 	
 		if(MappingPanel.getWorkSpace().getSpace_type().equals("open space")) {
@@ -604,14 +606,18 @@ public class Controller {
 						  int id_equipment=((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem()).getId_equipment();
 						Response response=sendRequestToServer("update-Spot.json","{\"id_equipment\": \""+id_equipment+"\", \"id_spot\": \""
 						  		+spot.getId_spot()+ "\", \"taken\": \""+true+"\"}");
-						response=sendRequestToServer("update-MaterialNeeds.json","{\"id_equipment\": \""+id_equipment
-						+"\", \"installed\": \""+true+ "\", \"state\": \""+true+"\"}");
+						response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+id_equipment+"\","
+						+" \"installed\": \""+true+ "\", \"state\": \""+true+"\"}");	
 						spot.setColor("green");	
 						spot.setTaken(true);
 						spot.setState(true);
+						
 						spot.setEquipmentInstalled((Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem());
 						spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 						verifyWindows(spot);
+						loadEquipments();
+						loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
+						
 						updateSpotMap(MappingPanel,-1);
 						
 						if(MappingPanel.getCurrentp()==2) {
@@ -636,21 +642,24 @@ public class Controller {
 							  int id_equipment=spot.getId_equipment();
 							Response response=sendRequestToServer("update-Spot.json","{\"id_equipment\": \""+null+"\", \"id_spot\": \""
 							  		+spot.getId_spot()+ "\", \"taken\": \""+false+"\"}");
-							response=sendRequestToServer("update-MaterialNeeds.json","{\"id_equipment\": \""+id_equipment
-							+"\", \"installed\": \""+false+ "\", \"state\": \""+true+"\"}");
+						/*	response=sendRequestToServer("update-MaterialNeeds.json","{\"id_equipment\": \""+id_equipment
+							+"\", \"installed\": \""+false+ "\", \"state\": \""+true+"\"}");*/
 							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+id_equipment+"\","
+									+" \"installed\": \""+false+ "\", \"state\": \""+true+"\"}");
+							response= sendRequestToServer("update-equipmentW.json","{\"id_equipment\": \""+id_equipment+"\","
 									+ "\"id_window\": \""+null +"\"}");
 							if(spot.getEquipmentInstalled().getEquipment_type().equals("sensorWindows")) {
 								response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
-										+ "\"configurable\": \""+false +"\"}");
+										+ "\"configurable\": \""+false +"\"}");	
 							}
+							
 							spot.setColor("blue");	
 							spot.setTaken(false);
 							spot.setState(true);
 							spot.setEquipmentInstalled(null);
 							spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+null+"</html>");
+							loadEquipments();
 							loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
-							
 							updateSpotMap(MappingPanel,-1);
 							if(MappingPanel.getCurrentp()==2) {
 								MappingPanel.getMapEquipmentsBtn().doClick();
@@ -741,7 +750,6 @@ public class Controller {
 		
 	}
 	public void loadMappingButtons() {
-		logger.info("hey");
 		MappingPanel.getMapEquipmentsBtn().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -763,7 +771,6 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				MappingPanel.getEquipmentsToInstallBox().removeAllItems();
-
 				for(Equipment equipment: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 					if((equipment.getEquipment_type().equals("sensor")||(equipment.getEquipment_type().equals("sensorWindows")))&&(!equipment.isInstalled())) {
 						MappingPanel.getEquipmentsToInstallBox().addItem(equipment);
@@ -846,6 +853,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				loadEquipments();
 				loadEquipmentsToInstall(MappingPanel.getWorkSpace().getId_work_space());
 				if(MappingPanel.getCurrentp()==2) {
 					MappingPanel.getMapEquipmentsBtn().doClick();
@@ -886,21 +894,23 @@ public class Controller {
 						if(spot.getSpot_type().equals("On Window Left")) {
 							int id_window= Integer.valueOf(windowMap.get(0).get("id_window"));
 							equipment.setId_window(id_window);
-							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
+							response= sendRequestToServer("update-equipmentW.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
 									+ "\"id_window\": \""+id_window +"\"}");
 						}
 						else if(spot.getSpot_type().equals("On Window Right")) {
 							int id_window= Integer.valueOf(windowMap.get(1).get("id_window"));
 							equipment.setId_window(id_window);
-							response= sendRequestToServer("update-equipment.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
+							response= sendRequestToServer("update-equipmentW.json","{\"id_equipment\": \""+equipment.getId_equipment()+"\","
 									+ "\"id_window\": \""+id_window +"\"}");
 						}
 						int sensorInstalled=0;
 						for(Equipment equipment1: MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
 							if(equipment1.getId_window()>0) {
+								
 								sensorInstalled++;
 							}
 						}
+						logger.info("sensorinstalled : {}",sensorInstalled);
 						if(((sensorInstalled==4)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==1))||(
 						(sensorInstalled==8)&&(MappingPanel.getWorkSpace().getNumber_of_windows()==2))) {
 							response= sendRequestToServer("update-workspace.json","{\"id_work_space\": \""+MappingPanel.getWorkSpace().getId_work_space()+"\","
@@ -924,17 +934,52 @@ public class Controller {
 			ArrayList<Map<String,String>> equipmentsToInstallMAP=mapper.readValue(responseBody,
 					 new TypeReference<ArrayList<Map<String,String>>>(){});
 			ArrayList<Equipment> equipmentsToInstall=new ArrayList<Equipment>();
+			
 			for(Map<String,String> equipmentToInstallMap: equipmentsToInstallMAP) {
-				int id_equipment =Integer.valueOf(equipmentToInstallMap.get("id_equipment"));
-				for(Equipment equipment: mdl.getAllEquipments()) {
-					if(equipment.getId_equipment()==id_equipment) { 
-						equipment.setInstalled(Boolean.parseBoolean(equipmentToInstallMap.get("installed")));
-						equipment.setState(Boolean.parseBoolean(equipmentToInstallMap.get("state")));
-
-						equipmentsToInstall.add(equipment);
-						break;
-					}
-				}	
+					int ref =Integer.valueOf(equipmentToInstallMap.get("ref"));
+					int quantity= Integer.valueOf(equipmentToInstallMap.get("quantity"));
+		
+					ArrayList<Map<String,String>> equipmentMap=null;
+					if(equipmentToInstallMap.get("checked").equals("false")) {
+					for(int i=0;i<quantity;i++) {
+							response= sendRequestToServer("select-EquipmentRef.json","{\"ref\": \""+ref+"\", \"id_work_space\": \""+id_work_space+"\"}");					
+						responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
+				                response.getResponseBody().indexOf("]")+1);
+						 equipmentMap=mapper.readValue(responseBody,
+								 new TypeReference<ArrayList<Map<String,String>>>(){});
+						
+					for(int j=0;j<equipmentMap.size();j++) {
+					for(Equipment equipment: mdl.getAllEquipments()) {
+						if(equipment.getId_equipment()==Integer.valueOf(equipmentMap.get(j).get("id_equipment"))) { 
+							equipment.setInstalled(Boolean.parseBoolean(equipmentMap.get(j).get("installed")));
+							equipment.setState(Boolean.parseBoolean(equipmentMap.get(j).get("state")));
+							equipmentsToInstall.add(equipment);
+							break;
+						}
+				      }
+				     }
+			       }
+		     	}
+				else if(equipmentToInstallMap.get("checked").equals("true")){
+					response= sendRequestToServer("select-Equipments.json","{\"id_work_space\": \""+id_work_space+"\", \"ref\": \""+equipmentToInstallMap.get("ref")+"\"}");
+					responseBody=response.getResponseBody().substring(response.getResponseBody().indexOf("["),
+			                response.getResponseBody().indexOf("]")+1);
+					 equipmentMap=mapper.readValue(responseBody,
+							 new TypeReference<ArrayList<Map<String,String>>>(){});
+					 for(int j=0;j<equipmentMap.size();j++) {
+							for(Equipment equipment: mdl.getAllEquipments()) {
+								if(equipment.getId_equipment()==Integer.valueOf(equipmentMap.get(j).get("id_equipment"))) { 
+									equipment.setInstalled(Boolean.parseBoolean(equipmentMap.get(j).get("installed")));
+									equipment.setState(Boolean.parseBoolean(equipmentMap.get(j).get("state")));
+									equipmentsToInstall.add(equipment);
+									break;
+								}
+							}
+							}
+					
+				}
+				response= sendRequestToServer("update-MaterialNeeds.json", "{\"id_work_space\": \""+id_work_space+"\",\"ref\": \""+equipmentToInstallMap.get("ref")+"\"}");
+				
 			}
 			for(WorkSpace workSpace: mdl.getAllWorkSpaces()) {
 				if((workSpace.getId_work_space()==id_work_space)) {
