@@ -12,7 +12,8 @@ public class Equipment {
 	private String Equipment_spot_type;
 	private int id_window;
 	private int ref;
-
+	private int id_work_space;
+	
 	public Equipment(String s, int c, int r) {
 		this.equipment_name = s;
 		this.unit_cost = c;
@@ -21,8 +22,7 @@ public class Equipment {
 
 	@JsonIgnore
 
-	private int id_work_space;
-	private int ref;
+	
 
 	private boolean installed;
 	private boolean state;
