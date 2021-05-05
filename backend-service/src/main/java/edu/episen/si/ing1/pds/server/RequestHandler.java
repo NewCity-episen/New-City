@@ -103,6 +103,7 @@ public class RequestHandler {
 				row.put("building_name", rs.getString("building_name"));
 				row.put("space_cost", rs.getInt("space_cost"));
 				row.put("space_area", rs.getInt("space_area"));
+				row.put("number_of_windows", rs.getInt("number_of_windows"));
 
 				rowList.add(row);
 				System.out.println("Line : " + row);
@@ -124,11 +125,11 @@ public class RequestHandler {
 			ResultSet rs= stmt.executeQuery(sql);
 				while(rs.next()) {
 				if(rs.getBoolean("taken")) {
-					return new Response(request.getRequestId(), "0");
+					return new Response(request.getRequestId(), false);
 				} else  {			
 					String sqlUpdate = "UPDATE work_space SET taken = 'true', id_entreprise = " + companyId + " WHERE space_name = '" + spaceName + "'";
 					stmt.executeUpdate(sqlUpdate);
-					return new Response(request.getRequestId(), "1");
+					return new Response(request.getRequestId(), true);
 				}
 			}
 		}

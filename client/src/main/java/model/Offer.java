@@ -9,8 +9,9 @@ public class Offer {
 	private String offer_building;
 	private int offer_cost;
 	private int offer_area;
+	private int number_of_windows;
 	
-	public Offer(int off_id, String off_ty, String off_na, int off_fl, String off_bui, int off_pr,  int off_ar) {
+	public Offer(int off_id, String off_ty, String off_na, int off_fl, String off_bui, int off_pr,  int off_ar, int nb_w) {
 		this.offer_id = off_id;
 		this.offer_type = off_ty;
 		this.offer_name = off_na;
@@ -18,6 +19,7 @@ public class Offer {
 		this.offer_building = off_bui;
 		this.offer_cost = off_pr;
 		this.offer_area = off_ar;
+		this.number_of_windows = nb_w;
 	}
 	
 	public Offer(int off_id, String off_na) {
@@ -79,5 +81,13 @@ public class Offer {
 
 	public void setOfferArea(int offer_area) {
 		this.offer_area = offer_area;
+	}
+
+	public int getNumber_of_windows() {
+		return number_of_windows;
+	}
+
+	public void setNumber_of_windows(int number_of_windows) {
+		this.number_of_windows = number_of_windows;
 	}
 }

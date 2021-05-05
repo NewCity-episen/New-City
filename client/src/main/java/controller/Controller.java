@@ -228,15 +228,23 @@ public class Controller {
 		
 	}*/
 
+	//public static void loanButtonLoad(String spaceName, ArrayList<int> list) {
 	public static void loanButtonLoad(String spaceName) {
 		try {
 			System.out.println("Trying to loan space " + spaceName);
 			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 			System.out.println("Request well send ");
-			String result = (String)response.getResponseData();
+			boolean result = (boolean)response.getResponseData();
 			
-			System.out.println(result);
+			if(result) {
+				/*for(int i = 0; i < list.size(); i++) {
+					Response response = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + id_work_space + "\",\"id_entreprise\": \"" + 
+							mdl.getSelectedCompany().getId_entreprise() + "\",\"id_equipment\": \"" + list.get(i)+ "\"}");
+				}*/
+			} else {
+				
+			}
 			
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
@@ -255,11 +263,12 @@ public class Controller {
 			
 			for(int i = 0; i < resultList.size(); i++) {
 				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), (int)(resultList.get(i).get("space_area")));
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
+						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
 				offerList.add(offerRow);
 			}			
 
-			new LoanOfferPanel(offerList);
+			new LoanOfferPanel(LoanCondition.filterLoanOffer(offerList));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -1244,7 +1253,7 @@ public void loadvaliderbtnFTC () {
 		try {
 			
 			clientconfig= new ClientConfig();
-			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
 			//InetAddress ip=InetAddress.getByName("localhost");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
