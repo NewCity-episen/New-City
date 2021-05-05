@@ -1279,7 +1279,7 @@ public void loadvaliderbtnFTC () {
 				int preferredtem= FrameToConfigurate.getSelectedTem();
 				int nbrOfWinToCfg=ConfigurateWindowsPanel.getWinToCnfgSelmodel().size();
 				ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
-				Object [] winToCfgArrayObj=new Object [nbrOfWinToCfg];
+				Object [] winToCfgArrayObj=new Object [nbrOfWinToCfg];off
 				ConfigurateWindowsPanel.getWinToCnfgSelmodel().copyInto(winToCfgArrayObj);
 				
 				for (Object swObj:winToCfgArrayObj) {

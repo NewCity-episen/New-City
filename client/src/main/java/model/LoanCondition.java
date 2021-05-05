@@ -88,37 +88,58 @@ public class LoanCondition {
 			System.out.println(offer.get("building_name")+"\\");	
 			offer.replace("to_present", false);
 
-			
 			if ((spaceBuilding.equals("Veuillez selectionner un batiment"))) {
-						offer.replace("to_present", true);
-			} else if(spaceBuilding.equals(offer.get("building_name"))) {
-						offer.replace("to_present", true);
-			}
-
-			/*if(((int)resultList.get(i).get("space_cost") + getEquipmentCost()) > getLoanBudget()) {
-				resultList.remove(i);
-			}
-			
-			if (!(spaceFloor.equals("Veuillez selectionner un etage"))) {
-				if (((int)offer.get("space_floor")) != Integer.parseInt(getSpaceFloor())){
+				offer.replace("to_present", true);
+				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+					offer.replace("to_present", true);
+				} else if((offer.get("space_type").equals(getSpaceType()))) {
+					offer.replace("to_present", true);
+				} else {
 					offer.replace("to_present", true, false);
 				}
-			}
-			
-			if(!(spaceType.equals("Veuillez selectionner un type d'espace"))) {
-				if (!(offer.get("space_type").equals(getSpaceType()))){
+
+			} else if(spaceBuilding.equals(offer.get("building_name"))) {
+
+				if ((int)(offer.get("space_floor")) == (Integer.parseInt(getSpaceFloor()))){
+					offer.replace("to_present", true);
+				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+					offer.replace("to_present", true);
+				} else if((offer.get("space_type").equals(getSpaceType()))) {
+					offer.replace("to_present", true);
+				} else {
 					offer.replace("to_present", true, false);
 				}
 				
-			}
+				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+					offer.replace("to_present", true);
+				} else if((offer.get("space_type").equals(getSpaceType()))) {
+					offer.replace("to_present", true);
+				} else {
+					offer.replace("to_present", true, false);
+				}
+				} else {
+					offer.replace("to_present", true, false);
+				}
 			
-			if((int)resultList.get(i).get("space_area") < getSpaceArea()) {
-				resultList.remove(i);
+			if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
+				offer.replace("to_present", true, true);
+			} else if((offer.get("space_type").equals(getSpaceType()))) {
+					offer.replace("to_present", true, true);
 			}
-			
-			if(getNeededEquipments().containsKey("fenetre") && ((int)offer.get("number_of_windows") == 0)) {
-				offer.replace("to_present", true, false);
-			}*/
+		}
+			/*if(((int)resultList.get(i).get("space_cost") + getEquipmentCost()) > getLoanBudget()) {
+			resultList.remove(i);
+		}
+		
+		
+		
+		if((int)resultList.get(i).get("space_area") < getSpaceArea()) {
+			resultList.remove(i);
+		}
+		
+		if(getNeededEquipments().containsKey("fenetre") && ((int)offer.get("number_of_windows") == 0)) {
+			offer.replace("to_present", true, false);
+		}*/
 		}
 		
 
