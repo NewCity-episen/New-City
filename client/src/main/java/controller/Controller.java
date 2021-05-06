@@ -13,51 +13,29 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.WebRowSet;
-import javax.swing.UIManager;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 import ClientConfig.ClientConfig;
-import edu.episen.si.ing1.pds.client.ClientGUI;
-
-
-
-
-
-
-
-
 
 public class Controller {
 	private static String RequestsFileLocation="";
@@ -495,11 +473,16 @@ public class Controller {
 		
 		
 		for(Spot spot: MappingPanel.getWorkSpace().getSpots()) {
+			if(spot.getId_equipment()==0) {
+				spot.setEquipmentInstalled(null);
+			}
 			for(Equipment equipment:MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
+				
 				if(equipment.getId_equipment()==spot.getId_equipment()) {
 					spot.setState(equipment.isState());
 					spot.setEquipmentInstalled(equipment);
 				}
+				
 			}
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 
@@ -788,6 +771,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				MappingPanel.getRefreshButton().doClick();
 				boolean compatible=false;
 				Equipment equipmentChoosed=(Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
 				if(equipmentChoosed!=null) {
@@ -1012,13 +996,13 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"R�servation");	
+				LoanPanel.getBtnOkFloorBuilding().doClick();
 	
 			}
 			
 		};
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getRefreshButton());
-		focusButtons(FunctionalitiesBarAndPanel.getRefreshButton());
+		//focusButtons(FunctionalitiesBarAndPanel.getRefreshButton());
 
 		FunctionalitiesBarAndPanel.getRefreshButton().addActionListener(refreshButtonListener);
 	}
