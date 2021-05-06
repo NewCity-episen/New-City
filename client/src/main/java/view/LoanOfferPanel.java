@@ -27,6 +27,7 @@ import shared.code.Response;
 public class LoanOfferPanel extends JFrame{
 	
 	String columnHeader[] = {"Numero offre", "Type de salle", "nom", "batiment", "etage", "Prix", "Surface", "    "};
+	private static JFrame loanOfferPanel = new JFrame();
 			
 	public LoanOfferPanel(ArrayList<Offer> list) {
 		setSize(600,400);
@@ -56,10 +57,17 @@ public class LoanOfferPanel extends JFrame{
 			table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 			table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 			JScrollPane pane = new JScrollPane(table);
-			getContentPane().add(pane);
+			loanOfferPanel.add(pane);
 		}	
 	}
+
+	public static JFrame getLoanOfferPanel() {
+		return loanOfferPanel;
+	}
+
 }
+
+	
 
 //Button renderer class
 class ButtonRenderer extends JButton implements TableCellRenderer {

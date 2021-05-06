@@ -236,6 +236,8 @@ public class Controller {
 			boolean result = (boolean)response.getResponseData();
 
 			if(result) {
+				//LoanOfferPanel.getLoanOfferPanel().dispose();
+				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 				for(int i = 0; i < equipmentToInsert.size(); i++) {
 					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
 					Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
@@ -244,7 +246,9 @@ public class Controller {
 				}
 				
 			} else {
-				
+				//LoanOfferPanel.getLoanOfferPanel().dispose();
+				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Cet espace n'est plus disponible, veuillez en reserver un autre",
+						"", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
 		} catch (InterruptedException | IOException e1) {
@@ -394,12 +398,8 @@ public class Controller {
 			else if (!(workSpace.isTaken())) {
 				
 				//mohamed's part
-				
-				
-				
-			}
-			
 
+			}
 		}
 	}
 	public void MappingWorkSpaceButtonLoad(JButton button,WorkSpace workSpace,JFrame frame) {
