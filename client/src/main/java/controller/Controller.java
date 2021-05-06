@@ -1384,7 +1384,7 @@ public class Controller {
 	}
 	
 	public static Response sendRequestToServer(String jsonNameFile,String jsonValues) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
-		
+		RequestsFileLocation= System.getenv(ConfigEnVar);
 		Socket socketClient=connectToServer();
 		if(socketClient==null) {
 			logger.info("Client not connected to server.");

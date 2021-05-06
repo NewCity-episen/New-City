@@ -269,7 +269,8 @@ public class RequestHandler {
 		else if(requestOrder.toUpperCase().equals("STATE_EQUIPMENT_FALSE")) {
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			ResultSet rs= stmt.executeQuery("SELECT id_equipment FROM spot WHERE id_spot="+valuesMap.get("id_spot"));
-			stmt.executeUpdate("UPDATE material_needs SET state=false WHERE id_equipment="+rs.getInt("id_equiment"));
+			rs.next();
+			stmt.executeUpdate("UPDATE equipment SET state=false WHERE id_equipment="+rs.getInt("id_equipment"));
 			rs.close();
 			responseBody="{ \"message\": \"Update is successful\"}";
 		}

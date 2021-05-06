@@ -22,38 +22,22 @@ public class MappingCRUD {
 	 public static ClientConfig clientConfig;
 	public static void main(String[] args) throws ParseException, JsonParseException, JsonMappingException, InterruptedException, IOException {
 		
-		/* REQUEST_NAME: UNMAP_WORKSPACE  ( THE USER HAS TO GIVE : --id_work_space= ??  )
-		 * REQUESTS TO DO IN THE SERVER : 
-		 * 
-		//update spot set id_equipment=null, taken=false where id_work_space=?
-		//update material_needs set installed=false where id_work_space=?
-		//update equipment set id_window=null where id_equipment= ? (a loop with select id_equipment from spot where id_work_space=??)
-		// update work_space set configurable=false where id_work_space=??
-		 * 
-		 * */
 		/*REQUEST_NAME: STATE_EQUIPMENT_FALSE*  ( THE USER HAS TO GIVE : --id_spot= ??)
 		 * 
 		 * REQUESTS TO DO IN THE SERVER : 
 		 *
-		 * update material_needs set state=false where id_equipment= ?? ( this will be done with select id_equipment from spot where id_spot=??)
+		 * update equipment set state=false where id_equipment= ?? ( this will be done with select id_equipment from spot where id_spot=??)
 		 * 
 		 * */
 		final Options options=new Options();
 		final Option request=Option.builder().longOpt("request").hasArg().argName("request").build();
 		final Option id_spot=Option.builder().longOpt("idSpot").hasArg().argName("idSpot").build();
-		final Option id_work_space=Option.builder().longOpt("idWorkSpace").hasArg().argName("idWorkSpace").build();
 		options.addOption(request);
-		options.addOption(id_work_space);
 		options.addOption(id_spot);
 		final CommandLineParser parser=new DefaultParser();
 	    final CommandLine commandLine=parser.parse(options, args);
 		logger.info("Script for mapping is running..");
-		if(commandLine.hasOption("request")&&commandLine.hasOption("idWorkSpace")) {
-			Controller.sendRequestToServer(commandLine.getOptionValue("request")+".json",
-					"{\"id_work_space\": \""+commandLine.getOptionValue("idWorkSpace")+"\"}");
-			
-		}
-		else if (commandLine.hasOption("request")&&commandLine.hasOption("idSpot")) {
+		if (commandLine.hasOption("request")&&commandLine.hasOption("idSpot")) {
 			Controller.sendRequestToServer(commandLine.getOptionValue("request")+".json",
 					"{\"id_spot\": \""+commandLine.getOptionValue("idSpot")+"\"}");
 		}
