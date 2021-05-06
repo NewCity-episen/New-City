@@ -24,7 +24,7 @@ public class LoanPanel {
 
 	private static JButton btnAdvancedFilter=new JButton(" espaces reserves"); 
 
-	private static JButton advancedFilterButton=new JButton("Filtres avancees"); 
+	private static JButton advancedFilterButton=new JButton("Filtres avances"); 
 
 	static JPanel panelMap = new JPanel();
 	private int currentFloor=1;//initially first floor

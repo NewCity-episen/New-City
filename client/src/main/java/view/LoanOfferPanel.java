@@ -31,16 +31,17 @@ public class LoanOfferPanel extends JFrame{
 			
 	public LoanOfferPanel(ArrayList<Offer> list) {
 		setSize(600,400);
-		setVisible(true);
+		
 		setLocationRelativeTo(null);
 
 		JLabel noResults = new JLabel("Aucun offre ne correspond a votre recherche");
 		Object resultTable[][] = new Object[list.size()][columnHeader.length];
 		
 		if(list.isEmpty()) {
-			getContentPane().add(noResults);
+			JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Aucune offre ne correspond a votre recherche", "", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		} else {
+			setVisible(true);
 			for(int i = 0; i < list.size(); i++) {
 				
 				resultTable[i][0] = i + 1;
