@@ -201,9 +201,6 @@ public class Controller {
 			for(Building building: allBuildings) {
 				LoanPanel.getBuildingBoxFilter().addItem(building);
 			}
-			for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				LoanPanel.getFloorBoxFilter().addItem("Etage "+i); 
-			}
 
 			LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
 
@@ -232,10 +229,21 @@ public class Controller {
 		}
 		LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
 		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
+		AdvancedFilterPanel.getOkEquipmentButton().addActionListener(event -> selectedEquipmentLoad());
 	}
 	
+	
+	public static void selectedEquipmentLoad() {
+		ArrayList<Equipment> selectedEquipment = new ArrayList<>();
+		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
+			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
+				selectedEquipment.add(AdvancedFilterPanel.getEquipmentsMap().get(i));
+				System.out.println(AdvancedFilterPanel.getBoxes()[i].getText());
+			}
+		}
+		
+	}
 
-	//public static void loanButtonLoad(String spaceName, ArrayList<int> list) {
 	public static void loanButtonLoad(String spaceName) {
 		try {
 			System.out.println("Trying to loan space " + spaceName);
@@ -299,7 +307,7 @@ public class Controller {
 			ArrayList<Equipment> equipmentList = new ArrayList<>();
 			
 			for(int i = 0; i < resultList.size(); i++) {
-				Equipment equipment = new Equipment((String)(resultList.get(i).get("equipment_type")),
+				Equipment equipment = new Equipment((String)(resultList.get(i).get("equipment_name")),
 						(int)(resultList.get(i).get("unit_cost")), (int)(resultList.get(i).get("ref")));
 
 				equipmentList.add(equipment);

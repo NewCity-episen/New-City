@@ -11,7 +11,7 @@ public class LoanCondition {
 	private static int spaceArea;
 	private static String spaceType = "Veuillez selectionner un type d'espace";	
 	private static int equipmentCost = 0;
-	private static HashMap<String, HashMap<Object, Object>> neededEquipments = new HashMap<>();
+	private static HashMap<String, ArrayList<Equipment> neededEquipments = new ArrayLists<>();
 
 	public static int getLoanBudget() {
 		return loanBudget;
@@ -57,7 +57,7 @@ public class LoanCondition {
 		return equipmentCost;
 	}
 	
-	public static HashMap<String, HashMap<Object, Object>> getNeededEquipments() {
+	public static HashMap<String, ArrayList<Equipment> getNeededEquipments() {
 		return neededEquipments;
 	}
 	
