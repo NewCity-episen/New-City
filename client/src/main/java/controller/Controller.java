@@ -134,6 +134,7 @@ public class Controller {
 								if((workSpace.isTaken())&&(workSpace.getId_entreprise()==mdl.getSelectedCompany().getId_entreprise())) {
 									workSpace.getWorkSpaceButton().setBackground(new Color(143, 188, 143));
 									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setEnabled(true);
 									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								else if(workSpace.isTaken()) {
@@ -145,6 +146,7 @@ public class Controller {
 								else {
 									workSpace.getWorkSpaceButton().setBackground(new Color(169, 169, 169));	
 									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setEnabled(false);
 									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								workSpace.getWorkSpaceButton().setText(workSpace.getSpace_name());
@@ -783,7 +785,6 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MappingPanel.getRefreshButton().doClick();
 				boolean compatible=false;
 				Equipment equipmentChoosed=(Equipment)MappingPanel.getEquipmentsToInstallBox().getSelectedItem();
 				if(equipmentChoosed!=null) {
