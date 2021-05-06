@@ -234,20 +234,22 @@ public class Controller {
 
 			if(result) {
 				//LoanOfferPanel.getLoanOfferPanel().dispose();
-				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 				for(int i = 0; i < equipmentToInsert.size(); i++) {
 					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
 					Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + toInsert.getRef() + "\"}");
 					getEquipmentToInsert().remove(toInsert);
 				}
-				
+				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				//LoanOfferPanel.getLoanOfferPanel().dispose();
 				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Cet espace n'est plus disponible, veuillez en reserver un autre",
 						"", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
+			/*for(Object object : equipmentToInsert) {
+				equipmentToInsert.remove(object);
+			}*/
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -275,11 +277,7 @@ public class Controller {
 
 			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
 
-			if(!equipmentToInsert.isEmpty()) {
-				for(Object object : equipmentToInsert) {
-					equipmentToInsert.remove(object);
-				}
-			}
+			
 
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
