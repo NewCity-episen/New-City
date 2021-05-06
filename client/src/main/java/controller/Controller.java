@@ -1367,8 +1367,8 @@ public class Controller {
 		try {
 			
 			clientconfig= new ClientConfig();
-			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			InetAddress ip=InetAddress.getByName("localhost");
+			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			//InetAddress ip=InetAddress.getByName("localhost");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
