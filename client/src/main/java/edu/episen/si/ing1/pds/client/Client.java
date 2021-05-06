@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import ClientConfig.ClientConfig;
 import controller.Controller;
 import model.Model;
+import shared.code.Response;
 import view.View;
 
 
@@ -23,42 +24,33 @@ public class Client {
 		  try{
 			    final Options options=new Options();
 				final Option clientName=Option.builder().longOpt("clientName").hasArg().argName("clientName").build();
-				final Option insert=Option.builder().longOpt("insert").build();
-				final Option select=Option.builder().longOpt("select").build();
-				final Option delete =Option.builder().longOpt("delete").build();
-				final Option update=Option.builder().longOpt("update").build();
-				String query=null;
+				final Option runApp= Option.builder().longOpt("runApp").build();
+				final Option request=Option.builder().longOpt("request").hasArg().argName("request").build();
+				final Option id_spot=Option.builder().longOpt("idSpot").hasArg().argName("idSpot").build();
+				options.addOption(runApp);
+				options.addOption(request);
+				options.addOption(id_spot);
 				options.addOption(clientName);
-				options.addOption(insert);
-			    options.addOption(select);
-			    options.addOption(delete);
-			    options.addOption(update);
 				final CommandLineParser parser=new DefaultParser();
 			    final CommandLine commandLine=parser.parse(options, args);
 			    String clientNameDefault="admin";
-			    
 			    if(commandLine.hasOption("clientName")) {
 			    	clientNameDefault= commandLine.getOptionValue("clientName");
 				  }
-			    if(commandLine.hasOption("insert")) {
-			    	query="insert";
-			    }
-			    if(commandLine.hasOption("select")) {
-			    	query="select";
-			    }
-			    if(commandLine.hasOption("delete")) {
-			    	query="delete";
-			    }
-			    if(commandLine.hasOption("update")) {
-			    	query="update";
-			    }
 			    logger.info("Client {} is running.",clientNameDefault);
-			  
-      		  
-			    View vw=new View();
-				Model mdl=new Model();
-				Controller cntrl=new Controller(mdl,vw);
-				
+			    if(commandLine.hasOption("runApp")) {
+			    	View vw=new View();
+					Model mdl=new Model();
+					Controller cntrl=new Controller(mdl,vw);
+			    	
+			    }
+			    else if (commandLine.hasOption("request")&&commandLine.hasOption("idSpot")) {
+					Response response = Controller.sendRequestToServer(commandLine.getOptionValue("request")+".json",
+							"{\"id_spot\": \""+commandLine.getOptionValue("idSpot")+"\"}");
+				}
+				else {
+					logger.info("Missing argument! Try: --runApp to launch the application or other options..");
+				}	
 		  }
 		  catch(Exception e) {
 			  e.printStackTrace();

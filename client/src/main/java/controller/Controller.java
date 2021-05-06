@@ -15,16 +15,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,36 +29,17 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
-import javax.sql.rowset.WebRowSet;
-import javax.swing.UIManager;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 import ClientConfig.ClientConfig;
-import edu.episen.si.ing1.pds.client.ClientGUI;
-
-
-
-
-
-
-
-
 
 public class Controller {
 	private static String RequestsFileLocation="";
@@ -70,6 +48,7 @@ public class Controller {
 	private static Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
+	public static ArrayList<Object> equipmentToInsert = new ArrayList<>();
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		RequestsFileLocation= System.getenv(ConfigEnVar);
@@ -159,6 +138,7 @@ public class Controller {
 								if((workSpace.isTaken())&&(workSpace.getId_entreprise()==mdl.getSelectedCompany().getId_entreprise())) {
 									workSpace.getWorkSpaceButton().setBackground(new Color(143, 188, 143));
 									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setEnabled(true);
 									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								else if(workSpace.isTaken()) {
@@ -170,6 +150,7 @@ public class Controller {
 								else {
 									workSpace.getWorkSpaceButton().setBackground(new Color(169, 169, 169));	
 									workSpace.getWorkSpaceButton().setOpaque(true);
+									workSpace.getWorkSpaceButton().setEnabled(false);
 									workSpace.getWorkSpaceButton().setBorderPainted(false);
 								}
 								workSpace.getWorkSpaceButton().setText(workSpace.getSpace_name());
@@ -205,9 +186,6 @@ public class Controller {
 			for(Building building: allBuildings) {
 				LoanPanel.getBuildingBoxFilter().addItem(building);
 			}
-			for(int i=1;i<=allBuildings.get(0).getNb_of_floor();i++) {
-				LoanPanel.getFloorBoxFilter().addItem("Etage "+i); 
-			}
 
 			LoanPanel.getBuildingBoxFilter().addActionListener(new ActionListener() {
 
@@ -236,27 +214,48 @@ public class Controller {
 		}
 		LoanPanel.getFilterButton().addActionListener(event -> filterButtonLoad());
 		LoanPanel.getAdvancedFilterButton().addActionListener(event -> advancedFilterButtonLoad());
+		AdvancedFilterPanel.getOkEquipmentButton().addActionListener(event -> selectedEquipmentLoad());
 	}
 	
+	
+	public static void selectedEquipmentLoad() {
 
-	//public static void loanButtonLoad(String spaceName, ArrayList<int> list) {
+		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
+			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
+				equipmentToInsert.add(AdvancedFilterPanel.getEquipmentsMap().get(AdvancedFilterPanel.getBoxes()[i]));
+			}
+		}
+		AdvancedFilterPanel.getJFrame().dispose();
+	}
+
+	public static ArrayList<Object> getEquipmentToInsert() {
+		return equipmentToInsert;
+	}
+
 	public static void loanButtonLoad(String spaceName) {
 		try {
-			System.out.println("Trying to loan space " + spaceName);
 			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
-			System.out.println("Request well send ");
 			boolean result = (boolean)response.getResponseData();
-			
+
 			if(result) {
-				/*for(int i = 0; i < list.size(); i++) {
-					Response response = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + id_work_space + "\",\"id_entreprise\": \"" + 
-							mdl.getSelectedCompany().getId_entreprise() + "\",\"id_equipment\": \"" + list.get(i)+ "\"}");
-				}*/
+				//LoanOfferPanel.getLoanOfferPanel().dispose();
+				for(int i = 0; i < equipmentToInsert.size(); i++) {
+					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
+					Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
+							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + toInsert.getRef() + "\"}");
+					getEquipmentToInsert().remove(toInsert);
+				}
+				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				
+				//LoanOfferPanel.getLoanOfferPanel().dispose();
+				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Cet espace n'est plus disponible, veuillez en reserver un autre",
+						"", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
+			/*for(Object object : equipmentToInsert) {
+				equipmentToInsert.remove(object);
+			}*/
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -267,26 +266,25 @@ public class Controller {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
-						
-			System.out.println();
+
+			LoanCondition.setEquipmentCost(0);
+			if(!LoanCondition.getNeededEquipments().isEmpty()) {
+				for(Equipment equipment : LoanCondition.getNeededEquipments() ) {
+					LoanCondition.getNeededEquipments().remove(equipment);
+				}
+			}
+
 			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
-			System.out.println(LoanCondition.getLoanBudget());
-			
 			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
-			System.out.println(LoanCondition.getSpaceArea());
-			
 			LoanCondition.setSpaceBuilding(LoanPanel.getSelectedBuilding());
-			System.out.println(LoanCondition.getSpaceBuilding() +"\\");
-			
 			LoanCondition.setSpaceFloor(LoanPanel.getSelectedFloor());
-			System.out.println(LoanCondition.getSpaceFloor()+"\\");
-			
 			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
-			System.out.println(LoanCondition.getSpaceType()+"\\");
 
 			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
+
+			
+
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -296,14 +294,12 @@ public class Controller {
 	private void advancedFilterButtonLoad() {
 		
 		try {
-			System.out.println("Requete envoyee cote client");
 			Response response= sendRequestToServer("select-equipment-list.json",null);
-			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 			ArrayList<Equipment> equipmentList = new ArrayList<>();
 			
 			for(int i = 0; i < resultList.size(); i++) {
-				Equipment equipment = new Equipment((String)(resultList.get(i).get("equipment_type")),
+				Equipment equipment = new Equipment((String)(resultList.get(i).get("equipment_name")),
 						(int)(resultList.get(i).get("unit_cost")), (int)(resultList.get(i).get("ref")));
 
 				equipmentList.add(equipment);
@@ -416,12 +412,8 @@ public class Controller {
 			else if (!(workSpace.isTaken())) {
 				
 				//mohamed's part
-				
-				
-				
-			}
-			
 
+			}
 		}
 	}
 	public void MappingWorkSpaceButtonLoad(JButton button,WorkSpace workSpace,JFrame frame) {
@@ -499,11 +491,16 @@ public class Controller {
 		
 		
 		for(Spot spot: MappingPanel.getWorkSpace().getSpots()) {
+			if(spot.getId_equipment()==0) {
+				spot.setEquipmentInstalled(null);
+			}
 			for(Equipment equipment:MappingPanel.getWorkSpace().getEquipmentsToInstall()) {
+				
 				if(equipment.getId_equipment()==spot.getId_equipment()) {
 					spot.setState(equipment.isState());
 					spot.setEquipmentInstalled(equipment);
 				}
+				
 			}
 			spot.getLabelSpot().setToolTipText("<html><div>id: "+spot.getId_spot()+"</div><div>Description:"+spot.getSpot_description()+"</div>installé:"+spot.getEquipmentInstalled()+"</html>");
 
@@ -1016,13 +1013,13 @@ public class Controller {
        
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"R�servation");	
+				LoanPanel.getBtnOkFloorBuilding().doClick();
 	
 			}
 			
 		};
 		mouseCursorOnButton(FunctionalitiesBarAndPanel.getRefreshButton());
-		focusButtons(FunctionalitiesBarAndPanel.getRefreshButton());
+		//focusButtons(FunctionalitiesBarAndPanel.getRefreshButton());
 
 		FunctionalitiesBarAndPanel.getRefreshButton().addActionListener(refreshButtonListener);
 	}
@@ -1467,7 +1464,7 @@ public class Controller {
 	}
 	
 	public static Response sendRequestToServer(String jsonNameFile,String jsonValues) throws InterruptedException, JsonParseException, JsonMappingException, IOException {
-		
+		RequestsFileLocation= System.getenv(ConfigEnVar);
 		Socket socketClient=connectToServer();
 		if(socketClient==null) {
 			logger.info("Client not connected to server.");

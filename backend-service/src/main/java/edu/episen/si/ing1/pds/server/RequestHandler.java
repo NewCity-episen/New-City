@@ -87,11 +87,8 @@ public class RequestHandler {
 			rs.close();
 		}
 		else if (requestOrder.equals("available_workspace")) {
-			System.out.println("Workspace recu");
 			String sql = "SELECT * FROM work_space INNER JOIN building ON work_space.id_building = building.id_building and taken = false";
-			System.out.println("Requete sql");
 			ResultSet rs= stmt.executeQuery(sql);
-			System.out.println("Requete sql bis");
 			ArrayList<HashMap<String, Object>> rowList = new ArrayList<>();
 			
 			while(rs.next()) {
@@ -107,10 +104,7 @@ public class RequestHandler {
 				row.put("to_present", false);
 
 				rowList.add(row);
-				System.out.println("Line : " + row);
 			}
-
-			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
 		}
 
@@ -145,10 +139,30 @@ public class RequestHandler {
 				row.put("unit_cost", rs.getInt("unit_cost"));
 				row.put("ref", rs.getInt("ref"));
 				rowList.add(row);
-				System.out.println("Line : " + row);
 			}
-			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
+		}
+	
+		else if(requestOrder.equals("add_material_needs")) {
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			
+			String spaceName = (String)valuesMap.get("space_name");
+			int idCompany = Integer.parseInt((String)valuesMap.get("id_entreprise"));
+			int ref = Integer.parseInt((String)valuesMap.get("ref"));
+			String sqlId = "SELECT id_work_space FROM work_space WHERE space_name = '" + spaceName + "'";
+			ResultSet rs= stmt.executeQuery(sqlId);
+			int idSpace = 0;
+			
+			
+			while(rs.next()) {
+				HashMap<String, Object> row = new HashMap<>();
+				idSpace = rs.getInt("id_work_space");
+			}
+			String sql = "INSERT INTO material_needs (id_entreprise, id_work_space, ref, quantity, checked)"
+					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, true)" ;
+			stmt.executeUpdate(sql);
+
+			return new Response(request.getRequestId(), null);
 		}
 		
 		else if(requestOrder.equals("select_space_type")) {
@@ -158,9 +172,7 @@ public class RequestHandler {
 			
 			while(rs.next()) {
 				rowList.add(rs.getString("space_type"));
-				System.out.println("Line : " + rs.getString("space_type"));
 			}
-			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
 		}
 
@@ -269,7 +281,8 @@ public class RequestHandler {
 		else if(requestOrder.toUpperCase().equals("STATE_EQUIPMENT_FALSE")) {
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			ResultSet rs= stmt.executeQuery("SELECT id_equipment FROM spot WHERE id_spot="+valuesMap.get("id_spot"));
-			stmt.executeUpdate("UPDATE material_needs SET state=false WHERE id_equipment="+rs.getInt("id_equiment"));
+			rs.next();
+			stmt.executeUpdate("UPDATE equipment SET state=false WHERE id_equipment="+rs.getInt("id_equipment"));
 			rs.close();
 			responseBody="{ \"message\": \"Update is successful\"}";
 		}

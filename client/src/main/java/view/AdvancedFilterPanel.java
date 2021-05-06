@@ -14,8 +14,8 @@ public class AdvancedFilterPanel {
 
 	private static JFrame advancedFilterPanel =new JFrame();
 	private static JButton okEquipmentButton = new JButton("Valider");
-	private JCheckBox boxes[];
-	private static HashMap<String, HashMap<Object, Object>> selectedEquipments = new HashMap<>();
+	private static JCheckBox boxes[];
+	private static HashMap<JCheckBox, Equipment> equipmentsMap = new HashMap<>();
 	
 	public AdvancedFilterPanel(ArrayList<Equipment> list) {
 		advancedFilterPanel.setVisible(true);
@@ -25,24 +25,31 @@ public class AdvancedFilterPanel {
 		advancedFilterPanel.setLayout(null);
 
 		for(int i = 0; i < list.size(); i++) {
-			boxes[i] = new JCheckBox();
-	        boxes[i].setText((String)(list.get(i).getEquipment_name()));
+			String text = (String)(list.get(i).getEquipment_name());
+			boxes[i] = new JCheckBox(text);
 	        boxes[i].setSelected(false);
 	        boxes[i].setVisible(true);
 	        advancedFilterPanel.add(boxes[i]);
-	        boxes[i].setBounds(200, 20*(i+1), 200, 200);
+	        boxes[i].setBounds(200, 40*(i+1), 200, 40);
+	        equipmentsMap.put(boxes[i], list.get(i));
 		}
 		advancedFilterPanel.add(okEquipmentButton);
-		okEquipmentButton.setBounds(300, 550, 130, 40);
+		okEquipmentButton.setBounds(300, 550, 130, 60);
 	}
 	
 	public static JButton getOkEquipmentButton() {
 		return okEquipmentButton;
 	}
 	
-	public static HashMap<String, HashMap<Object, Object>> getSelectedEquipment() {
-		return selectedEquipments;
+	public static HashMap<JCheckBox, Equipment> getEquipmentsMap() {
+		return equipmentsMap;
 	}
+	public static JCheckBox[] getBoxes() {
+		return boxes;
+	}
+	/*public static HashMap<String, HashMap<Object, Object>> getSelectedEquipment() {
+		return selectedEquipments;
+	}*/
     public static JFrame getJFrame() {
 		return advancedFilterPanel;
 	}
