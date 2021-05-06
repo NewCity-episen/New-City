@@ -75,21 +75,11 @@ public class LoanCondition {
 	
 	public static ArrayList<Offer> filterLoanOffer(ArrayList<Map> resultList) {
 		
-		/*setSpaceBuilding(LoanPanel.getSelectedBuilding());
-		System.out.println(LoanCondition.getSpaceBuilding()+"\\");
-		setSpaceFloor(LoanPanel.getSelectedFloor());
-		System.out.println(LoanCondition.getSpaceFloor()+"\\");*/
 		//resultList.get(i).setOfferCost(resultList.get(i).get("space_cost") + getEquipmentCost());
-		
-		//if(!getNeededEquipments().isEmpty())  {
+
 		setNeededEquipments();
-		for(int i = 0; i < getNeededEquipments().size(); i ++) {
-			System.out.println(getNeededEquipments().get(i));
-		}
-		//}
 
 		for(Map offer : resultList) {
-			System.out.println(offer.get("building_name")+"\\");	
 			offer.replace("to_present", false);
 
 			if ((spaceBuilding.equals("Veuillez selectionner un batiment"))) {
@@ -142,25 +132,28 @@ public class LoanCondition {
 					offer.replace("to_present", true, false);
 				}
 			
-			if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
-				offer.replace("to_present", true, true);
-			} else if((offer.get("space_type").equals(getSpaceType()))) {
+				if((spaceType.equals("Veuillez selectionner un type d'espace"))) {
 					offer.replace("to_present", true, true);
+				} else if((offer.get("space_type").equals(getSpaceType()))) {
+					offer.replace("to_present", true, true);
+				}
 			}
-		}
-			/*if(((int)resultList.get(i).get("space_cost") + getEquipmentCost()) > getLoanBudget()) {
-			resultList.remove(i);
-		}
+		
+			if((int)(offer.get("space_cost")) + getEquipmentCost() > getLoanBudget()) {
+				offer.replace("to_present", true, false);
+			}
 		
 		
 		
-		if((int)resultList.get(i).get("space_area") < getSpaceArea()) {
-			resultList.remove(i);
-		}
-		
-		if(getNeededEquipments().containsKey("fenetre") && ((int)offer.get("number_of_windows") == 0)) {
-			offer.replace("to_present", true, false);
-		}*/
+			if((int)(offer.get("space_area")) > getSpaceArea()) {
+				offer.replace("to_present", true, false);
+			}
+			
+			for(int i = 0; i < getNeededEquipments().size(); i++) {
+				if((getNeededEquipments().get(i).getEquipment_name().equals("fenetre")) && ((int)offer.get("number_of_windows") == 0)) {
+					offer.replace("to_present", true, false);
+				}
+			}
 		}
 		
 
@@ -169,7 +162,7 @@ public class LoanCondition {
 		for(int i = 0; i < resultList.size(); i++) {
 			if((boolean)resultList.get(i).get("to_present") == true) {
 				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")) +  getEquipmentCost(), 
 						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
 				offerList.add(offerRow);
 			}

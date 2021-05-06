@@ -57,7 +57,7 @@ public class LoanOfferPanel extends JFrame{
 			table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 			table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 			JScrollPane pane = new JScrollPane(table);
-			loanOfferPanel.add(pane);
+			getContentPane().add(pane);
 		}	
 	}
 

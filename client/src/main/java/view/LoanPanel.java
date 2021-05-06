@@ -11,7 +11,7 @@ public class LoanPanel {
     private static JPanel panelAbsolute=new JPanel();
 	private static JPanel loanPanel=new JPanel();
 	private static JSlider budget = new JSlider(0, 20000);
-	private static JSlider area = new JSlider(0, 200);
+	private static JSlider area = new JSlider(0, 100);
 	private static JButton filterButton=new JButton("Filtrer");
 	private static JLabel priceMessage=new JLabel("Prix");
 	private static JLabel areaMessage=new JLabel("Surface");
