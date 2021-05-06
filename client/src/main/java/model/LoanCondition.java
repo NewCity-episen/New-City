@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import controller.Controller;
+import java.util.ArrayList;
 
 public class LoanCondition {
 	private static int loanBudget;
@@ -57,13 +58,15 @@ public class LoanCondition {
 	public static int getEquipmentCost() {
 		return equipmentCost;
 	}
-	
+
+	public static void setEquipmentCost(int n) {
+		equipmentCost = n;
+	}
 	public static ArrayList<Equipment> getNeededEquipments() {
 		return neededEquipments;
 	}
-	
+
 	public static void setNeededEquipments() {
-		
 		for(int i = 0; i < Controller.getEquipmentToInsert().size() ;i ++) {
 			neededEquipments.add((Equipment)(Controller.getEquipmentToInsert().get(i)));
 		}

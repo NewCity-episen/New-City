@@ -213,10 +213,7 @@ public class Controller {
 	
 	
 	public static void selectedEquipmentLoad() {
-		for(int i = 0; i < equipmentToInsert.size(); i++) {
-			equipmentToInsert.remove(i);
-		}
-		
+
 		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
 			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
 				equipmentToInsert.add(AdvancedFilterPanel.getEquipmentsMap().get(AdvancedFilterPanel.getBoxes()[i]));
@@ -262,7 +259,14 @@ public class Controller {
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
-						
+
+			LoanCondition.setEquipmentCost(0);
+			if(!LoanCondition.getNeededEquipments().isEmpty()) {
+				for(Equipment equipment : LoanCondition.getNeededEquipments() ) {
+					LoanCondition.getNeededEquipments().remove(equipment);
+				}
+			}
+
 			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
 			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
 			LoanCondition.setSpaceBuilding(LoanPanel.getSelectedBuilding());
@@ -270,7 +274,13 @@ public class Controller {
 			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
 
 			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
-			
+
+			if(!equipmentToInsert.isEmpty()) {
+				for(Object object : equipmentToInsert) {
+					equipmentToInsert.remove(object);
+				}
+			}
+
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -1357,8 +1367,8 @@ public class Controller {
 		try {
 			
 			clientconfig= new ClientConfig();
-			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			//InetAddress ip=InetAddress.getByName("localhost");
+			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			InetAddress ip=InetAddress.getByName("localhost");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {
