@@ -171,9 +171,9 @@ public class RequestHandler {
 			System.out.println("on recuper l'id suivant " + idSpace);
 			String sql = "INSERT INTO material_needs (id_entreprise, id_work_space, ref, quantity, checked)"
 					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, true)" ;
-			stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
 
-			return new Response(request.getRequestId(), "Insertion completed with succeed");
+			return new Response(request.getRequestId(), null);
 		}
 		
 		else if(requestOrder.equals("select_space_type")) {
