@@ -27,8 +27,6 @@ public class AdvancedFilterPanel {
 		for(int i = 0; i < list.size(); i++) {
 			String text = (String)(list.get(i).getEquipment_name());
 			boxes[i] = new JCheckBox(text);
-			System.out.println((String)(list.get(i).getEquipment_name()));
-			System.out.println(boxes[i]);
 	        boxes[i].setSelected(false);
 	        boxes[i].setVisible(true);
 	        advancedFilterPanel.add(boxes[i]);
