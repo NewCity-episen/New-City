@@ -213,10 +213,13 @@ public class Controller {
 	
 	
 	public static void selectedEquipmentLoad() {
+		for(int i = 0; i < equipmentToInsert.size(); i++) {
+			equipmentToInsert.remove(i);
+		}
+		
 		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
 			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
 				equipmentToInsert.add(AdvancedFilterPanel.getEquipmentsMap().get(AdvancedFilterPanel.getBoxes()[i]));
-				System.out.println(AdvancedFilterPanel.getBoxes()[i].getText());
 			}
 		}
 		AdvancedFilterPanel.getJFrame().dispose();
@@ -228,19 +231,18 @@ public class Controller {
 
 	public static void loanButtonLoad(String spaceName) {
 		try {
-			System.out.println("Trying to loan space " + spaceName);
 			Response response = Controller.sendRequestToServer("loan-work-space.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
-			System.out.println("Request well send ");
 			boolean result = (boolean)response.getResponseData();
 
 			if(result) {
-				System.out.println("Trying to insert new equipments");
 				for(int i = 0; i < equipmentToInsert.size(); i++) {
 					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
 					Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
 							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + toInsert.getRef() + "\"}");
+					getEquipmentToInsert().remove(toInsert);
 				}
+				
 			} else {
 				
 			}
@@ -255,24 +257,13 @@ public class Controller {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 						
-			System.out.println();
 			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
-			System.out.println(LoanCondition.getLoanBudget());
-			
 			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
-			System.out.println(LoanCondition.getSpaceArea());
-			
 			LoanCondition.setSpaceBuilding(LoanPanel.getSelectedBuilding());
-			System.out.println(LoanCondition.getSpaceBuilding() +"\\");
-			
 			LoanCondition.setSpaceFloor(LoanPanel.getSelectedFloor());
-			System.out.println(LoanCondition.getSpaceFloor()+"\\");
-			
 			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
-			System.out.println(LoanCondition.getSpaceType()+"\\");
 
 			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
 			
@@ -285,9 +276,7 @@ public class Controller {
 	private void advancedFilterButtonLoad() {
 		
 		try {
-			System.out.println("Requete envoyee cote client");
 			Response response= sendRequestToServer("select-equipment-list.json",null);
-			System.out.println("result : " + response.getResponseData());
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 			ArrayList<Equipment> equipmentList = new ArrayList<>();
 			
