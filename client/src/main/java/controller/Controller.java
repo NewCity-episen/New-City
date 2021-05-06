@@ -3,6 +3,8 @@ import view.*;
 import model.*;
 import shared.code.Request;
 import shared.code.Response;
+
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -1118,13 +1122,13 @@ public class Controller {
 					// TODO Auto-generated method stub
 					
 					
-                    AdvancedFiltrePanel advancedFiltrePanel =new AdvancedFiltrePanel();
+                    MappedSmartWindowFilterPanel mappedSmartWindowFilterPanel =new MappedSmartWindowFilterPanel();
 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
 					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();
-					AdvancedFiltrePanel.setFloorNum(floorNumber);
-					AdvancedFiltrePanel.setBuilding(building);
+					MappedSmartWindowFilterPanel.setFloorNum(floorNumber);
+					MappedSmartWindowFilterPanel.setBuilding(building);
 					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Filter");
-					AdvancedFiltrePanel.show();
+					MappedSmartWindowFilterPanel.show();
 					
 					
 					
@@ -1144,14 +1148,14 @@ public class Controller {
 			
 		};
 		
-		AdvancedFiltrePanel.getBtnReturn().addActionListener(returnButtonActionListener);
+		MappedSmartWindowFilterPanel.getBtnReturn().addActionListener(returnButtonActionListener);
 	}
 		
 	public void loadConfigurateWindows() {
 		ActionListener configurerActionListener =new ActionListener() {	
 			public void actionPerformed(ActionEvent e) {
 
-			if(AdvancedFiltrePanel.getBtnFilterWindow().isSelected()) {
+			if(MappedSmartWindowFilterPanel.getBtnFilterWindow().isSelected()) {
 				
 				try {
 					
@@ -1196,8 +1200,9 @@ public class Controller {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				   }
-			}}}; 
-			AdvancedFiltrePanel.getBtnOk().addActionListener(configurerActionListener);
+			}
+			}}; 
+			MappedSmartWindowFilterPanel.getBtnOk().addActionListener(configurerActionListener);
 	}
 	public void loadReturn () {
 		ActionListener returnActionListener  =new ActionListener() {	
@@ -1224,7 +1229,7 @@ public class Controller {
 					 
 				}else 
 				{
-					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres");
+					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres a configurer");
 				}
 					
 		
@@ -1292,12 +1297,15 @@ public class Controller {
 					Response response=sendRequestToServer("update-SmartWindow.json","{\"id_window\": \""+sw.getId_window()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+preferredlum+ "\", \"preferredtem\": \""+preferredtem+"\"}");
 				    ConfigurateWindowsPanel.getConfiguredWinmodel().addElement(sw);
 				    ConfigurateWindowsPanel.getWinToCnfgmodel().removeElement(sw);
+				    
+				    
 						}catch (InterruptedException | IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				   }	
 				}
 				ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
+				JOptionPane.showMessageDialog (FrameToConfigurate.getJPanel(),"La nouvelle configuration sera effective dans 2 minutes");
 				
 				
 		}
@@ -1331,6 +1339,8 @@ public class Controller {
 				{
 					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres a deconfigurer");
 				}
+				
+				ConfigurateWindowsPanel.getConfiguredWinList().clearSelection();
 					
 		
 		}
@@ -1344,21 +1354,94 @@ public class Controller {
  			public void actionPerformed(ActionEvent e) {
  				
  				
- 				//Object selectedValue = ConfigurateWindowsPanel.getConfiguredWinList().getSelectedValue();
+ 				
+ 				int selectedindex=ConfigurateWindowsPanel.getConfiguredWinList().getSelectedIndex();
+ 				
+ 				SmartWindowStatusFrame smartWindowStatusFrame=new SmartWindowStatusFrame();
  				
  				if(! ConfigurateWindowsPanel.getConfiguredWinList().isSelectionEmpty())
+ 					
  				{
- 					new SmartWindowStatusFrame();
+ 					SmartWindow sw=ConfigurateWindowsPanel.getConfiguredWinmodel().get(selectedindex);
+ 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
+					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();
+					Response workspaceResponse;
+					Response equipmentsResponse;
+					Response sunAzimuthResponse;
+					Response outdoorIlluminanceResponse;
+					try {
+						workspaceResponse = sendRequestToServer("select-WorkSpaces.json","{\"id_work_space\": \""+sw.getId_work_space()+"\"}");
+						String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
+								workspaceResponse.getResponseBody().indexOf("]")+1);
+						ObjectMapper takenmapper=new ObjectMapper();
+						WorkSpace[] workSpace=takenmapper.readValue(workspaceResponseBody, WorkSpace[].class);
+						
+						equipmentsResponse = sendRequestToServer("select-Equipments.json","{\"id_window\": \""+sw.getId_window()+"\"}");
+						String equipmentsResponseBody=equipmentsResponse.getResponseBody().substring(equipmentsResponse.getResponseBody().indexOf("["),
+								equipmentsResponse.getResponseBody().indexOf("]")+1);
+						ObjectMapper equipmentmapper=new ObjectMapper();
+						ArrayList<Equipment> winEquipments=equipmentmapper.readValue(equipmentsResponseBody,new TypeReference<ArrayList<Equipment>>(){});
+						
+						
+						if(winEquipments.stream().count()==4 && 
+								   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de soleil")).count()==1  &&  
+								   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature")).count()==1 && 
+								   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature exterieure")).count()==1 && 
+								   winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur d'ensoleillement")).count()==1) {
+							
+						
+				 					
+				 					Optional<Equipment> matchingSunAzimuthSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de soleil")).findFirst();
+									Equipment sunAzimuthSensor=matchingSunAzimuthSensor.get();
+									
+									
+									Optional<Equipment> matchingOutdoorIlluminanceSensor = winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur d'ensoleillement")).findFirst();
+									Equipment outdoorIlluminanceSensor=matchingOutdoorIlluminanceSensor.get();
+									
+									
+									sunAzimuthResponse = sendRequestToServer("select-readings.json","{\"id_equipment\": \""+sunAzimuthSensor.getId_equipment()+"\"}");
+									String sunAzimuthResponseBody=sunAzimuthResponse.getResponseBody().substring(sunAzimuthResponse.getResponseBody().indexOf("["),
+											sunAzimuthResponse.getResponseBody().indexOf("]")+1);
+									ObjectMapper sunAzimuthmapper=new ObjectMapper();
+									Readings[] sunAzimuth=sunAzimuthmapper.readValue(sunAzimuthResponseBody, Readings[].class);
+									
+									
+									outdoorIlluminanceResponse = sendRequestToServer("select-readings.json","{\"id_equipment\": \""+outdoorIlluminanceSensor.getId_equipment()+"\"}");
+									String outdoorIlluminanceResponseBody=outdoorIlluminanceResponse.getResponseBody().substring(outdoorIlluminanceResponse.getResponseBody().indexOf("["),
+											outdoorIlluminanceResponse.getResponseBody().indexOf("]")+1);
+									ObjectMapper outdoorIlluminancemapper=new ObjectMapper();
+									Readings[] outdoorIlluminance=outdoorIlluminancemapper.readValue(outdoorIlluminanceResponseBody, Readings[].class);
+									
+									
+									
+				 					smartWindowStatusFrame.getSwID().setText(String.valueOf(sw.getId_window()));
+				 					smartWindowStatusFrame.getLevelOfTeint().setText(String.valueOf(sw.getTeint_of_glass()));
+				 					smartWindowStatusFrame.getLevelOfBlind().setText(String.valueOf(sw.getLevel_of_blind()));
+				 					smartWindowStatusFrame.getSwOrientation().setText(String.valueOf(sw.getWindow_orientation()));
+				 					smartWindowStatusFrame.getWorkSpaceName().setText(workSpace[0].getSpace_name());
+				 					smartWindowStatusFrame.getSunAzimuth().setText(String.valueOf(sunAzimuth[0].getValue()));
+				 					smartWindowStatusFrame.getOutdoorilluminance().setText(String.valueOf(outdoorIlluminance[0].getValue()));
+	 					
+	 					
+						}else JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"impossible de trouver des informations sur la base de données");
+	 					
+	 					
+					} catch (InterruptedException | IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+						
  					 
  				}else 
  				{
  					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une fenetre");
  				}
  					
- 		
+ 				ConfigurateWindowsPanel.getConfiguredWinList().clearSelection();	
  		}
  	   };
  	   ConfigurateWindowsPanel.getStatusBtn().addActionListener(confActionListener);
+ 	  
  	 }
 	
 	

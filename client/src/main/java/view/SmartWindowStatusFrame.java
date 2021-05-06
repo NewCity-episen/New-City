@@ -9,20 +9,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class SmartWindowStatusFrame extends JFrame {
 	private static JPanel framePanel = new JPanel();
 	private static JPanel winPanel =new JPanel();
 	private static CardLayout winCard=new CardLayout();
-	private JTextField swID;
-	private JTextField workSpaceName;
-	private JTextField levelOfTeint;
-	private JTextField outdoorilluminance;
-	private JTextField levelOfBlind;
-	private JTextField sunAzimuth;
-	private JTextField swOrientation;
+	private JTextArea swID;
+	private JTextArea workSpaceName;
+	private JTextArea levelOfTeint;
+	private JTextArea outdoorilluminance;
+	private JTextArea levelOfBlind;
+	private JTextArea sunAzimuth;
+	private JTextArea swOrientation;
 	
 
 	
@@ -60,7 +60,7 @@ public class SmartWindowStatusFrame extends JFrame {
 		lblNewLabel_4.setBounds(89, 175, 183, 26);
 		framePanel.add(lblNewLabel_4);
 		
-		JLabel lblNewLabel_5 = new JLabel("azimut soleil");
+		JLabel lblNewLabel_5 = new JLabel("l'azimut du soleil");
 		lblNewLabel_5.setBounds(89, 205, 169, 26);
 		framePanel.add(lblNewLabel_5);
 		
@@ -68,39 +68,39 @@ public class SmartWindowStatusFrame extends JFrame {
 		lblNewLabel_6.setBounds(89, 235, 183, 26);
 		framePanel.add(lblNewLabel_6);
 		
-		swID = new JTextField();
+		swID = new JTextArea();
 		swID.setBounds(301, 45, 130, 26);
 		framePanel.add(swID);
 		swID.setColumns(10);
 		
-		workSpaceName = new JTextField();
+		workSpaceName = new JTextArea();
 		workSpaceName.setBounds(301, 75, 130, 26);
 		framePanel.add(workSpaceName);
 		workSpaceName.setColumns(10);
 		
-		levelOfTeint = new JTextField();
+		levelOfTeint = new JTextArea();
 		levelOfTeint.setBounds(301, 105, 130, 26);
 		framePanel.add(levelOfTeint);
 		levelOfTeint.setColumns(10);
 		
-		levelOfBlind = new JTextField();
+		levelOfBlind = new JTextArea();
 		levelOfBlind.setBounds(301, 135, 130, 26);
 		framePanel.add(levelOfBlind);
 		levelOfBlind.setColumns(10);
 		
-		outdoorilluminance = new JTextField();
+		outdoorilluminance = new JTextArea();
 		outdoorilluminance.setBounds(301, 175, 130, 26);
 		framePanel.add(outdoorilluminance);
 		outdoorilluminance.setColumns(10);
 		
-		 sunAzimuth = new JTextField();
+		 sunAzimuth = new JTextArea();
 		 sunAzimuth.setBounds(301, 205, 130, 26);
 		framePanel.add( sunAzimuth);
 		 sunAzimuth.setColumns(10);
 		
 		
 		
-		swOrientation = new JTextField();
+		swOrientation = new JTextArea();
 		swOrientation.setBounds(301, 235, 130, 26);
 		framePanel.add(swOrientation);
 		swOrientation.setColumns(10);
@@ -128,7 +128,7 @@ public class SmartWindowStatusFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		this.setVisible(true);
-		getContentPane().add(framePanel);
+		getContentPane().add(winPanel);
 		
 		
 		
@@ -152,7 +152,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getSwID() {
+	public JTextArea getSwID() {
 		return swID;
 	}
 
@@ -162,7 +162,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setSwID(JTextField swID) {
+	public void setSwID(JTextArea swID) {
 		this.swID = swID;
 	}
 
@@ -172,7 +172,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getWorkSpaceName() {
+	public JTextArea getWorkSpaceName() {
 		return workSpaceName;
 	}
 
@@ -182,7 +182,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setWorkSpaceName(JTextField workSpaceName) {
+	public void setWorkSpaceName(JTextArea workSpaceName) {
 		this.workSpaceName = workSpaceName;
 	}
 
@@ -192,7 +192,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getLevelOfTeint() {
+	public JTextArea getLevelOfTeint() {
 		return levelOfTeint;
 	}
 
@@ -202,7 +202,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setLevelOfTeint(JTextField levelOfTeint) {
+	public void setLevelOfTeint(JTextArea levelOfTeint) {
 		this.levelOfTeint = levelOfTeint;
 	}
 
@@ -212,7 +212,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getOutdoorilluminance() {
+	public JTextArea getOutdoorilluminance() {
 		return outdoorilluminance;
 	}
 
@@ -222,7 +222,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setOutdoorilluminance(JTextField outdoorilluminance) {
+	public void setOutdoorilluminance(JTextArea outdoorilluminance) {
 		this.outdoorilluminance = outdoorilluminance;
 	}
 
@@ -232,7 +232,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getLevelOfBlind() {
+	public JTextArea getLevelOfBlind() {
 		return levelOfBlind;
 	}
 
@@ -242,7 +242,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setLevelOfBlind(JTextField levelOfBlind) {
+	public void setLevelOfBlind(JTextArea levelOfBlind) {
 		this.levelOfBlind = levelOfBlind;
 	}
 
@@ -252,7 +252,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getSunAzimuth() {
+	public JTextArea getSunAzimuth() {
 		return sunAzimuth;
 	}
 
@@ -262,7 +262,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setSunAzimuth(JTextField sunAzimuth) {
+	public void setSunAzimuth(JTextArea sunAzimuth) {
 		this.sunAzimuth = sunAzimuth;
 	}
 
@@ -272,7 +272,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextField getSwOrientation() {
+	public JTextArea getSwOrientation() {
 		return swOrientation;
 	}
 
@@ -282,7 +282,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public void setSwOrientation(JTextField swOrientation) {
+	public void setSwOrientation(JTextArea swOrientation) {
 		this.swOrientation = swOrientation;
 	}
 }

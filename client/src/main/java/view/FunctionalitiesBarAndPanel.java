@@ -25,7 +25,7 @@ public class FunctionalitiesBarAndPanel{
 	    private static JButton firstPageButton=new JButton("Accueil");	
 	    private static JButton refreshButton=new JButton("Raffraichir");	
 	    private static JButton quitButton=new JButton("Quitter");	
-	    private AdvancedFiltrePanel advancedFilrePanel =new AdvancedFiltrePanel (); 
+	    private MappedSmartWindowFilterPanel advancedFilrePanel =new MappedSmartWindowFilterPanel (); 
 	    private static JLabel information;
 	    private static ConfigurateWindowsPanel configureWindowsPanel=new ConfigurateWindowsPanel ();
     
@@ -69,7 +69,7 @@ public class FunctionalitiesBarAndPanel{
 		LoanPanel loanPanel=new LoanPanel();
 
 	    functionalitiesPanel.add("Accueil",loanPanel.getJPanel());
-	    functionalitiesPanel.add("Filter",AdvancedFiltrePanel.getJPanel());
+	    functionalitiesPanel.add("Filter",MappedSmartWindowFilterPanel.getJPanel());
 	    functionalitiesPanel.add("Configurate",ConfigurateWindowsPanel.getJPanel());
 	    // functionalitiesPanel.add("Raffraichir",loanPanel.getJPanel()); will take to the current page
 	    myFunctionalities.show(functionalitiesPanel, "Accueil");

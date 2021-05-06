@@ -22,7 +22,7 @@ public class LoanPanel {
 	private static JComboBox typeBoxFilter =new JComboBox();
 	private static JButton btnOkFloorBuilding=new JButton("OK");
 
-	private static JButton btnAdvancedFilter=new JButton(" espaces reserves"); 
+	private static JButton btnAdvancedFilter=new JButton("mes espaces reserves"); 
 
 	private static JButton advancedFilterButton=new JButton("Filtres avancees"); 
 
@@ -46,17 +46,23 @@ public class LoanPanel {
 		panelButtonsMeaning.setLayout(null);
 		JButton grayButton = new JButton("");
 		grayButton.setBackground(new Color(169, 169, 169));
+		grayButton.setOpaque(true);
+		grayButton.setBorderPainted(false);
 		grayButton.setBounds(12, 119, 82, 32);
 		
 		panelButtonsMeaning.add(grayButton);
 		grayButton.setEnabled(false);
 		JButton greenButton = new JButton("");
 		greenButton.setBackground(new Color(143, 188, 143));
+		greenButton.setOpaque(true);
+		greenButton.setBorderPainted(false);
 		greenButton.setBounds(12, 181, 82, 32);
 		panelButtonsMeaning.add(greenButton);
 		greenButton.setEnabled(false);
 		JButton redButton = new JButton("");
 		redButton.setBackground(new Color(165, 42, 42));
+		redButton.setOpaque(true);
+		redButton.setBorderPainted(false);
 		redButton.setBounds(12, 248, 82, 32);
 		redButton.setEnabled(false);
 		panelButtonsMeaning.add(redButton);
@@ -84,15 +90,15 @@ public class LoanPanel {
 		panelMap.setBounds(37, 120, 680, 400);
 		panelMap.setLayout(new FlowLayout(FlowLayout.CENTER,15,15));
 		panelAbsolute.add(panelMap);
-		buildingBox.setBounds(210, 540, 108, 22);
+		buildingBox.setBounds(110, 540, 108, 22);
 		buildingBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(buildingBox);
-		floorBox.setBounds(330, 540, 108, 22);
+		floorBox.setBounds(230, 540, 108, 22);
 		floorBox.setUI(new BasicComboBoxUI());
 		panelAbsolute.add(floorBox);
-		btnOkFloorBuilding.setBounds(450,540,130,22);
+		btnOkFloorBuilding.setBounds(350,540,130,22);
 		panelAbsolute.add(btnOkFloorBuilding);
-		btnAdvancedFilter.setBounds(590,540,130,22);
+		btnAdvancedFilter.setBounds(490,540,190,22);
 		panelAbsolute.add(btnAdvancedFilter);//HF
 
 	}

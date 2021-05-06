@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import model.SmartWindow;
 
@@ -19,12 +22,12 @@ public class ConfigurateWindowsPanel{
 private static JPanel configurateWindowJPanel =new JPanel();
 private static CardLayout configurateWindowsCard=new CardLayout();	
 private static JPanel configuratePanel =new JPanel();	
-private static JButton retourBtn=new JButton("retour");	
-private static JButton configureBtn=new JButton ("configurer");	
+private static JButton retourBtn=new JButton("Retour");	
+private static JButton configureBtn=new JButton ("Configurer");	
 private static JButton winAddBtn=new JButton (">>>");
 private static JButton winRmvBtn = new JButton("<<<");
-private static JButton statusBtn = new JButton("statut");
-private static JButton resetBtn = new JButton("reset");
+private static JButton statusBtn = new JButton("Statut");
+private static JButton resetBtn = new JButton("Reset");
 private static DefaultListModel<SmartWindow> configuredWinmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgSelmodel= new DefaultListModel<SmartWindow>();
@@ -50,10 +53,18 @@ private static JList<SmartWindow> winToCnfgSelList;
 		configuratePanel.add(lblNewLabel);
 		
 		configuredWinList = new JList<SmartWindow>(configuredWinmodel);
+		configuredWinList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane configuredWinJScrollPane = new JScrollPane(configuredWinList);
 		configuredWinJScrollPane.setBounds(350, 50, 300, 191);
 		configuratePanel.add(configuredWinJScrollPane);		
 		configuredWinJScrollPane.setViewportView(configuredWinList);
+		
+		configuredWinList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		    });
 				
 		
 		statusBtn.setBounds(510, 253, 115, 29);

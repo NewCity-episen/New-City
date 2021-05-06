@@ -173,13 +173,13 @@ public class SmartWindowProg extends TimerTask {
 																sw.setTeint_of_glass(0);
 															}else {
 																if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
-																		if(sw.getPreferredlum().equals("luminosite intense")) {
+																		if(sw.getPreferredlum().equals("Luminosite intense")) {
 																			sw.setLevel_of_blind(0);
 																			sw.setTeint_of_glass(25);
-																		 }else if(sw.getPreferredlum().equals("lumineux")) {
+																		 }else if(sw.getPreferredlum().equals("Lumineux")) {
 																			sw.setLevel_of_blind(0);
 																			sw.setTeint_of_glass(50);
-																		 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																		 }else if(sw.getPreferredlum().equals("Luminosite moyenne")) {
 																			sw.setLevel_of_blind(0);
 																			sw.setTeint_of_glass(50);
 																		 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
@@ -188,16 +188,16 @@ public class SmartWindowProg extends TimerTask {
 																		 }
 																
 																} else {
-																	    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																	    if ((sw.getPreferredlum().equals("Luminosite intense"))){
 																	    	sw.setLevel_of_blind(0);
 																		    sw.setTeint_of_glass(0);																	    	  
-																	     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Lumineux"))) {																	    	  
 																	    	sw.setLevel_of_blind(0);
 																		    sw.setTeint_of_glass(25);																	    	  
-																	     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Luminosite moyenne"))) {																	    	  
 																	    	sw.setLevel_of_blind(0);
 																		    sw.setTeint_of_glass(50);																		      
-																	     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Luminosite faible"))) {																	    	  
 																	    	sw.setLevel_of_blind(0);
 																		    sw.setTeint_of_glass(100);																		      
 																	      }
@@ -212,13 +212,13 @@ public class SmartWindowProg extends TimerTask {
 															      sw.setTeint_of_glass(25);  
 														      }else if(outdoorIlluminance>=35000) {
 														    	  if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
-																		if(sw.getPreferredlum().equals("luminosite intense")) {
+																		if(sw.getPreferredlum().equals("Luminosite intense")) {
 																			sw.setLevel_of_blind(25);
 																			sw.setTeint_of_glass(50);
-																		 }else if(sw.getPreferredlum().equals("lumineux")) {
+																		 }else if(sw.getPreferredlum().equals("Lumineux")) {
 																			sw.setLevel_of_blind(50);
 																			sw.setTeint_of_glass(50);
-																		 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																		 }else if(sw.getPreferredlum().equals("Luminosite moyenne")) {
 																			sw.setLevel_of_blind(50);
 																			sw.setTeint_of_glass(50);
 																		 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
@@ -227,16 +227,16 @@ public class SmartWindowProg extends TimerTask {
 																		 }
 																
 																  } else {
-																	    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																	    if ((sw.getPreferredlum().equals("Luminosite intense"))){
 																	    	sw.setLevel_of_blind(25);
 																		    sw.setTeint_of_glass(25);																	    	  
-																	     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Lumineux"))) {																	    	  
 																	    	sw.setLevel_of_blind(25);
 																		    sw.setTeint_of_glass(50);																	    	  
-																	     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Luminosite moyenne"))) {																	    	  
 																	    	sw.setLevel_of_blind(25);
 																		    sw.setTeint_of_glass(50);																		      
-																	     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																	     }else if ((sw.getPreferredlum().equals("Luminosite faible"))) {																	    	  
 																	    	sw.setLevel_of_blind(50);
 																		    sw.setTeint_of_glass(100);																		      
 																	      }
@@ -251,13 +251,13 @@ public class SmartWindowProg extends TimerTask {
 															sw.setTeint_of_glass(0);
 														}else {
 															if(Math.abs(sw.getWindow_orientation()-sunAzimuth)<=45){
-																	if(sw.getPreferredlum().equals("luminosite intense")) {
+																	if(sw.getPreferredlum().equals("Luminosite intense")) {
 																		sw.setLevel_of_blind(0);
 																		sw.setTeint_of_glass(25);
-																	 }else if(sw.getPreferredlum().equals("lumineux")) {
+																	 }else if(sw.getPreferredlum().equals("Lumineux")) {
 																		sw.setLevel_of_blind(0);
 																		sw.setTeint_of_glass(50);
-																	 }else if(sw.getPreferredlum().equals("luminosite moyenne")) {
+																	 }else if(sw.getPreferredlum().equals("Luminosite moyenne")) {
 																		sw.setLevel_of_blind(0);
 																		sw.setTeint_of_glass(50);
 																	 }else if(sw.getPreferredlum().equals("Luminosite faible")) {
@@ -266,16 +266,16 @@ public class SmartWindowProg extends TimerTask {
 																	 }
 															
 															} else {
-																    if ((sw.getPreferredlum().equals("luminosite intense"))){
+																    if ((sw.getPreferredlum().equals("Luminosite intense"))){
 																    	sw.setLevel_of_blind(0);
 																	    sw.setTeint_of_glass(0);																	    	  
-																     }else if ((sw.getPreferredlum().equals("lumineux"))) {																	    	  
+																     }else if ((sw.getPreferredlum().equals("Lumineux"))) {																	    	  
 																    	sw.setLevel_of_blind(0);
 																	    sw.setTeint_of_glass(25);																	    	  
-																     }else if ((sw.getPreferredlum().equals("luminosite moyenne"))) {																	    	  
+																     }else if ((sw.getPreferredlum().equals("Luminosite moyenne"))) {																	    	  
 																    	sw.setLevel_of_blind(0);
 																	    sw.setTeint_of_glass(50);																		      
-																     }else if ((sw.getPreferredlum().equals("luminosite faible"))) {																	    	  
+																     }else if ((sw.getPreferredlum().equals("Luminosite faible"))) {																	    	  
 																    	sw.setLevel_of_blind(0);
 																	    sw.setTeint_of_glass(100);																		      
 																      }
@@ -283,6 +283,15 @@ public class SmartWindowProg extends TimerTask {
 														  }
 														
 						                          }
+									//UPDATE DATABASE
+													
+									Request rqSmartWindowCfg = new Request();
+								    rqSmartWindowCfg.setRequestId("2001");
+									rqSmartWindowCfg.setRequestOrder("UPDATE_SMARTWINDOW_CFG");
+									rqSmartWindowCfg.setRequestTable("smart_window");
+									rqSmartWindowCfg.setRequestContent("{\"id_window\": \""+sw.getId_window()+"\", \"level_of_blind\": \""+sw.getLevel_of_blind()+"\", \"teint_of_glass\": \""+sw.getTeint_of_glass()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+sw.getPreferredlum()+ "\", \"preferredtem\": \""+sw.getPreferredtem()+"\"}");
+									Response rpSmartWindowCfg = RequestHandler.handle(rqSmartWindowCfg ,cnx);
+									logger.debug(" SmartWindow finished the configuration update of the smartwindow id : "+ sw.getId_window());
 					
 								   }else {									
 									logger.debug(" missing Equipments'readings in Database. Check Equipment ids  : "+sunAzimuthSensor.getId_equipment() + " , " +tempExtSensor.getId_equipment() + " , "+tempIntSensor.getId_equipment() + " , "+outdoorIlluminanceSensor.getId_equipment());
@@ -293,15 +302,10 @@ public class SmartWindowProg extends TimerTask {
 				        logger.debug(" SmartWindow Program Failed to find the right sensors of the window id : "+ sw.getId_window());
 					    continue;
 				   }
-				//update Database
+			
 				
 				
-				Request rqSmartWindowCfg = new Request();
-				rqSmartWindowCfg.setRequestId("2001");
-				rqSmartWindowCfg.setRequestOrder("UPDATE_SMARTWINDOW_CFG");
-				rqSmartWindowCfg.setRequestTable("smart_window");
-				rqSmartWindowCfg.setRequestContent("{\"id_window\": \""+sw.getId_window()+"\", \"level_of_blind\": \""+sw.getLevel_of_blind()+"\", \"teint_of_glass\": \""+sw.getTeint_of_glass()+"\", \"configured_window\": \""+true+"\", \"preferredlum\": \""+sw.getPreferredlum()+ "\", \"preferredtem\": \""+sw.getPreferredtem()+"\"}");
-				logger.debug(" SmartWindow finished the configuration update of the smartwindow id : "+ sw.getId_window());
+				
 			  }
 			
 		      } else {

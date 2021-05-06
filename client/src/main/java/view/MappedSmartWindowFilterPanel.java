@@ -16,18 +16,18 @@ import model.Building;
 import javax.swing.JButton;
 
 
-public class AdvancedFiltrePanel {
+public class MappedSmartWindowFilterPanel {
 	private static JPanel advancedFiltrePanel=new JPanel();
 	private static CardLayout advancedFiltrePanelCard=new CardLayout();
 	private static JPanel choiceAdvancedPanel =new JPanel();
 	private static JLabel titleLabel =new JLabel();
 	private static JLabel msgLabel=new JLabel();
-	private static JButton btnReturn = new JButton("retour");
-	private static JRadioButton btnFilterWindow = new JRadioButton ("Éspaces mappés et possédant des fenetres",false);
+	private static JButton btnReturn = new JButton("Retour");
+	private static JRadioButton btnFilterWindow = new JRadioButton ("voir mes fenetres mappees",false);
 	private static JButton btnOk =new JButton ("Filtrer");
 	private static int floorNum=1;
 	private static Building building=null;
-	public AdvancedFiltrePanel() {
+	public MappedSmartWindowFilterPanel() {
 		
 		advancedFiltrePanel.setLayout(advancedFiltrePanelCard);
 		advancedFiltrePanel.add("Filter",choiceAdvancedPanel);
@@ -58,31 +58,31 @@ public class AdvancedFiltrePanel {
 		return floorNum;
 	}
 	public static void setFloorNum(int floorNum) {
-		AdvancedFiltrePanel.floorNum = floorNum;
+		MappedSmartWindowFilterPanel.floorNum = floorNum;
 	}
 	public static Building getBuilding() {
 		return building;
 	}
 	public static void setBuilding(Building building) {
-		AdvancedFiltrePanel.building = building;
+		MappedSmartWindowFilterPanel.building = building;
 	}
 		public static JRadioButton getBtnFilterWindow() {
 		return btnFilterWindow;
 	}
 	public static void setBtnFilterWindow(JRadioButton btnFilterWindow) {
-		AdvancedFiltrePanel.btnFilterWindow = btnFilterWindow;
+		MappedSmartWindowFilterPanel.btnFilterWindow = btnFilterWindow;
 	}
 		public static JButton getBtnReturn() {
 		return btnReturn;
 	}
 	public static void setBtnReturn(JButton btnReturn) {
-		AdvancedFiltrePanel.btnReturn = btnReturn;
+		MappedSmartWindowFilterPanel.btnReturn = btnReturn;
 	}
 		public static JPanel getChoiceAdvancedPanel() {
 		return choiceAdvancedPanel;
 	}
 	public static void setChoiceAdvancedPanel(JPanel choiceAdvancedPanel) {
-		AdvancedFiltrePanel.choiceAdvancedPanel = choiceAdvancedPanel;
+		MappedSmartWindowFilterPanel.choiceAdvancedPanel = choiceAdvancedPanel;
 	}
 		public static void show() {
 			advancedFiltrePanelCard.show(advancedFiltrePanel, "Filter");
@@ -97,18 +97,18 @@ public class AdvancedFiltrePanel {
 		return btnOk;
 	}
 	public static void setBtnOk(JButton btnOk) {
-		AdvancedFiltrePanel.btnOk = btnOk;
+		MappedSmartWindowFilterPanel.btnOk = btnOk;
 	}
 	public static JPanel getAdvancedFiltrePanel() {
 		return advancedFiltrePanel;
 	}
 	public static void setAdvancedFiltrePanel(JPanel advancedFiltrePanel) {
-		AdvancedFiltrePanel.advancedFiltrePanel = advancedFiltrePanel;
+		MappedSmartWindowFilterPanel.advancedFiltrePanel = advancedFiltrePanel;
 	}
 	public static CardLayout getAdvancedFiltrePanelCard() {
 		return advancedFiltrePanelCard;
 	}
 	public static void setAdvancedFiltrePanelCard(CardLayout advancedFiltrePanelCard) {
-		AdvancedFiltrePanel.advancedFiltrePanelCard = advancedFiltrePanelCard;
+		MappedSmartWindowFilterPanel.advancedFiltrePanelCard = advancedFiltrePanelCard;
 	}
 }

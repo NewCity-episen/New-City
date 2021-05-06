@@ -287,7 +287,7 @@ public class RequestHandler {
 		else if(requestOrder.toUpperCase().equals("UPDATE_SMARTWINDOW_CFG")) {
 			sqlRequest="UPDATE "+request.getRequestTable()+" SET ";
 			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);			
-			sqlRequest+="configured_window="+valuesMap.get("configured_window")+"level_of_blind="+valuesMap.get("level_of_blind")+"teint_of_glass="+valuesMap.get("teint_of_glass")+", preferredtem = "+valuesMap.get("preferredtem")+", preferredlum = '"+valuesMap.get("preferredlum")+"' WHERE id_window="+valuesMap.get("id_window");
+			sqlRequest+="configured_window="+valuesMap.get("configured_window")+", level_of_blind="+valuesMap.get("level_of_blind")+", teint_of_glass="+valuesMap.get("teint_of_glass")+", preferredtem = "+valuesMap.get("preferredtem")+", preferredlum = '"+valuesMap.get("preferredlum")+"' WHERE id_window="+valuesMap.get("id_window");
 			stmt.executeUpdate(sqlRequest);
 			System.out.print(sqlRequest);
 			responseBody="{ \"message\": \"Update is successful\"}";

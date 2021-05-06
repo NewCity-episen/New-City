@@ -1,0 +1,9 @@
+{
+		"request_id": "555",
+		"request_order": "SELECT",
+		"request_table": "readings",
+		"request_body": {
+	       
+		}
+		
+}
