@@ -150,6 +150,28 @@ public class RequestHandler {
 			System.out.println("Data to sent: " + rowList);
 			return new Response(request.getRequestId(), rowList);
 		}
+	
+		else if(requestOrder.equals("add_material_needs")) {
+			Map<String,Object> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			
+			int spaceName = (int)valuesMap.get("space_name");
+			int idCompany = (int)valuesMap.get("id_entreprise");
+			int ref = (int)valuesMap.get("ref");
+
+			String sqlId = "SELECT id_work_space FROM work_space WHERE space_name = '" + spaceName + "'";
+			ResultSet rs= stmt.executeQuery(sqlId);
+			int idSpace = 0;
+			while(rs.next()) {
+				HashMap<String, Object> row = new HashMap<>();
+				idSpace = rs.getInt("id_work_space");
+			}
+			
+			String sql = "INSERT INTO material_needs (id_entreprise, id_work_space, ref, quantity, checked)"
+					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, true)" ;
+			ResultSet rs2 = stmt.executeQuery(sql);
+
+			return new Response(request.getRequestId(), "Insertion completed with succeed");
+		}
 		
 		else if(requestOrder.equals("select_space_type")) {
 			String sql = "SELECT DISTINCT space_type FROM work_space";

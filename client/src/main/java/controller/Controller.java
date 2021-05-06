@@ -66,6 +66,7 @@ public class Controller {
 	private static Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
+	public static ArrayList<Object> equipmentToInsert = new ArrayList<>();
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		RequestsFileLocation= System.getenv(ConfigEnVar);
@@ -234,14 +235,17 @@ public class Controller {
 	
 	
 	public static void selectedEquipmentLoad() {
-		ArrayList<Equipment> selectedEquipment = new ArrayList<>();
 		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
 			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
-				selectedEquipment.add(AdvancedFilterPanel.getEquipmentsMap().get(i));
+				equipmentToInsert.add(AdvancedFilterPanel.getEquipmentsMap().get(AdvancedFilterPanel.getBoxes()[i]));
 				System.out.println(AdvancedFilterPanel.getBoxes()[i].getText());
 			}
 		}
-		
+		AdvancedFilterPanel.getJFrame().dispose();
+	}
+
+	public static ArrayList<Object> getEquipmentToInsert() {
+		return equipmentToInsert;
 	}
 
 	public static void loanButtonLoad(String spaceName) {
@@ -251,12 +255,12 @@ public class Controller {
 					mdl.getSelectedCompany().getId_entreprise() + "\"}");
 			System.out.println("Request well send ");
 			boolean result = (boolean)response.getResponseData();
-			
+
 			if(result) {
-				/*for(int i = 0; i < list.size(); i++) {
-					Response response = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + id_work_space + "\",\"id_entreprise\": \"" + 
-							mdl.getSelectedCompany().getId_entreprise() + "\",\"id_equipment\": \"" + list.get(i)+ "\"}");
-				}*/
+				for(int i = 0; i < LoanCondition.getNeededEquipments().size(); i++) {
+					Response response2 = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
+							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + LoanCondition.getNeededEquipments().get(i).getRef() + "\"}");
+				}
 			} else {
 				
 			}
@@ -291,6 +295,7 @@ public class Controller {
 			System.out.println(LoanCondition.getSpaceType()+"\\");
 
 			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
+			
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

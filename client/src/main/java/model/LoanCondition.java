@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import controller.Controller;
 
 public class LoanCondition {
 	private static int loanBudget;
@@ -11,7 +12,7 @@ public class LoanCondition {
 	private static int spaceArea;
 	private static String spaceType = "Veuillez selectionner un type d'espace";	
 	private static int equipmentCost = 0;
-	private static HashMap<String, ArrayList<Equipment> neededEquipments = new ArrayLists<>();
+	private static ArrayList<Equipment> neededEquipments = new ArrayList<>();
 
 	public static int getLoanBudget() {
 		return loanBudget;
@@ -57,20 +58,19 @@ public class LoanCondition {
 		return equipmentCost;
 	}
 	
-	public static HashMap<String, ArrayList<Equipment> getNeededEquipments() {
+	public static ArrayList<Equipment> getNeededEquipments() {
 		return neededEquipments;
 	}
 	
-	public static void setNeededEquipments(HashMap<String, HashMap<Object, Object>> n) {
-		neededEquipments = n;
-		equipmentCost = 0;
+	public static void setNeededEquipments() {
 		
-		for(int i = 0; i < n.size() ;i ++) {
-			for(int j = 0; j < n.get(i).size(); j ++) {
-				equipmentCost = equipmentCost + (int)(n.get(i).get(j));
-			}
+		for(int i = 0; i < Controller.getEquipmentToInsert().size() ;i ++) {
+			neededEquipments.add((Equipment)(Controller.getEquipmentToInsert().get(i)));
 		}
 		
+		for(int i = 0; i < neededEquipments.size() ;i ++) {
+				equipmentCost = equipmentCost + (int)(neededEquipments.get(i).getUnit_cost());
+		}
 	}
 	
 	public static ArrayList<Offer> filterLoanOffer(ArrayList<Map> resultList) {
@@ -79,11 +79,15 @@ public class LoanCondition {
 		System.out.println(LoanCondition.getSpaceBuilding()+"\\");
 		setSpaceFloor(LoanPanel.getSelectedFloor());
 		System.out.println(LoanCondition.getSpaceFloor()+"\\");*/
-
-		/*for(int i = 0; i < resultList.size(); i ++) {
-			resultList.get(i).setOfferCost(resultList.get(i).get("space_cost") + getEquipmentCost());
-		}*/
+		//resultList.get(i).setOfferCost(resultList.get(i).get("space_cost") + getEquipmentCost());
 		
+		//if(!getNeededEquipments().isEmpty())  {
+		setNeededEquipments();
+		for(int i = 0; i < getNeededEquipments().size(); i ++) {
+			System.out.println(getNeededEquipments().get(i));
+		}
+		//}
+
 		for(Map offer : resultList) {
 			System.out.println(offer.get("building_name")+"\\");	
 			offer.replace("to_present", false);
