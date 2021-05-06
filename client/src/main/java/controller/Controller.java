@@ -235,9 +235,11 @@ public class Controller {
 			boolean result = (boolean)response.getResponseData();
 
 			if(result) {
-				for(int i = 0; i < LoanCondition.getNeededEquipments().size(); i++) {
-					Response response2 = Controller.sendRequestToServer("add-material-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
-							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + LoanCondition.getNeededEquipments().get(i).getRef() + "\"}");
+				System.out.println("Trying to insert new equipments");
+				for(int i = 0; i < equipmentToInsert.size(); i++) {
+					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
+					Response response2 = Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
+							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + toInsert.getRef() + "\"}");
 				}
 			} else {
 				
@@ -1366,8 +1368,8 @@ public class Controller {
 		try {
 			
 			clientconfig= new ClientConfig();
-			InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
-			//InetAddress ip=InetAddress.getByName("localhost");
+			//InetAddress ip=InetAddress.getByName(clientconfig.getConfig().getServerIP());
+			InetAddress ip=InetAddress.getByName("localhost");
 			logger.info("Trying to connect to IP:{}",ip.getHostAddress());
 			return new Socket(ip , clientconfig.getConfig().getDestinationPort());//Connect to the server
 		} catch (UnknownHostException e) {

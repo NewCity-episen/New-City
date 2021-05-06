@@ -152,23 +152,26 @@ public class RequestHandler {
 		}
 	
 		else if(requestOrder.equals("add_material_needs")) {
-			Map<String,Object> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
+			System.out.println("bien arrive pour inserer");
+			Map<String,String> valuesMap=mapper.readValue(request.getRequestBody(), Map.class);
 			
-			int spaceName = (int)valuesMap.get("space_name");
-			int idCompany = (int)valuesMap.get("id_entreprise");
-			int ref = (int)valuesMap.get("ref");
-
+			String spaceName = (String)valuesMap.get("space_name");
+			int idCompany = Integer.parseInt((String)valuesMap.get("id_entreprise"));
+			int ref = Integer.parseInt((String)valuesMap.get("ref"));
+			System.out.println("on recuper les donnees suivantes" + spaceName + " " + idCompany + " " + ref);
 			String sqlId = "SELECT id_work_space FROM work_space WHERE space_name = '" + spaceName + "'";
 			ResultSet rs= stmt.executeQuery(sqlId);
 			int idSpace = 0;
+			
+			
 			while(rs.next()) {
 				HashMap<String, Object> row = new HashMap<>();
 				idSpace = rs.getInt("id_work_space");
 			}
-			
+			System.out.println("on recuper l'id suivant " + idSpace);
 			String sql = "INSERT INTO material_needs (id_entreprise, id_work_space, ref, quantity, checked)"
 					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, true)" ;
-			ResultSet rs2 = stmt.executeQuery(sql);
+			stmt.executeQuery(sql);
 
 			return new Response(request.getRequestId(), "Insertion completed with succeed");
 		}
