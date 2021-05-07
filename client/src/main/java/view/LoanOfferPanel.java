@@ -3,6 +3,8 @@ package view;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,15 +28,13 @@ import shared.code.Response;
 
 public class LoanOfferPanel extends JFrame{
 	
-	String columnHeader[] = {"Numero offre", "Type de salle", "nom", "batiment", "etage", "Prix", "Surface", "    "};
 	private static JFrame loanOfferPanel = new JFrame();
-			
-	public LoanOfferPanel(ArrayList<Offer> list) {
+	private static String columnHeader[] = {"Numero offre", "Type de salle", "nom", "batiment", "etage", "Prix", "Surface", "    "};
+	private static JLabel noResults = new JLabel("Aucun offre ne correspond a votre recherche");
+	
+	public LoanOfferPanel(ArrayList<Offer> list, int materialCost) {
 		setSize(600,400);
-		
 		setLocationRelativeTo(null);
-
-		JLabel noResults = new JLabel("Aucun offre ne correspond a votre recherche");
 		Object resultTable[][] = new Object[list.size()][columnHeader.length];
 		
 		if(list.isEmpty()) {
@@ -42,7 +42,6 @@ public class LoanOfferPanel extends JFrame{
 			return;
 		} else {
 			setVisible(true);
-			int totalEquipmentCost   = LoanCondition.getEquipmentCost();
 			for(int i = 0; i < list.size(); i++) {
 				
 				resultTable[i][0] = i + 1;
@@ -50,19 +49,28 @@ public class LoanOfferPanel extends JFrame{
 				resultTable[i][2] = list.get(i).getOfferName();
 				resultTable[i][3] = list.get(i).getOfferBuilding();
 				resultTable[i][4] = list.get(i).getOfferFloor();
-				resultTable[i][5] = "" + ((int)list.get(i).getOfferCost() + totalEquipmentCost) + " euros";
+				resultTable[i][5] = "" + ((int)list.get(i).getOfferCost() + materialCost) + " euros";
 				resultTable[i][6] = "" + list.get(i).getOfferArea() + "m^2";
 				resultTable[i][7] = "reserver salle " +  list.get(i).getOfferName();
 			}
 
-			AdvancedFilterPanel.getEquipmentsMap().forEach((key, value) -> key.setSelected(false));
 			JTable table = new JTable(resultTable, columnHeader);
 			table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 			table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 			JScrollPane pane = new JScrollPane(table);
+			
 			getContentPane().add(pane);
 		}
-		LoanCondition.setEquipmentCost(0);
+		addWindowListener(new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		    	if(!AdvancedFilterPanel.getEquipmentToInsert().isEmpty()) {
+		    		AdvancedFilterPanel.restoreEquipmentToInsert();
+		    	}
+		    	dispose();
+		    }
+		});
+		
 	}
 
 	public static JFrame getLoanOfferPanel() {
@@ -70,8 +78,6 @@ public class LoanOfferPanel extends JFrame{
 	}
 
 }
-
-	
 
 //Button renderer class
 class ButtonRenderer extends JButton implements TableCellRenderer {

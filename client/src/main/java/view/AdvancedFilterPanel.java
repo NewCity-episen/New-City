@@ -29,7 +29,6 @@ public class AdvancedFilterPanel {
 		boxes = new JCheckBox[list.size()];
 		advancedFilterPanel.setLayout(null);
 
-		LoanCondition.setEquipmentCost(0);
 
 		for(int i = 0; i < list.size(); i++) {
 			String text = (String)(list.get(i).getEquipment_name());
@@ -59,10 +58,27 @@ public class AdvancedFilterPanel {
 		return equipmentToInsert;
 	}
 	
+	public static void restoreEquipmentToInsert() {
+		LoanCondition.setEquipmentCost(0);
+		if(!AdvancedFilterPanel.getEquipmentToInsert().isEmpty()) {
+			for(int i = 0; i < getBoxes().length; i++) {
+					getBoxes()[i].setSelected(false);
+			}
+			for(int i = 0; i < getEquipmentsMap().size(); i++) {
+				equipmentToInsert.removeAll(getEquipmentToInsert());
+			}
+		}
+	}
+	
 	public static void setEquipmentToInsert() {
-		for(int i = 0; i < getBoxes().length; i++) {
-			if(getBoxes()[i].isSelected()) {
-				equipmentToInsert.add(getEquipmentsMap().get(getBoxes()[i]));
+		LoanCondition.setEquipmentCost(0);
+		if(getBoxes().length != 0) {
+			for(int i = 0; i < getBoxes().length; i++) {
+				if(getBoxes()[i].isSelected()) {
+					equipmentToInsert.add(getEquipmentsMap().get(getBoxes()[i]));
+				/*} else if ((!AdvancedFilterPanel.getEquipmentToInsert().isEmpty()) && (getEquipmentToInsert().get(i).equals(getBoxes()[i]))) {
+					getEquipmentToInsert().remove(getBoxes()[i]);*/
+				}
 			}
 		}
 	}

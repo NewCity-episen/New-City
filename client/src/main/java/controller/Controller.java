@@ -219,8 +219,8 @@ public class Controller {
 	
 	
 	public static void selectedEquipmentLoad() {
-
 		AdvancedFilterPanel.setEquipmentToInsert();
+		System.out.println(AdvancedFilterPanel.getEquipmentToInsert());
 		AdvancedFilterPanel.getJFrame().dispose();
 	}
 
@@ -233,7 +233,6 @@ public class Controller {
 			boolean result = (boolean)response.getResponseData();
 
 			if(result) {
-				//LoanOfferPanel.getLoanOfferPanel().dispose();
 				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 			} else {
 				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Cet espace n'est plus disponible, veuillez en reserver un autre",
@@ -246,10 +245,8 @@ public class Controller {
 	}
 
 	private void filterButtonLoad() {
-		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			//ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 
 			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
 			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
@@ -257,8 +254,7 @@ public class Controller {
 			LoanCondition.setSpaceFloor(LoanPanel.getSelectedFloor());
 			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
 			
-			new LoanOfferPanel(LoanCondition.filterLoanOffer((ArrayList<Map>)response.getResponseData()));			
-
+			LoanCondition.filterLoanOffer((ArrayList<Map>)(response.getResponseData()));
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -267,10 +263,6 @@ public class Controller {
 	
 	private void advancedFilterButtonLoad() {		
 		try {
-			for(int i = 0; i < LoanCondition.getNeededEquipments().size(); i++) {
-				LoanCondition.getNeededEquipments().remove(LoanCondition.getNeededEquipments().get(i));
-			}
-
 			Response response= sendRequestToServer("select-equipment-list.json",null);
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 			ArrayList<Equipment> equipmentList = new ArrayList<>();

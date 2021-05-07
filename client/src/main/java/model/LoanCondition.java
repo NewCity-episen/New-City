@@ -1,10 +1,10 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import controller.Controller;
+
 import view.AdvancedFilterPanel;
+import view.LoanOfferPanel;
 
 public class LoanCondition {
 	private static int loanBudget;
@@ -67,19 +67,25 @@ public class LoanCondition {
 	}
 
 	public static void setNeededEquipments() {
-		for(int i = 0; i < AdvancedFilterPanel.getEquipmentToInsert().size() ;i ++) {
-			neededEquipments.add((Equipment)(AdvancedFilterPanel.getEquipmentToInsert().get(i)));
-			AdvancedFilterPanel.getEquipmentToInsert().remove(i);
-		}
-
-		for(int i = 0; i < neededEquipments.size() ;i ++) {
-				equipmentCost = equipmentCost + (int)(neededEquipments.get(i).getUnit_cost());
+		
+		if(!AdvancedFilterPanel.getEquipmentToInsert().isEmpty()) {
+			AdvancedFilterPanel.getEquipmentsMap().forEach((key, value) -> key.setSelected(false));
+			for(int i = 0; i < AdvancedFilterPanel.getEquipmentToInsert().size() ;i ++) {
+				neededEquipments.add((Equipment)(AdvancedFilterPanel.getEquipmentToInsert().get(i)));
+			}
 		}
 	}
 	
-	public static ArrayList<Offer> filterLoanOffer(ArrayList<Map> resultList) {
-
+	public static void filterLoanOffer(ArrayList<Map> resultList) {
+		LoanCondition.setEquipmentCost(0);
 		setNeededEquipments();
+		if(!getNeededEquipments().isEmpty()) {
+			int j = 0;
+			for(int i = 0; i < neededEquipments.size() ;i ++) {
+				j = j + (int)(neededEquipments.get(i).getUnit_cost());
+			}
+			setEquipmentCost(j);
+		}
 
 		for(Map offer : resultList) {
 			offer.replace("to_present", false);
@@ -169,6 +175,6 @@ public class LoanCondition {
 				offerList.add(offerRow);
 			}
 		}
-		return offerList;
+		new LoanOfferPanel(offerList, equipmentCost);
 	}
 }
