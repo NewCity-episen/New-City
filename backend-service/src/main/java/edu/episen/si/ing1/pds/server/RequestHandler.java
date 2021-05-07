@@ -159,7 +159,7 @@ public class RequestHandler {
 				idSpace = rs.getInt("id_work_space");
 			}
 			String sql = "INSERT INTO material_needs (id_entreprise, id_work_space, ref, quantity, checked)"
-					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, true)" ;
+					+ "VALUES (" + idCompany + ", " + idSpace + ", " + ref + ", 1, false)" ;
 			stmt.executeUpdate(sql);
 
 			return new Response(request.getRequestId(), null);
