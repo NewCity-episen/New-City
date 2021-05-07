@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.event.ActionListener;
+
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JRadioButton;
-import java.awt.BorderLayout;
+
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;

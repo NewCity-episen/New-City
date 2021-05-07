@@ -1081,7 +1081,9 @@ public class Controller {
 		};
 		
 		button.addMouseListener(mouseListener);
+		
 	}
+	// Smart Window 
 	public void loadAdvancedFiltre() {
 		
 		ActionListener advancedFiltreListenner=new ActionListener () { 		
