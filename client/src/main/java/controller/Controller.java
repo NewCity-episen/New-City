@@ -48,7 +48,7 @@ public class Controller {
 	private static Model mdl;
 	private View vw;
 	public static ClientConfig clientconfig;
-	public static ArrayList<Object> equipmentToInsert = new ArrayList<>();
+	
 	
 	public Controller(Model mdl,View vw) throws JsonParseException, JsonMappingException, IOException {
 		RequestsFileLocation= System.getenv(ConfigEnVar);
@@ -220,17 +220,11 @@ public class Controller {
 	
 	public static void selectedEquipmentLoad() {
 
-		for(int i = 0; i < AdvancedFilterPanel.getBoxes().length; i++) {
-			if(AdvancedFilterPanel.getBoxes()[i].isSelected()) {
-				equipmentToInsert.add(AdvancedFilterPanel.getEquipmentsMap().get(AdvancedFilterPanel.getBoxes()[i]));
-			}
-		}
+		AdvancedFilterPanel.setEquipmentToInsert();
 		AdvancedFilterPanel.getJFrame().dispose();
 	}
 
-	public static ArrayList<Object> getEquipmentToInsert() {
-		return equipmentToInsert;
-	}
+	
 
 	public static void loanButtonLoad(String spaceName) {
 		try {
@@ -240,22 +234,11 @@ public class Controller {
 
 			if(result) {
 				//LoanOfferPanel.getLoanOfferPanel().dispose();
-				for(int i = 0; i < equipmentToInsert.size(); i++) {
-					Equipment toInsert = (Equipment)(getEquipmentToInsert().get(i));
-					Controller.sendRequestToServer("add-equipment-needs.json", "{\"space_name\": \"" + spaceName + "\",\"id_entreprise\": \"" + 
-							mdl.getSelectedCompany().getId_entreprise() + "\",\"ref\": \"" + toInsert.getRef() + "\"}");
-					getEquipmentToInsert().remove(toInsert);
-				}
 				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Location realisee avec succes", "", JOptionPane.INFORMATION_MESSAGE);
 			} else {
-				//LoanOfferPanel.getLoanOfferPanel().dispose();
 				JOptionPane.showMessageDialog(LoanOfferPanel.getLoanOfferPanel(), "Cet espace n'est plus disponible, veuillez en reserver un autre",
 						"", JOptionPane.INFORMATION_MESSAGE);
 			}
-			
-			/*for(Object object : equipmentToInsert) {
-				equipmentToInsert.remove(object);
-			}*/
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -266,24 +249,15 @@ public class Controller {
 		
 		try {
 			Response response= sendRequestToServer("select-offers.json",null);
-			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
-
-			LoanCondition.setEquipmentCost(0);
-			if(!LoanCondition.getNeededEquipments().isEmpty()) {
-				for(Equipment equipment : LoanCondition.getNeededEquipments() ) {
-					LoanCondition.getNeededEquipments().remove(equipment);
-				}
-			}
+			//ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 
 			LoanCondition.setLoanBudget(LoanPanel.getBudgetValue());
 			LoanCondition.setSpaceArea(LoanPanel.getAreaValue());
 			LoanCondition.setSpaceBuilding(LoanPanel.getSelectedBuilding());
 			LoanCondition.setSpaceFloor(LoanPanel.getSelectedFloor());
 			LoanCondition.setSpaceType((String)LoanPanel.getTypeBoxFilter().getSelectedItem());
-
-			new LoanOfferPanel(LoanCondition.filterLoanOffer(resultList));
-
 			
+			new LoanOfferPanel(LoanCondition.filterLoanOffer((ArrayList<Map>)response.getResponseData()));			
 
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block
@@ -291,9 +265,12 @@ public class Controller {
 		}
 	}
 	
-	private void advancedFilterButtonLoad() {
-		
+	private void advancedFilterButtonLoad() {		
 		try {
+			for(int i = 0; i < LoanCondition.getNeededEquipments().size(); i++) {
+				LoanCondition.getNeededEquipments().remove(LoanCondition.getNeededEquipments().get(i));
+			}
+
 			Response response= sendRequestToServer("select-equipment-list.json",null);
 			ArrayList<Map> resultList = (ArrayList<Map>)response.getResponseData();
 			ArrayList<Equipment> equipmentList = new ArrayList<>();
@@ -305,6 +282,7 @@ public class Controller {
 				equipmentList.add(equipment);
 			}			
 
+			
 			new AdvancedFilterPanel(equipmentList);
 		} catch (InterruptedException | IOException e1) {
 			// TODO Auto-generated catch block

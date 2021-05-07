@@ -19,7 +19,7 @@ import javax.swing.table.TableCellRenderer;
 
 import controller.Controller;
 import model.Offer;
-import controller.Controller;
+import model.LoanCondition;
 import shared.code.Request;
 import shared.code.Response;
 
@@ -42,6 +42,7 @@ public class LoanOfferPanel extends JFrame{
 			return;
 		} else {
 			setVisible(true);
+			int totalEquipmentCost   = LoanCondition.getEquipmentCost();
 			for(int i = 0; i < list.size(); i++) {
 				
 				resultTable[i][0] = i + 1;
@@ -49,17 +50,19 @@ public class LoanOfferPanel extends JFrame{
 				resultTable[i][2] = list.get(i).getOfferName();
 				resultTable[i][3] = list.get(i).getOfferBuilding();
 				resultTable[i][4] = list.get(i).getOfferFloor();
-				resultTable[i][5] = "" + list.get(i).getOfferCost() + " euros";
+				resultTable[i][5] = "" + ((int)list.get(i).getOfferCost() + totalEquipmentCost) + " euros";
 				resultTable[i][6] = "" + list.get(i).getOfferArea() + "m^2";
 				resultTable[i][7] = "reserver salle " +  list.get(i).getOfferName();
 			}
-			
+
+			AdvancedFilterPanel.getEquipmentsMap().forEach((key, value) -> key.setSelected(false));
 			JTable table = new JTable(resultTable, columnHeader);
 			table.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer());
 			table.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JTextField()));
 			JScrollPane pane = new JScrollPane(table);
 			getContentPane().add(pane);
-		}	
+		}
+		LoanCondition.setEquipmentCost(0);
 	}
 
 	public static JFrame getLoanOfferPanel() {

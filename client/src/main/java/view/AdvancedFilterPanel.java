@@ -9,6 +9,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import model.Equipment;
+import controller.Controller;
+import model.LoanCondition;
 
 public class AdvancedFilterPanel {
 
@@ -16,13 +18,18 @@ public class AdvancedFilterPanel {
 	private static JButton okEquipmentButton = new JButton("Valider");
 	private static JCheckBox boxes[];
 	private static HashMap<JCheckBox, Equipment> equipmentsMap = new HashMap<>();
+	public static ArrayList<Object> equipmentToInsert = new ArrayList<>();
 	
 	public AdvancedFilterPanel(ArrayList<Equipment> list) {
+		
+		
 		advancedFilterPanel.setVisible(true);
 		advancedFilterPanel.setSize(600, 700);
 		advancedFilterPanel.setLocationRelativeTo(null);
 		boxes = new JCheckBox[list.size()];
 		advancedFilterPanel.setLayout(null);
+
+		LoanCondition.setEquipmentCost(0);
 
 		for(int i = 0; i < list.size(); i++) {
 			String text = (String)(list.get(i).getEquipment_name());
@@ -47,9 +54,19 @@ public class AdvancedFilterPanel {
 	public static JCheckBox[] getBoxes() {
 		return boxes;
 	}
-	/*public static HashMap<String, HashMap<Object, Object>> getSelectedEquipment() {
-		return selectedEquipments;
-	}*/
+	
+	public static ArrayList<Object> getEquipmentToInsert() {
+		return equipmentToInsert;
+	}
+	
+	public static void setEquipmentToInsert() {
+		for(int i = 0; i < getBoxes().length; i++) {
+			if(getBoxes()[i].isSelected()) {
+				equipmentToInsert.add(getEquipmentsMap().get(getBoxes()[i]));
+			}
+		}
+	}
+	
     public static JFrame getJFrame() {
 		return advancedFilterPanel;
 	}

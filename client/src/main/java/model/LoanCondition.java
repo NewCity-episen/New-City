@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import controller.Controller;
-import java.util.ArrayList;
+import view.AdvancedFilterPanel;
 
 public class LoanCondition {
 	private static int loanBudget;
@@ -67,18 +67,17 @@ public class LoanCondition {
 	}
 
 	public static void setNeededEquipments() {
-		for(int i = 0; i < Controller.getEquipmentToInsert().size() ;i ++) {
-			neededEquipments.add((Equipment)(Controller.getEquipmentToInsert().get(i)));
+		for(int i = 0; i < AdvancedFilterPanel.getEquipmentToInsert().size() ;i ++) {
+			neededEquipments.add((Equipment)(AdvancedFilterPanel.getEquipmentToInsert().get(i)));
+			AdvancedFilterPanel.getEquipmentToInsert().remove(i);
 		}
-		
+
 		for(int i = 0; i < neededEquipments.size() ;i ++) {
 				equipmentCost = equipmentCost + (int)(neededEquipments.get(i).getUnit_cost());
 		}
 	}
 	
 	public static ArrayList<Offer> filterLoanOffer(ArrayList<Map> resultList) {
-		
-		//resultList.get(i).setOfferCost(resultList.get(i).get("space_cost") + getEquipmentCost());
 
 		setNeededEquipments();
 
@@ -165,7 +164,7 @@ public class LoanCondition {
 		for(int i = 0; i < resultList.size(); i++) {
 			if((boolean)resultList.get(i).get("to_present") == true) {
 				Offer offerRow = new Offer((int)(resultList.get(i).get("space_id")), (String)(resultList.get(i).get("space_type")), (String)(resultList.get(i).get("space_name")),
-						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")) +  getEquipmentCost(), 
+						(int)(resultList.get(i).get("space_floor")), (String)(resultList.get(i).get("building_name")),(int)(resultList.get(i).get("space_cost")), 
 						(int)(resultList.get(i).get("space_area")), (int)(resultList.get(i).get("number_of_windows")));
 				offerList.add(offerRow);
 			}
