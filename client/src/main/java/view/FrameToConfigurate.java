@@ -12,6 +12,7 @@ import javax.swing.JSlider;
 import javax.swing.JRadioButton;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
@@ -40,12 +41,15 @@ public class FrameToConfigurate extends JFrame implements ChangeListener {
 
 	public FrameToConfigurate() {
 		View.getappFrame().setEnabled(false);
+		//View.getappFrame().setBackground(new Color(245, 245, 220));
 		
 		winPanel.setLayout(winCard);
 		framePanel.setLayout(null);	
+		framePanel.setBackground(new Color(245, 245, 220));
+		framePanel.setOpaque(true);
 		winPanel.add("Configure",framePanel);
-		
-
+		winPanel.setBackground(new Color(245, 245, 220));
+        winPanel.setOpaque(true);
 		setSize(400, 400);
 		setVisible(true);
 		setLocationRelativeTo(null);

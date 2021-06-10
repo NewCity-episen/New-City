@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
@@ -70,16 +71,12 @@ public class Controller {
 		loadConfigurateWindows(); 
 		loadReturn ();
 		loadConfigurate();
-		//loadAdvancedFiltre();
-		//loadReturnButton();		
-		//loadReturn ();		
-		//loadConfigurateWindows();	
-		//loadConfigurate(); 
 		loadWinAddBtn();
 		loadWinRmvBtn();
 		loadvaliderbtnFTC ();
 		loadresetBtn();
 		loadSwStatusBtn();
+		loadrefreshbtn();
 	}
 	public void loadData() {
 		loadCompaniesBox();
@@ -1088,7 +1085,10 @@ public class Controller {
 		button.addMouseListener(mouseListener);
 		
 	}
-	// Smart Window 
+	
+	
+	
+	// Smart Window part 
 	public void loadAdvancedFiltre() {
 		
 		ActionListener advancedFiltreListenner=new ActionListener () { 		
@@ -1279,7 +1279,7 @@ public class Controller {
 				   }	
 				}
 				ConfigurateWindowsPanel.getWinToCnfgSelmodel().removeAllElements();
-				JOptionPane.showMessageDialog (FrameToConfigurate.getJPanel(),"La nouvelle configuration sera effective dans 2 minutes");
+				JOptionPane.showMessageDialog (FrameToConfigurate.getJPanel(),"La nouvelle configuration sera effective dans 30 seconds");
 				
 				
 		}
@@ -1302,6 +1302,7 @@ public class Controller {
 							Response response=sendRequestToServer("update-SmartWindow.json","{\"id_window\": \""+((SmartWindow) sw).getId_window()+"\", \"configured_window\": \""+false+"\"}");
 							ConfigurateWindowsPanel.getConfiguredWinmodel().removeElement((SmartWindow) sw);	
 							ConfigurateWindowsPanel.getWinToCnfgmodel().addElement((SmartWindow) sw);
+							ConfigurateWindowsPanel.getConfiguredWinList().clearSelection();
 						} catch (InterruptedException | IOException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -1314,7 +1315,8 @@ public class Controller {
 					JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"Veuilliez selectionner une ou plusieurs fenetres a deconfigurer");
 				}
 				
-				ConfigurateWindowsPanel.getConfiguredWinList().clearSelection();
+				
+				
 					
 		
 		}
@@ -1322,34 +1324,98 @@ public class Controller {
 	   ConfigurateWindowsPanel.getResetBtn().addActionListener(confActionListener);
 	 }
 
-     public void loadSwStatusBtn() {
+     
+     public void loadrefreshbtn() {
  		
  		ActionListener confActionListener  =new ActionListener() {	
  			public void actionPerformed(ActionEvent e) {
  				
+ 				ConfigurateWindowsPanel.getConfiguredWinList().clearSelection();
+ 				try {
+					
+ 				   
+					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
+					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();	
+					ConfigurateWindowsPanel.getWinToCnfgmodel().removeAllElements();
+					ConfigurateWindowsPanel.getConfiguredWinmodel().removeAllElements();
+					
+					 
+				    //***load all mapped and taken workspaces of  the floor number floorNumber of the Building building 
+					Response workspaceResponse= sendRequestToServer("select-WorkSpaces.json","{\"id_building\": \""+building.getId_building()+"\", \"id_entreprise\": \""+mdl.getSelectedCompany().getId_entreprise()+"\", \"space_floor\": \""+floorNumber+ "\", \"taken\": \""+true+"\", \"configurable\": \""+true+"\"}");
+					String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
+							workspaceResponse.getResponseBody().indexOf("]")+1);
+					ObjectMapper takenmapper=new ObjectMapper();
+					ArrayList<WorkSpace> takenWorkSpaces=takenmapper.readValue(workspaceResponseBody,
+							 new TypeReference<ArrayList<WorkSpace>>(){});					
+					takenWorkSpaces.removeIf(w -> w.getNumber_of_windows()==0);
+					
+					
+				    //***load all smartwindows of the Building building and the floor numbre floorNumber
+					Response winResponse= sendRequestToServer("select-wind-to-configure.json",null);					
+					String winResponseBody=winResponse.getResponseBody().substring(winResponse.getResponseBody().indexOf("["),
+							winResponse.getResponseBody().indexOf("]")+1);
+					ObjectMapper allWinMapper=new ObjectMapper();
+					ArrayList<SmartWindow> allSmartWin=allWinMapper.readValue(winResponseBody,new TypeReference<ArrayList<SmartWindow>>(){});
+					
+					ArrayList<SmartWindow> winToCfgArrayList = new ArrayList<SmartWindow>();
+					ArrayList<SmartWindow> configuredWinArrayList = new ArrayList<SmartWindow>();
+					for (SmartWindow sw:allSmartWin) {
+						if (takenWorkSpaces.stream().anyMatch(ws -> ws.getId_work_space()==sw.getId_work_space() )) {
+							sw.setMsgtoString("WorkSpace "+ takenWorkSpaces.stream().filter(ws -> ws.getId_work_space()==sw.getId_work_space()).findFirst().orElse(null).getSpace_name()  +", fenetre id : "+sw.getId_window());
+							if (sw.getConfigured_window()==true) configuredWinArrayList.add(sw);	
+							else winToCfgArrayList.add(sw);
+						}
+					}
+					
+					for (SmartWindow sw:winToCfgArrayList)  {ConfigurateWindowsPanel.getWinToCnfgmodel().addElement(sw);}	
+					for (SmartWindow sw:configuredWinArrayList)  {ConfigurateWindowsPanel.getConfiguredWinmodel().addElement(sw);}
+					FunctionalitiesBarAndPanel.getMyFunctionalities().show(FunctionalitiesBarAndPanel.getFunctionalitiesPanel(),"Configurate");	
+				}catch (InterruptedException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				   }
+ 				
+ 					
+ 		
+ 		}
+ 	   };
+ 	   ConfigurateWindowsPanel.getRefreshBtn().addActionListener(confActionListener);
+ 	 }
+     
+     public void loadSwStatusBtn() {
+ 		
+ 		ActionListener confActionListener  =new ActionListener() {	
+ 			@SuppressWarnings("deprecation")
+			public void actionPerformed(ActionEvent e) {
  				
  				
- 				int selectedindex=ConfigurateWindowsPanel.getConfiguredWinList().getSelectedIndex();
  				
- 				SmartWindowStatusFrame smartWindowStatusFrame=new SmartWindowStatusFrame();
+ 				
+ 				
+ 				
  				
  				if(! ConfigurateWindowsPanel.getConfiguredWinList().isSelectionEmpty())
  					
  				{
+ 					int selectedindex=ConfigurateWindowsPanel.getConfiguredWinList().getSelectedIndex();	
+ 					
+ 					
+ 					//SmartWindowStatusFrame sWSF =new SmartWindowStatusFrame();
+ 					String msgString="";
  					SmartWindow sw=ConfigurateWindowsPanel.getConfiguredWinmodel().get(selectedindex);
- 					int floorNumber=LoanPanel.getFloorBox().getSelectedIndex()+1;
-					Building building=(Building) LoanPanel.getBuildingBox().getSelectedItem();
 					Response workspaceResponse;
 					Response equipmentsResponse;
 					Response sunAzimuthResponse;
 					Response outdoorIlluminanceResponse;
+					Response indoorTemResponse;
+					Response outdoorTemResponse;
 					try {
 						workspaceResponse = sendRequestToServer("select-WorkSpaces.json","{\"id_work_space\": \""+sw.getId_work_space()+"\"}");
 						String workspaceResponseBody=workspaceResponse.getResponseBody().substring(workspaceResponse.getResponseBody().indexOf("["),
 								workspaceResponse.getResponseBody().indexOf("]")+1);
 						ObjectMapper takenmapper=new ObjectMapper();
 						WorkSpace[] workSpace=takenmapper.readValue(workspaceResponseBody, WorkSpace[].class);
-						
+						System.out.println("sw : "+sw);
 						equipmentsResponse = sendRequestToServer("select-Equipments.json","{\"id_window\": \""+sw.getId_window()+"\"}");
 						String equipmentsResponseBody=equipmentsResponse.getResponseBody().substring(equipmentsResponse.getResponseBody().indexOf("["),
 								equipmentsResponse.getResponseBody().indexOf("]")+1);
@@ -1373,6 +1439,13 @@ public class Controller {
 									Equipment outdoorIlluminanceSensor=matchingOutdoorIlluminanceSensor.get();
 									
 									
+									Optional<Equipment> matchingIndoorTemSensor=winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature")).findFirst();
+									Equipment indoorTemSensor=matchingIndoorTemSensor.get();
+									
+									
+									Optional<Equipment> matchingOutdoorTemSensor=winEquipments.stream().filter(eq -> eq.getEquipment_name().equals("Capteur de temperature exterieure")).findFirst();
+									Equipment outdoorTemSensor=matchingOutdoorTemSensor.get();
+									
 									sunAzimuthResponse = sendRequestToServer("select-readings.json","{\"id_equipment\": \""+sunAzimuthSensor.getId_equipment()+"\"}");
 									String sunAzimuthResponseBody=sunAzimuthResponse.getResponseBody().substring(sunAzimuthResponse.getResponseBody().indexOf("["),
 											sunAzimuthResponse.getResponseBody().indexOf("]")+1);
@@ -1385,17 +1458,42 @@ public class Controller {
 											outdoorIlluminanceResponse.getResponseBody().indexOf("]")+1);
 									ObjectMapper outdoorIlluminancemapper=new ObjectMapper();
 									Readings[] outdoorIlluminance=outdoorIlluminancemapper.readValue(outdoorIlluminanceResponseBody, Readings[].class);
+
+									indoorTemResponse = sendRequestToServer("select-readings.json","{\"id_equipment\": \""+indoorTemSensor.getId_equipment()+"\"}");
+									String indoorTemResponseBody=indoorTemResponse.getResponseBody().substring(indoorTemResponse.getResponseBody().indexOf("["),
+											indoorTemResponse.getResponseBody().indexOf("]")+1);
+									ObjectMapper indoorTemmapper=new ObjectMapper();
+									Readings[] indoorTem=indoorTemmapper.readValue(indoorTemResponseBody, Readings[].class);
+									
+									
+									outdoorTemResponse = sendRequestToServer("select-readings.json","{\"id_equipment\": \""+outdoorTemSensor.getId_equipment()+"\"}");
+									String outdoorTemResponseBody=outdoorTemResponse.getResponseBody().substring(outdoorTemResponse.getResponseBody().indexOf("["),
+											outdoorTemResponse.getResponseBody().indexOf("]")+1);
+									ObjectMapper outdoorTemmapper=new ObjectMapper();
+									Readings[] outdoorTem=outdoorTemmapper.readValue(outdoorTemResponseBody, Readings[].class);
 									
 									
 									
-				 					smartWindowStatusFrame.getSwID().setText(String.valueOf(sw.getId_window()));
-				 					smartWindowStatusFrame.getLevelOfTeint().setText(String.valueOf(sw.getTeint_of_glass()));
-				 					smartWindowStatusFrame.getLevelOfBlind().setText(String.valueOf(sw.getLevel_of_blind()));
-				 					smartWindowStatusFrame.getSwOrientation().setText(String.valueOf(sw.getWindow_orientation()));
-				 					smartWindowStatusFrame.getWorkSpaceName().setText(workSpace[0].getSpace_name());
-				 					smartWindowStatusFrame.getSunAzimuth().setText(String.valueOf(sunAzimuth[0].getValue()));
-				 					smartWindowStatusFrame.getOutdoorilluminance().setText(String.valueOf(outdoorIlluminance[0].getValue()));
+									msgString=String.format("%-30s", "Fenetre_id")+": "+ String.valueOf(sw.getId_window())+"\n";
+									msgString+=String.format("%-30s", "WorkSpace")+": "+workSpace[0].getSpace_name()+"\n";
+									msgString+=String.format("%-30s", "Teint_de_vitre")+": "+String.valueOf(sw.getTeint_of_glass())+" %\n";
+									msgString+=String.format("%-30s", "Fermeture_du_store")+": "+String.valueOf(sw.getLevel_of_blind())+" %\n";
+									msgString+=String.format("%-30s", "Orientation_de_la_fenetre")+": "+String.valueOf(sw.getWindow_orientation())+" °\n";									
+									msgString+=String.format("%-30s", "Azimuth_du_soleil")+": "+String.valueOf(sunAzimuth[0].getValue())+" °\n";				 				
+									msgString+=String.format("%-30s", "Luminosité")+": "+String.valueOf(outdoorIlluminance[0].getValue())+" lux\n";
+									msgString+=String.format("%-30s", "Luminosité preferrée")+": "+String.valueOf(sw.getPreferredlum())+"\n";
+									msgString+=String.format("%-30s", "Température_extérieure")+": "+String.valueOf(outdoorTem[0].getValue())+" °c\n";
+									msgString+=String.format("%-30s", "Température_intérieure")+": "+String.valueOf(indoorTem[0].getValue())+" °c\n";
+									msgString+=String.format("%-30s", "Température_preferrée")+": "+String.valueOf(sw.getPreferredtem())+" °c\n";
 	 					
+									JOptionPane iOPane = new JOptionPane(msgString);
+									JDialog jDialog=iOPane.createDialog(ConfigurateWindowsPanel.getJPanel(),"Statut de la fenêtre");
+									jDialog.setSize(400,400);
+									jDialog.show();
+									
+									
+									//JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),msgString,"Statut de la fenêtre",  
+                                    //        JOptionPane.PLAIN_MESSAGE);
 	 					
 						}else JOptionPane.showMessageDialog (ConfigurateWindowsPanel.getJPanel(),"impossible de trouver des informations sur la base de données");
 	 					

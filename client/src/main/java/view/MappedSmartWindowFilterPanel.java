@@ -31,13 +31,15 @@ public class MappedSmartWindowFilterPanel {
 		
 		advancedFiltrePanel.setLayout(advancedFiltrePanelCard);
 		advancedFiltrePanel.add("Filter",choiceAdvancedPanel);
-		
+		advancedFiltrePanel.setOpaque(true);
 		msgLabel.setText("Veuillez choisir un filtre");
 		choiceAdvancedPanel.setLayout(null);	
 		choiceAdvancedPanel.add(titleLabel);
 		choiceAdvancedPanel.add(msgLabel);
 		choiceAdvancedPanel.add(btnFilterWindow);
-		choiceAdvancedPanel.setBackground(Color.white);
+		choiceAdvancedPanel.setBackground(new Color(245, 245, 220));
+		choiceAdvancedPanel.setOpaque(true);
+		choiceAdvancedPanel.setBackground(new Color(245, 245, 220));
 		titleLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));
 		titleLabel.setBounds(12, 5, 480, 36);
 		msgLabel.setFont(new Font("Segoe UI Semibold", Font.BOLD, 20));

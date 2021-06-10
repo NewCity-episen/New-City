@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.sql.Connection;
 
-import connectionPool.DataSource;
+
 import connectionPool.InfoConnection;
 import shared.code.Request;
 import shared.code.Response;
@@ -68,8 +68,7 @@ public class SmartWindowProg extends TimerTask {
 				int tempInt;
 				int sunAzimuth;
 				int outdoorIlluminance;
-				int teintOfGlass;
-				int levelOfBlind;
+			
 				
 				Request rqWinEqpments = new Request();
 				rqWinEqpments.setRequestId("1002");

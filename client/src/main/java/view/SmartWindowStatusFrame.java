@@ -1,28 +1,29 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.JButton;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+
 
 public class SmartWindowStatusFrame extends JFrame {
 	private static JPanel framePanel = new JPanel();
 	private static JPanel winPanel =new JPanel();
 	private static CardLayout winCard=new CardLayout();
-	private JTextArea swID;
-	private JTextArea workSpaceName;
-	private JTextArea levelOfTeint;
-	private JTextArea outdoorilluminance;
-	private JTextArea levelOfBlind;
-	private JTextArea sunAzimuth;
-	private JTextArea swOrientation;
+	private static JTextArea swID= new JTextArea("");;
+	private static JTextArea workSpaceName=new JTextArea("");;
+	private static JTextArea levelOfTeint=new JTextArea("");;
+	private static JTextArea outdoorilluminance=new JTextArea("");;
+	private static JTextArea levelOfBlind=new JTextArea("");;
+	private static JTextArea sunAzimuth=new JTextArea("");;
+	private static JTextArea swOrientation=new JTextArea("");;
 	
 
 	
@@ -32,9 +33,15 @@ public class SmartWindowStatusFrame extends JFrame {
 
 	public SmartWindowStatusFrame() {
 		View.getappFrame().setEnabled(false);
+		View.getappFrame().setBackground(new Color(245, 245, 220));
 		winPanel.setLayout(winCard);
 		framePanel.setLayout(null);	
 		winPanel.add("configure",framePanel);
+		
+		winPanel.setBackground(new Color(245, 245, 220));
+		winPanel.setOpaque(true);
+		framePanel.setBackground(new Color(245, 245, 220));
+		framePanel.setOpaque(true);
 		
 		JLabel lblNewLabel = new JLabel("Etat actuel de la fenetre :");
 		lblNewLabel.setBounds(24, 15, 169, 26);
@@ -68,39 +75,39 @@ public class SmartWindowStatusFrame extends JFrame {
 		lblNewLabel_6.setBounds(89, 235, 183, 26);
 		framePanel.add(lblNewLabel_6);
 		
-		swID = new JTextArea();
+
 		swID.setBounds(301, 45, 130, 26);
 		framePanel.add(swID);
 		swID.setColumns(10);
 		
-		workSpaceName = new JTextArea();
+	
 		workSpaceName.setBounds(301, 75, 130, 26);
 		framePanel.add(workSpaceName);
 		workSpaceName.setColumns(10);
 		
-		levelOfTeint = new JTextArea();
+		
 		levelOfTeint.setBounds(301, 105, 130, 26);
 		framePanel.add(levelOfTeint);
 		levelOfTeint.setColumns(10);
 		
-		levelOfBlind = new JTextArea();
+	
 		levelOfBlind.setBounds(301, 135, 130, 26);
 		framePanel.add(levelOfBlind);
 		levelOfBlind.setColumns(10);
 		
-		outdoorilluminance = new JTextArea();
+		
 		outdoorilluminance.setBounds(301, 175, 130, 26);
 		framePanel.add(outdoorilluminance);
 		outdoorilluminance.setColumns(10);
 		
-		 sunAzimuth = new JTextArea();
+		
 		 sunAzimuth.setBounds(301, 205, 130, 26);
 		framePanel.add( sunAzimuth);
 		 sunAzimuth.setColumns(10);
 		
 		
 		
-		swOrientation = new JTextArea();
+	
 		swOrientation.setBounds(301, 235, 130, 26);
 		framePanel.add(swOrientation);
 		swOrientation.setColumns(10);
@@ -122,14 +129,13 @@ public class SmartWindowStatusFrame extends JFrame {
 		framePanel.add(lblNewLabel_11);
 		
 
-		setSize(600, 400);
-		setVisible(true);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		this.setSize(600, 400);
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false);
 		getContentPane().add(winPanel);
-		
+		getContentPane().setBackground(new Color(245, 245, 220));
 		
 		
 		
@@ -140,6 +146,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 				View.getappFrame().setEnabled(true);
 				View.getappFrame().setVisible(true);
+				dispose();
 
 				}
 			});
@@ -152,7 +159,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getSwID() {
+	public static JTextArea getSwID() {
 		return swID;
 	}
 
@@ -172,7 +179,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getWorkSpaceName() {
+	public static JTextArea getWorkSpaceName() {
 		return workSpaceName;
 	}
 
@@ -192,7 +199,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getLevelOfTeint() {
+	public static JTextArea getLevelOfTeint() {
 		return levelOfTeint;
 	}
 
@@ -212,7 +219,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getOutdoorilluminance() {
+	public static JTextArea getOutdoorilluminance() {
 		return outdoorilluminance;
 	}
 
@@ -232,7 +239,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getLevelOfBlind() {
+	public static JTextArea getLevelOfBlind() {
 		return levelOfBlind;
 	}
 
@@ -252,7 +259,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getSunAzimuth() {
+	public static JTextArea getSunAzimuth() {
 		return sunAzimuth;
 	}
 
@@ -272,7 +279,7 @@ public class SmartWindowStatusFrame extends JFrame {
 
 
 
-	public JTextArea getSwOrientation() {
+	public static JTextArea getSwOrientation() {
 		return swOrientation;
 	}
 

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,9 +16,11 @@ import model.SmartWindow;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
-public class ConfigurateWindowsPanel{
+public class ConfigurateWindowsPanel implements ListSelectionListener{
 	
 private static JPanel configurateWindowJPanel =new JPanel();
 private static CardLayout configurateWindowsCard=new CardLayout();	
@@ -27,7 +30,8 @@ private static JButton configureBtn=new JButton ("Configurer");
 private static JButton winAddBtn=new JButton (">>>");
 private static JButton winRmvBtn = new JButton("<<<");
 private static JButton statusBtn = new JButton("Statut");
-private static JButton resetBtn = new JButton("Reset");
+private static JButton resetBtn = new JButton("Réinitialiser");
+private static JButton refreshBtn = new JButton("Actualiser");
 private static DefaultListModel<SmartWindow> configuredWinmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgmodel= new DefaultListModel<SmartWindow>();
 private static DefaultListModel<SmartWindow> winToCnfgSelmodel= new DefaultListModel<SmartWindow>();
@@ -47,7 +51,8 @@ private static JList<SmartWindow> winToCnfgSelList;
 		configurateWindowJPanel.setLayout(configurateWindowsCard);
 		configuratePanel.setLayout(null);	
 		configurateWindowJPanel.add("Configure",configuratePanel);		
-		
+		configuratePanel.setBackground(new Color(245, 245, 220));
+		configuratePanel.setOpaque(true);
 		JLabel lblNewLabel = new JLabel("Les fenêtres configurées");
 		lblNewLabel.setBounds(417, 16, 164, 16);
 		configuratePanel.add(lblNewLabel);
@@ -67,7 +72,7 @@ private static JList<SmartWindow> winToCnfgSelList;
 		    });
 				
 		
-		statusBtn.setBounds(510, 253, 115, 29);
+		statusBtn.setBounds(510, 253, 125, 29);
 		configuratePanel.add(statusBtn);
 		
 		resetBtn.setBounds(375, 253, 115, 29);
@@ -107,9 +112,25 @@ private static JList<SmartWindow> winToCnfgSelList;
 		
 		configureBtn.setBounds(510, 525, 115, 29);
 		configuratePanel.add(configureBtn);
+		refreshBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		
+		refreshBtn.setBounds(637, 11, 96, 29);
+		configuratePanel.add(refreshBtn);
 		
 	}
 		
+	public static JButton getRefreshBtn() {
+		return refreshBtn;
+	}
+
+	public static void setRefreshBtn(JButton refreshBtn) {
+		ConfigurateWindowsPanel.refreshBtn = refreshBtn;
+	}
+
 	public static JButton getConfigureBtn() {
 		return configureBtn;
 	}
@@ -212,7 +233,11 @@ private static JList<SmartWindow> winToCnfgSelList;
 		ConfigurateWindowsPanel.resetBtn = resetBtn;
 	}
 
-
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 	
 	

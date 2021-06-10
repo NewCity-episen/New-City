@@ -1,2 +1,2 @@
-serverIP: 172.31.254.95
+serverIP: 127.0.0.1
 destinationPort: 4666
