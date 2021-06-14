@@ -33,13 +33,12 @@ public class SmartWindowStatusFrame extends JFrame {
 
 	public SmartWindowStatusFrame() {
 		View.getappFrame().setEnabled(false);
-		View.getappFrame().setBackground(new Color(245, 245, 220));
+		View.getappFrame();
 		winPanel.setLayout(winCard);
 		framePanel.setLayout(null);	
 		winPanel.add("configure",framePanel);
 		
-		winPanel.setBackground(new Color(245, 245, 220));
-		winPanel.setOpaque(true);
+		
 		framePanel.setBackground(new Color(245, 245, 220));
 		framePanel.setOpaque(true);
 		
